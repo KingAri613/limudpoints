@@ -2572,6 +2572,7 @@
     let currentUsernameToEdit = '';
     let emojiPickerTarget = null;
     let demoMode = false;
+    let lastAiSuggestions = [];
     
     const EMOJI_LIST = ['😀', '😂', '😍', '🥳', '👍', '🙏', '🚀', '⭐', '🏆', '🥇', '🎁', '🎉', '💯', '🔥', '📚', '✏️', '💡', '🍎', '🎯', '✅', '✔️', '➕', '🙌', '👏', '💪', '🧠', '👑'];
 
@@ -4575,10 +4576,11 @@
         return;
       }
       
+      lastAiSuggestions = suggestions; // Store for later retrieval
       document.getElementById('aiSuggestionsTitle').textContent = 'AI Reward Ideas';
 
-      const suggestionHTML = suggestions.map(reward => `
-        <div class="reward-card" style="cursor: pointer; margin-bottom: 1rem;" onclick='selectAiReward(${JSON.stringify(reward).replace(/'/g, "&apos;")})'>
+      const suggestionHTML = suggestions.map((reward, index) => `
+        <div class="reward-card" style="cursor: pointer; margin-bottom: 1rem;" onclick='selectAiReward(${index})'>
           <div class="reward-header">
             <div>
               <h3 class="reward-title">${sanitizeHTML(reward.title)}</h3>
@@ -4592,7 +4594,9 @@
       openModal('aiSuggestionsModal');
     }
 
-    function selectAiReward(reward) {
+    function selectAiReward(index) {
+      const reward = lastAiSuggestions[index];
+      if (!reward) return;
       document.getElementById('rewardTitle').value = reward.title;
       document.getElementById('rewardDescription').value = reward.description;
       document.getElementById('rewardPoints').value = reward.pointsRequired;
