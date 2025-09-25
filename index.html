@@ -180,60 +180,6 @@
       opacity: 0.5;
       cursor: not-allowed;
     }
-
-    /* AI Button */
-    .btn-ai {
-      padding: 0.25rem 0.75rem;
-      font-size: 0.75rem;
-    }
-
-    /* AI Generator Modal */
-    .loader-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 150px;
-      gap: 1rem;
-      color: var(--text-secondary);
-    }
-
-    .loader {
-      border: 4px solid var(--surface-secondary);
-      border-top: 4px solid var(--primary-color);
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    #aiSuggestionsContainer {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .ai-suggestion {
-      width: 100%;
-      text-align: left;
-      padding: 0.75rem;
-      background: var(--surface-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .ai-suggestion:hover {
-      background: var(--primary-color);
-      color: var(--surface);
-      border-color: var(--primary-dark);
-    }
    
     .account-type-selection {
       display: grid;
@@ -2314,10 +2260,7 @@
       <div class="modal-body">
         <p id="bulkSummary">Apply to X selected students</p>
         <div class="form-group">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <label class="form-label" for="bulkReason" style="margin-bottom: 0;">Reason (optional)</label>
-            <button type="button" class="btn btn-info btn-ai" onclick="openAIGenerator('reason', 'bulkReason')">✨ Generate Ideas</button>
-          </div>
+          <label class="form-label" for="bulkReason">Reason (optional)</label>
           <input type="text" class="form-input" id="bulkReason" list="reasonsList" placeholder="Enter reason"/>
         </div>
         <div class="form-group">
@@ -2345,10 +2288,7 @@
           <input type="number" class="form-input" id="pointsChange" value="1"/>
         </div>
         <div class="form-group">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <label class="form-label" for="pointsReason" style="margin-bottom: 0;">Reason (optional)</label>
-            <button type="button" class="btn btn-info btn-ai" onclick="openAIGenerator('reason', 'pointsReason')">✨ Generate Ideas</button>
-          </div>
+          <label class="form-label" for="pointsReason">Reason (optional)</label>
           <input type="text" class="form-input" id="pointsReason" list="reasonsList" placeholder="Enter reason"/>
         </div>
         <div class="form-group">
@@ -2372,10 +2312,7 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <label class="form-label" for="rewardTitle" style="margin-bottom: 0;">Title</label>
-            <button type="button" class="btn btn-info btn-ai" onclick="openAIGenerator('reward', 'rewardTitle')">✨ Generate Ideas</button>
-          </div>
+          <label class="form-label" for="rewardTitle">Title</label>
           <input type="text" class="form-input" id="rewardTitle" placeholder="Enter reward title"/>
         </div>
         <div class="form-group">
@@ -2580,38 +2517,8 @@
     </div>
   </div>
 
-  <!-- AI Generator Modal -->
-  <div class="modal" id="aiGeneratorModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title" id="aiGeneratorTitle">AI Suggestions</h2>
-        <button class="modal-close" onclick="closeModal('aiGeneratorModal')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div id="aiGeneratorLoader" class="loader-container" style="display: none;">
-          <div class="loader"></div>
-          <p>Generating ideas...</p>
-        </div>
-        <div id="aiSuggestionsContainer"></div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" onclick="closeModal('aiGeneratorModal')">Close</button>
-        <button class="btn btn-primary" id="regenerateAiButton">Regenerate</button>
-      </div>
-    </div>
-  </div>
 
-  <script type="module">
-    import { GoogleGenAI, Type } from "https://esm.sh/@google/genai";
-
-    // AI Initialization
-    let ai;
-    try {
-        ai = new GoogleGenAI({ apiKey: process.env.0006443399 });
-    } catch(e) {
-        console.error("Failed to initialize GoogleGenAI. API_KEY might be missing.", e);
-    }
-
+  <script>
     const STORAGE_KEY = 'limudPointsData';
     let currentUser = null;
     let currentClassId = null;
@@ -2634,7 +2541,6 @@
     let currentUsernameToEdit = '';
     let emojiPickerTarget = null;
     let demoMode = false;
-    let aiGeneratorTargetInputId = null;
     
     const EMOJI_LIST = ['😀', '😂', '😍', '🥳', '👍', '🙏', '🚀', '⭐', '🏆', '🥇', '🎁', '🎉', '💯', '🔥', '📚', '✏️', '💡', '🍎', '🎯', '✅', '✔️', '➕', '🙌', '👏', '💪', '🧠', '👑'];
 
@@ -2699,39 +2605,39 @@
       }, 3000);
     }
 
-    window.openModal = function openModal(modalId) {
+    function openModal(modalId) {
       document.getElementById(modalId).classList.add('active');
     }
 
-    window.closeModal = function closeModal(modalId) {
+    function closeModal(modalId) {
       document.getElementById(modalId).classList.remove('active');
     }
     
-    window.openAboutModal = function openAboutModal() {
+    function openAboutModal() {
         openModal('aboutModal');
     }
 
-    window.toggleSidebar = function toggleSidebar() {
+    function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('mobile-open');
       document.getElementById('sidebarOverlay').classList.toggle('active');
     }
 
-    window.toggleSidebarCollapse = function toggleSidebarCollapse() {
+    function toggleSidebarCollapse() {
       document.getElementById('sidebar').classList.toggle('collapsed');
       document.getElementById('mainContent').classList.toggle('collapsed');
     }
 
-    window.showLogin = function showLogin() {
+    function showLogin() {
       document.getElementById('signupScreen').style.display = 'none';
       document.getElementById('loginScreen').style.display = 'flex';
     }
 
-    window.showSignup = function showSignup() {
+    function showSignup() {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('signupScreen').style.display = 'flex';
     }
 
-    window.selectAccountType = function selectAccountType(type) {
+    function selectAccountType(type) {
       document.querySelectorAll('.account-type-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelector(`.account-type-btn[data-type="${type}"]`).classList.add('active');
       document.getElementById('adminEmailGroup').style.display = type === 'admin' ? 'block' : 'none';
@@ -2803,7 +2709,7 @@
       saveData();
     }
 
-    window.logout = function logout() {
+    function logout() {
       // Fully reset the application state to prevent demo data from persisting in memory.
       currentUser = null;
       currentClassId = null;
@@ -3040,12 +2946,12 @@
       };
     }
 
-    window.openNewClassModal = function openNewClassModal() {
+    function openNewClassModal() {
       document.getElementById('newClassName').value = '';
       openModal('newClassModal');
     }
 
-    window.addNewClass = function addNewClass() {
+    function addNewClass() {
       const className = document.getElementById('newClassName').value.trim();
       if (!className) {
         showNotification('Please enter class name', 'error');
@@ -3147,7 +3053,7 @@
       onSearchChange();
     }
 
-    window.switchStudentView = function switchStudentView(event, view) {
+    function switchStudentView(event, view) {
       document.querySelectorAll('.view-option').forEach(opt => opt.classList.remove('active'));
       event.currentTarget.classList.add('active');
       document.getElementById('studentsGrid').style.display = view === 'grid' ? 'grid' : 'none';
@@ -3157,7 +3063,7 @@
       renderStudentsView();
     }
 
-    window.setGridColumns = function setGridColumns(val) {
+    function setGridColumns(val) {
       const grid = document.getElementById('studentsGrid');
       if (val === 'auto') {
         grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
@@ -3166,7 +3072,7 @@
       }
     }
 
-    window.openAddStudentModal = function openAddStudentModal() {
+    function openAddStudentModal() {
       document.getElementById('studentName').value = '';
       document.getElementById('initialPoints').value = '0';
       document.getElementById('studentPhoto').value = '';
@@ -3175,7 +3081,7 @@
       openModal('addStudentModal');
     }
 
-    window.previewPhoto = function previewPhoto(event, previewId) {
+    function previewPhoto(event, previewId) {
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
@@ -3187,7 +3093,7 @@
       }
     }
 
-    window.addStudent = function addStudent() {
+    function addStudent() {
       const name = document.getElementById('studentName').value.trim();
       const initialPoints = parseInt(document.getElementById('initialPoints').value) || 0;
       const file = document.getElementById('studentPhoto').files[0];
@@ -3224,12 +3130,12 @@
       showNotification('Student added!', 'success');
     }
 
-    window.openAddMultipleModal = function openAddMultipleModal() {
+    function openAddMultipleModal() {
       document.getElementById('multipleNames').value = '';
       openModal('addMultipleModal');
     }
 
-    window.addMultipleStudents = function addMultipleStudents() {
+    function addMultipleStudents() {
       const names = document.getElementById('multipleNames').value.trim().split('\n').map(n => n.trim()).filter(n => n);
       names.forEach(name => {
         const student = {
@@ -3245,7 +3151,7 @@
       showNotification(`${names.length} students added!`, 'success');
     }
 
-    window.openEditStudentModal = function openEditStudentModal(studentId) {
+    function openEditStudentModal(studentId) {
       currentStudentId = studentId;
       const student = students[currentClassId][studentId];
       document.getElementById('editStudentName').value = student.name;
@@ -3262,7 +3168,7 @@
       openModal('editStudentModal');
     }
 
-    window.updateStudent = function updateStudent() {
+    function updateStudent() {
       const name = document.getElementById('editStudentName').value.trim();
       const file = document.getElementById('editStudentPhoto').files[0];
       if (!name) {
@@ -3291,7 +3197,7 @@
       }
     }
 
-    window.deleteStudent = function deleteStudent() {
+    function deleteStudent() {
       if (!confirm('Are you sure?')) return;
       delete students[currentClassId][currentStudentId];
       saveData();
@@ -3301,7 +3207,7 @@
       showNotification('Student deleted', 'success');
     }
     
-    window.copyAllStudentNames = function copyAllStudentNames() {
+    function copyAllStudentNames() {
       if (!currentClassId || !students[currentClassId]) {
         showNotification('No students to copy.', 'warning');
         return;
@@ -3314,7 +3220,7 @@
       });
     }
 
-    window.enterBulkMode = function enterBulkMode() {
+    function enterBulkMode() {
       bulkMode = true;
       selectedStudents.clear();
       renderStudentsView();
@@ -3322,14 +3228,14 @@
       updateSelectedCount();
     }
 
-    window.exitBulkMode = function exitBulkMode() {
+    function exitBulkMode() {
       bulkMode = false;
       selectedStudents.clear();
       renderStudentsView();
       document.getElementById('bulkActions').classList.remove('active');
     }
 
-    window.toggleStudentSelection = function toggleStudentSelection(studentId) {
+    function toggleStudentSelection(studentId) {
       if (selectedStudents.has(studentId)) {
         selectedStudents.delete(studentId);
       } else {
@@ -3343,7 +3249,7 @@
       document.getElementById('selectedCount').textContent = `${selectedStudents.size} selected`;
     }
 
-    window.openBulkPointsModal = function openBulkPointsModal(action) {
+    function openBulkPointsModal(action) {
       bulkAction = action;
       document.getElementById('bulkModalTitle').textContent = action === 'add' ? 'Bulk Add Points' : 'Bulk Subtract Points';
       document.getElementById('bulkSummary').textContent = `Apply to ${selectedStudents.size} selected students`;
@@ -3352,7 +3258,7 @@
       openModal('bulkPointsModal');
     }
 
-    window.confirmBulkPoints = function confirmBulkPoints() {
+    function confirmBulkPoints() {
       const reason = document.getElementById('bulkReason').value.trim();
       const points = parseInt(document.getElementById('bulkPointAmount').value);
       const change = bulkAction === 'add' ? points : -points;
@@ -3386,7 +3292,7 @@
       showNotification(`${bulkAction === 'add' ? 'Added' : 'Subtracted'} points to selected students`, 'success');
     }
 
-    window.openStudentPointsModal = function openStudentPointsModal(studentId) {
+    function openStudentPointsModal(studentId) {
       currentStudentId = studentId;
       document.getElementById('studentModalTitle').textContent = 'Change Points';
       document.getElementById('pointsChange').value = 1;
@@ -3395,7 +3301,7 @@
       openModal('studentPointsModal');
     }
 
-    window.updateStudentPoints = function updateStudentPoints() {
+    function updateStudentPoints() {
       const change = parseInt(document.getElementById('pointsChange').value);
       const reason = document.getElementById('pointsReason').value.trim();
       if (isNaN(change)) {
@@ -3454,7 +3360,7 @@
       }
     }
 
-    window.onSearchChange = function onSearchChange() {
+    function onSearchChange() {
       const query = document.getElementById('searchInput').value.toLowerCase();
       const selectors = {
         grid: '.student-card:not(.add-student-card)',
@@ -3469,7 +3375,7 @@
     }
 
     // Reward management
-    window.openCreateRewardModal = function openCreateRewardModal() {
+    function openCreateRewardModal() {
       document.getElementById('rewardTitle').value = '';
       document.getElementById('rewardDescription').value = '';
       document.getElementById('rewardPoints').value = '';
@@ -3478,7 +3384,7 @@
       openModal('createRewardModal');
     }
 
-    window.createReward = function createReward() {
+    function createReward() {
       const title = document.getElementById('rewardTitle').value.trim();
       const description = document.getElementById('rewardDescription').value.trim();
       const pointsRequired = parseInt(document.getElementById('rewardPoints').value);
@@ -3514,7 +3420,7 @@
       showNotification('Reward created successfully!', 'success');
     }
 
-    window.openEditRewardModal = function openEditRewardModal(rewardId) {
+    function openEditRewardModal(rewardId) {
       currentRewardId = rewardId;
       const reward = rewards[currentClassId][rewardId];
       if (!reward) return;
@@ -3526,7 +3432,7 @@
       openModal('editRewardModal');
     }
 
-    window.updateReward = function updateReward() {
+    function updateReward() {
       const title = document.getElementById('editRewardTitle').value.trim();
       const description = document.getElementById('editRewardDescription').value.trim();
       const pointsRequired = parseInt(document.getElementById('editRewardPoints').value);
@@ -3555,7 +3461,7 @@
       }
     }
 
-    window.deleteReward = function deleteReward() {
+    function deleteReward() {
       if (!confirm('Are you sure you want to delete this reward?')) return;
       delete rewards[currentClassId][currentRewardId];
       saveData();
@@ -3608,13 +3514,13 @@
       }).join('');
     }
 
-    window.toggleSelectAll = function toggleSelectAll() {
+    function toggleSelectAll() {
       const checkboxes = document.querySelectorAll('.multi-select-list input[type="checkbox"]');
       const allChecked = Array.from(checkboxes).every(cb => cb.checked);
       checkboxes.forEach(cb => cb.checked = !allChecked);
     }
 
-    window.openClaimRewardModal = function openClaimRewardModal(rewardId) {
+    function openClaimRewardModal(rewardId) {
       currentRewardId = rewardId;
       const reward = rewards[currentClassId][rewardId];
       if (!reward) return;
@@ -3641,7 +3547,7 @@
       openModal('claimRewardModal');
     }
 
-    window.confirmClaimReward = function confirmClaimReward() {
+    function confirmClaimReward() {
       const studentIds = Array.from(document.querySelectorAll('.multi-select-list input:checked')).map(cb => cb.value);
       const reward = rewards[currentClassId][currentRewardId];
       if (!reward || studentIds.length === 0) return;
@@ -3693,7 +3599,7 @@
     }
 
     // Power Up management
-    window.openCreatePowerUpModal = function openCreatePowerUpModal() {
+    function openCreatePowerUpModal() {
       document.getElementById('powerUpTitle').value = '';
       document.getElementById('powerUpDescription').value = '';
       document.getElementById('powerUpMultiplier').value = '1.5';
@@ -3701,7 +3607,7 @@
       openModal('createPowerUpModal');
     }
 
-    window.createPowerUp = function createPowerUp() {
+    function createPowerUp() {
       const title = document.getElementById('powerUpTitle').value.trim();
       const description = document.getElementById('powerUpDescription').value.trim();
       const multiplier = parseFloat(document.getElementById('powerUpMultiplier').value);
@@ -3726,7 +3632,7 @@
       showNotification('Power Up created!', 'success');
     }
 
-    window.openEditPowerUpModal = function openEditPowerUpModal(powerUpId) {
+    function openEditPowerUpModal(powerUpId) {
       currentPowerUpId = powerUpId;
       const powerup = powerups[currentClassId][powerUpId];
       if (!powerup) return;
@@ -3737,7 +3643,7 @@
       openModal('editPowerUpModal');
     }
 
-    window.updatePowerUp = function updatePowerUp() {
+    function updatePowerUp() {
       const title = document.getElementById('editPowerUpTitle').value.trim();
       const description = document.getElementById('editPowerUpDescription').value.trim();
       const multiplier = parseFloat(document.getElementById('editPowerUpMultiplier').value);
@@ -3759,7 +3665,7 @@
       }
     }
 
-    window.deletePowerUp = function deletePowerUp() {
+    function deletePowerUp() {
       if (!confirm('Are you sure?')) return;
       delete powerups[currentClassId][currentPowerUpId];
       saveData();
@@ -3789,7 +3695,7 @@
       `).join('');
     }
 
-    window.openAssignPowerUpModal = function openAssignPowerUpModal(powerUpId) {
+    function openAssignPowerUpModal(powerUpId) {
       currentPowerUpId = powerUpId;
       const powerup = powerups[currentClassId][powerUpId];
       const content = document.getElementById('claimRewardContent');
@@ -3894,7 +3800,7 @@
       }).join('');
     }
 
-    window.exportHistory = function exportHistory() {
+    function exportHistory() {
       if (!currentClassId || !history[currentClassId]) return;
       const currentClass = classes.find(c => c.id === currentClassId);
       const historyData = history[currentClassId].map(entry => {
@@ -3922,7 +3828,7 @@
       showNotification('History exported successfully!', 'success');
     }
 
-    window.clearHistory = function clearHistory() {
+    function clearHistory() {
       if (!confirm('Are you sure you want to clear all history? This action cannot be undone.')) return;
       history[currentClassId] = [];
       saveData();
@@ -3951,13 +3857,13 @@
       }
     }
 
-    window.openEditReasonModal = function openEditReasonModal(index) {
+    function openEditReasonModal(index) {
       currentReasonIndex = index;
       document.getElementById('editReasonText').value = reasons[currentClassId][index];
       openModal('editReasonModal');
     }
 
-    window.updateReason = function updateReason() {
+    function updateReason() {
       const newReason = document.getElementById('editReasonText').value.trim();
       if (!newReason) {
         showNotification('Please enter a reason', 'error');
@@ -3971,7 +3877,7 @@
       showNotification('Reason updated!', 'success');
     }
 
-    window.deleteReason = function deleteReason() {
+    function deleteReason() {
       if (!confirm('Are you sure?')) return;
       reasons[currentClassId].splice(currentReasonIndex, 1);
       saveData();
@@ -3981,7 +3887,7 @@
       showNotification('Reason deleted!', 'success');
     }
 
-    window.resetAllPoints = function resetAllPoints() {
+    function resetAllPoints() {
       if (!confirm('Are you sure you want to reset all student points to 0? This action cannot be undone.')) return;
       if (students[currentClassId]) {
         Object.values(students[currentClassId]).forEach(student => {
@@ -4000,7 +3906,7 @@
       }
     }
 
-    window.backupClassData = function backupClassData() {
+    function backupClassData() {
       if (!currentClassId) return;
       const currentClass = classes.find(c => c.id === currentClassId);
       const classStudents = Object.values(students[currentClassId] || {});
@@ -4018,7 +3924,7 @@
       showNotification('Class data backed up as spreadsheet!', 'success');
     }
 
-    window.deleteCurrentClass = function deleteCurrentClass() {
+    function deleteCurrentClass() {
       if (!currentClassId) return;
       const currentClass = classes.find(c => c.id === currentClassId);
       if (!confirm(`Are you sure you want to delete "${currentClass.name}"? This action cannot be undone.`)) return;
@@ -4056,20 +3962,20 @@
       `).join('');
     }
 
-    window.toggleFullscreen = function toggleFullscreen(embedId) {
+    function toggleFullscreen(embedId) {
       const container = document.getElementById(`embed-${embedId}`);
       container.classList.toggle('fullscreen');
     }
 
     // Change Password
-    window.openChangePasswordModal = function openChangePasswordModal() {
+    function openChangePasswordModal() {
       document.getElementById('currentPassword').value = '';
       document.getElementById('newPassword').value = '';
       document.getElementById('confirmNewPassword').value = '';
       openModal('changePasswordModal');
     }
 
-    window.changePassword = function changePassword() {
+    function changePassword() {
       const currentPass = document.getElementById('currentPassword').value.trim();
       const newPass = document.getElementById('newPassword').value.trim();
       const confirmPass = document.getElementById('confirmNewPassword').value.trim();
@@ -4118,14 +4024,14 @@
         return { pointsEarned, pointsSpent, rewardsClaimed };
     }
 
-    window.openCreateClassModal = function openCreateClassModal() {
+    function openCreateClassModal() {
       document.getElementById('adminClassName').value = '';
       document.getElementById('teacherUsername').value = '';
       document.getElementById('teacherPassword').value = '';
       openModal('createClassModal');
     }
 
-    window.createClass = function createClass() {
+    function createClass() {
       const className = document.getElementById('adminClassName').value.trim();
       const teacherUsername = document.getElementById('teacherUsername').value.trim();
       const teacherPassword = document.getElementById('teacherPassword').value.trim();
@@ -4156,13 +4062,13 @@
       showNotification('Class and teacher created!', 'success');
     }
     
-    window.openCreateTeacherModal = function openCreateTeacherModal() {
+    function openCreateTeacherModal() {
       document.getElementById('newTeacherUsername').value = '';
       document.getElementById('newTeacherPassword').value = '';
       openModal('createTeacherModal');
     }
 
-    window.createTeacher = function createTeacher() {
+    function createTeacher() {
       const teacherUsername = document.getElementById('newTeacherUsername').value.trim();
       const teacherPassword = document.getElementById('newTeacherPassword').value.trim();
       if (!teacherUsername || !teacherPassword) {
@@ -4186,13 +4092,13 @@
       showNotification('Teacher created!', 'success');
     }
 
-    window.openCreateAdminModal = function openCreateAdminModal() {
+    function openCreateAdminModal() {
       document.getElementById('newAdminUsername').value = '';
       document.getElementById('newAdminPassword').value = '';
       openModal('createAdminModal');
     }
 
-    window.createAdmin = function createAdmin() {
+    function createAdmin() {
         const username = document.getElementById('newAdminUsername').value.trim();
         const password = document.getElementById('newAdminPassword').value.trim();
         if (!username || !password) {
@@ -4216,14 +4122,14 @@
         showNotification('Admin created successfully!', 'success');
     }
 
-    window.openChangeTeacherPasswordModal = function openChangeTeacherPasswordModal(username) {
+    function openChangeTeacherPasswordModal(username) {
         currentUsernameToEdit = username;
         document.getElementById('changeTeacherPasswordTitle').textContent = `Change Password for ${username}`;
         document.getElementById('newTeacherPass').value = '';
         openModal('changeTeacherPasswordModal');
     }
 
-    window.changeTeacherPassword = function changeTeacherPassword() {
+    function changeTeacherPassword() {
         const newPassword = document.getElementById('newTeacherPass').value.trim();
         if (!newPassword) {
             showNotification('Password cannot be empty', 'error');
@@ -4238,7 +4144,7 @@
         }
     }
     
-    window.searchAdminClasses = function searchAdminClasses(query) {
+    function searchAdminClasses(query) {
       const lowerQuery = query.toLowerCase();
       document.querySelectorAll('#classesList .class-detail-card').forEach(card => {
         const name = card.querySelector('.class-detail-title').textContent.toLowerCase();
@@ -4247,7 +4153,7 @@
       });
     }
 
-    window.searchAdminUsers = function searchAdminUsers(query) {
+    function searchAdminUsers(query) {
         const lowerQuery = query.toLowerCase();
         document.querySelectorAll('#admin-usersView tbody tr').forEach(row => {
             const username = row.querySelector('td:first-child').textContent.toLowerCase();
@@ -4314,7 +4220,7 @@
       `;
     }
 
-    window.openClassDetailModal = function openClassDetailModal(classId) {
+    function openClassDetailModal(classId) {
       const cls = classes.find(c => c.id === classId);
       const teacher = users[cls.teacherUsername];
       const classStudents = Object.values(students[classId] || {});
@@ -4428,13 +4334,13 @@
       `;
     }
     
-    window.openAddEmbedModal = function openAddEmbedModal() {
+    function openAddEmbedModal() {
         document.getElementById('embedName').value = '';
         document.getElementById('embedUrl').value = '';
         openModal('addEmbedModal');
     }
 
-    window.addEmbed = function addEmbed() {
+    function addEmbed() {
         const name = document.getElementById('embedName').value.trim();
         const url = document.getElementById('embedUrl').value.trim();
         if (!name || !url) {
@@ -4462,14 +4368,14 @@
     }
 
     // Emoji Picker
-    window.openEmojiPicker = function openEmojiPicker(targetInputId) {
+    function openEmojiPicker(targetInputId) {
         emojiPickerTarget = document.getElementById(targetInputId);
         document.getElementById('emojiSearch').value = '';
         renderEmojiPicker();
         openModal('emojiPickerModal');
     }
     
-    window.renderEmojiPicker = function renderEmojiPicker() {
+    function renderEmojiPicker() {
         const query = document.getElementById('emojiSearch').value;
         const grid = document.getElementById('emojiGrid');
         const filteredEmojis = EMOJI_LIST.filter(emoji => emoji.includes(query));
@@ -4478,97 +4384,16 @@
         ).join('');
     }
 
-    window.selectEmoji = function selectEmoji(emoji) {
+    function selectEmoji(emoji) {
         if (emojiPickerTarget) {
             emojiPickerTarget.value = emoji;
         }
         closeModal('emojiPickerModal');
     }
 
-    // AI Functions
-    window.openAIGenerator = function openAIGenerator(type, targetInputId) {
-      if (!ai) {
-        showNotification("AI feature is not configured. API Key might be missing.", "error");
-        return;
-      }
-      aiGeneratorTargetInputId = targetInputId;
-      document.getElementById('aiGeneratorTitle').textContent = `AI ${type === 'reward' ? 'Reward' : 'Reason'} Ideas`;
-      document.getElementById('regenerateAiButton').onclick = () => generateAIContent(type);
-      openModal('aiGeneratorModal');
-      generateAIContent(type);
-    }
-
-    async function generateAIContent(type) {
-      const loader = document.getElementById('aiGeneratorLoader');
-      const container = document.getElementById('aiSuggestionsContainer');
-      const regenerateBtn = document.getElementById('regenerateAiButton');
-      
-      loader.style.display = 'flex';
-      container.innerHTML = '';
-      regenerateBtn.disabled = true;
-
-      let prompt;
-      if (type === 'reward') {
-        prompt = "Generate 5 creative reward ideas for students in a Jewish classroom. The rewards should be fun, educational, and culturally relevant. Examples could be related to Jewish holidays, values (mitzvot), or culture.";
-      } else { // reason
-        prompt = "Generate 5 positive reasons for giving points to a student in a Jewish classroom setting. The reasons should be concise and related to good behavior, effort, or Jewish values (middot).";
-      }
-      
-      const responseSchema = {
-        type: Type.OBJECT,
-        properties: {
-          ideas: {
-            type: Type.ARRAY,
-            items: {
-              type: Type.STRING,
-              description: "A single reward or reason idea."
-            },
-            description: "A list of generated ideas."
-          },
-        },
-        required: ["ideas"],
-      };
-
-      try {
-        const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
-            contents: prompt,
-            config: {
-              responseMimeType: "application/json",
-              responseSchema: responseSchema,
-            },
-        });
-        
-        const jsonResponse = JSON.parse(response.text);
-        const ideas = jsonResponse.ideas;
-        
-        if (ideas && ideas.length > 0) {
-          container.innerHTML = ideas.map(idea => 
-            `<button class="ai-suggestion" onclick="selectAISuggestion('${idea.replace(/'/g, "\\'")}')">${sanitizeHTML(idea)}</button>`
-          ).join('');
-        } else {
-          container.innerHTML = '<p>Could not generate ideas. Please try again.</p>';
-        }
-
-      } catch (error) {
-        console.error("AI Generation Error:", error);
-        container.innerHTML = `<p class="error-message" style="display:block;">Failed to generate ideas. Please check the console for details.</p>`;
-      } finally {
-        loader.style.display = 'none';
-        regenerateBtn.disabled = false;
-      }
-    }
-
-    window.selectAISuggestion = function selectAISuggestion(idea) {
-      if (aiGeneratorTargetInputId) {
-        document.getElementById(aiGeneratorTargetInputId).value = idea;
-      }
-      closeModal('aiGeneratorModal');
-    }
-
 
     // Demo Mode
-    window.startDemoMode = function startDemoMode(type) {
+    function startDemoMode(type) {
         closeModal('demoModal');
         demoMode = true;
 
@@ -4634,7 +4459,7 @@
         showNotification(`Demo mode activated (${type} view). Changes will not be saved.`, 'info');
     }
     
-    window.switchDemoView = function switchDemoView() {
+    function switchDemoView() {
         if (!demoMode) return;
         const currentType = currentUser.type;
         if (currentType === 'personal') { // is a teacher
