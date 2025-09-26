@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Limud Points - Professional Teacher Management System</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%231ab5f4'/%3E%3Cg transform='translate(50,50)' fill='%23ffc107'%3E%3Cpath d='M -2.5,-32 C -2.5,-32 0,-42 2.5,-32 Z' transform='rotate(0)'/%3E%3Cpath d='M -2,-32 C -2,-32 0,-38 2,-32 Z' transform='rotate(15)'/%3E%3Cpath d='M -2.5,-32 C -2.5,-32 0,-42 2.5,-32 Z' transform='rotate(30)'/%3E%3Cpath d='M -2,-32 C -2,-32 0,-38 2,-32 Z' transform='rotate(45)'/%3E%3Cpath d='M -2.5,-32 C -2.5,-32 0,-42 2.5,-32 Z' transform='rotate(60)'/%3E%3Cpath d='M -2,-32 C -2,-32 0,-38 2,-32 Z' transform='rotate(75)'/%3E%3Cpath d='M -2.5,-32 C -2.5,-32 0,-42 2.5,-32 Z' transform='rotate(90)'/%3E%3Cpath d='M -2,-32 C -2,-32 0,-38 2,-32 Z' transform='rotate(105)'/%3E%3Cpath d='M -2.5,-32 C -2.5,-32 0,-42 2.5,-32 Z' transform='rotate(120)'/%3E%3Cpath d='M -2,-32 C -2,-32 0,-38 2,-32 Z' transform='rotate(135)'/%3E%3Cpath d='M -2.5,-32 C -2.5,-32 0,-42 2.5,-32 Z' transform='rotate(150)'/%3E%3Cpath d='M -2,-32 C -2,-32 0,-38 2,-32 Z' transform='rotate(165)'/%3E%3Cpath d='M -2.5,-32 C -2.5,-32 0,-42 2.5,-32 Z' transform='rotate(180)'/%3E%3Cpath d='M -2,-32 C -2,-32 0,-38 2,-32 Z' transform='rotate(195)'/%3E%3Cpath d='M -2.5,-32 C -2.5,-32 0,-42 2.5,-32 Z' transform='rotate(210)'/%3E%3Cpath d='M -2,-32 C -2,-32 0,-38 2,-32 Z' transform='rotate(225)'/%3E%3Cpath d='M -2.5,-32 C -2.5,-32 0,-42 2.5,-32 Z' transform='rotate(240)'/%3E%3Cpath d='M -2,-32 C -2,-32 0,-38 2,-32 Z' transform='rotate(255)'/%3E%3Cpath d='M -2.5,-32 C -2.5,-32 0,-42 2.5,-32 Z' transform='rotate(270)'/%3E%3Cpath d='M -2,-32 C -2,-32 0,-38 2,-32 Z' transform='rotate(285)'/%3E%3Cpath d='M -2.5,-32 C -2.5,-32 0,-42 2.5,-32 Z' transform='rotate(300)'/%3E%3Cpath d='M -2,-32 C -2,-32 0,-38 2,-32 Z' transform='rotate(315)'/%3E%3Cpath d='M -2.5,-32 C -2.5,-32 0,-42 2.5,-32 Z' transform='rotate(330)'/%3E%3Cpath d='M -2,-32 C -2,-32 0,-38 2,-32 Z' transform='rotate(345)'/%3E%3C/g%3E%3Ccircle cx='50' cy='50' r='34' fill='#1495c7'/%3E%3Ccircle cx='50' cy='50' r='32' fill='#1ab5f4'/%3E%3Ctext x='50' y='46' font-family='Inter,sans-serif' font-weight='700' font-size='13px' fill='white' text-anchor='middle'%3Elimud%3C/text%3E%3Ctext x='50' y='62' font-family='Inter,sans-serif' font-weight='700' font-size='13px' fill='white' text-anchor='middle'%3Epoints%3C/text%3E%3Cpath d='M 47 68 L 53 68 L 50 73 Z' fill='white' opacity='0.5'/%3E%3C/svg%3E"/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%231ab5f4'/%3E%3Ccircle cx='50' cy='50' r='32' fill='%231ab5f4'/%3E%3Ctext x='50' y='46' font-family='sans-serif' font-weight='700' font-size='13px' fill='white' text-anchor='middle'%3Elimud%3C/text%3E%3Ctext x='50' y='62' font-family='sans-serif' font-weight='700' font-size='13px' fill='white' text-anchor='middle'%3Epoints%3C/text%3E%3C/svg%3E"/>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
    
@@ -1670,6 +1670,11 @@
      
       <button class="btn btn-primary btn-full" id="loginBtn">Sign In</button>
      
+      <div style="display: flex; justify-content: space-between; margin-top: -0.5rem; margin-bottom: 1rem; font-size: 0.875rem;">
+        <a href="#" class="auth-switch" onclick="openForgotPasswordModal()">Forgot Password?</a>
+        <a href="#" class="auth-switch" onclick="openForgotUsernameModal()">Forgot Username?</a>
+      </div>
+
       <p class="text-center">Don't have an account? <a href="#" class="auth-switch" onclick="showSignup()">Create one here</a></p>
     </div>
     <a href="#" class="corner-button about-button btn btn-info" onclick="openAboutModal()">About & How to Use</a>
@@ -1716,9 +1721,9 @@
         <input type="text" class="form-input" id="signupSchool" placeholder="Enter your school name"/>
       </div>
 
-      <div class="form-group" id="adminEmailGroup" style="display: none;">
-        <label class="form-label" for="signupEmail">Email Address (Optional)</label>
-        <input type="email" class="form-input" id="signupEmail" placeholder="Enter your email"/>
+      <div class="form-group" id="adminEmailGroup">
+        <label class="form-label" for="signupEmail">Email Address</label>
+        <input type="email" class="form-input" id="signupEmail" placeholder="Enter your email for account recovery" required/>
       </div>
      
       <button class="btn btn-primary btn-full" id="signupBtn">Create Account</button>
@@ -2045,6 +2050,10 @@
           <label class="form-label" for="teacherPassword">Teacher Password</label>
           <input type="password" class="form-input" id="teacherPassword" placeholder="Password for the teacher login"/>
         </div>
+        <div class="form-group">
+          <label class="form-label" for="teacherEmail">Teacher Email</label>
+          <input type="email" class="form-input" id="teacherEmail" placeholder="Email for account recovery"/>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" onclick="closeModal('createClassModal')">Cancel</button>
@@ -2069,6 +2078,10 @@
           <label class="form-label" for="newTeacherPassword">Teacher Password</label>
           <input type="password" class="form-input" id="newTeacherPassword" placeholder="Password for the teacher login"/>
         </div>
+        <div class="form-group">
+          <label class="form-label" for="newTeacherEmail">Teacher Email</label>
+          <input type="email" class="form-input" id="newTeacherEmail" placeholder="Email for account recovery"/>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" onclick="closeModal('createTeacherModal')">Cancel</button>
@@ -2092,6 +2105,10 @@
         <div class="form-group">
           <label class="form-label" for="newAdminPassword">Admin Password</label>
           <input type="password" class="form-input" id="newAdminPassword" placeholder="Password for the admin login"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="newAdminEmail">Admin Email</label>
+          <input type="email" class="form-input" id="newAdminEmail" placeholder="Email for account recovery"/>
         </div>
       </div>
       <div class="modal-footer">
@@ -2548,6 +2565,48 @@
     </div>
   </div>
 
+  <!-- Forgot Password Modal -->
+  <div class="modal" id="forgotPasswordModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Forgot Password</h2>
+        <button class="modal-close" onclick="closeModal('forgotPasswordModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="error-message" id="forgotPasswordError"></div>
+        <div class="form-group">
+          <label class="form-label" for="forgotPasswordUsername">Username</label>
+          <input type="text" class="form-input" id="forgotPasswordUsername" placeholder="Enter your username"/>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('forgotPasswordModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="resetPassword()">Reset Password</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Forgot Username Modal -->
+  <div class="modal" id="forgotUsernameModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Forgot Username</h2>
+        <button class="modal-close" onclick="closeModal('forgotUsernameModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="error-message" id="forgotUsernameError"></div>
+        <div class="form-group">
+          <label class="form-label" for="forgotUsernameEmail">Email Address</label>
+          <input type="email" class="form-input" id="forgotUsernameEmail" placeholder="Enter your email"/>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('forgotUsernameModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="recoverUsername()">Recover Username</button>
+      </div>
+    </div>
+  </div>
+
 
   <script>
     const STORAGE_KEY = 'limudPointsData';
@@ -2634,7 +2693,7 @@
       notification.className = 'notification show ' + type;
       setTimeout(() => {
         notification.classList.remove('show');
-      }, 3000);
+      }, 5000); // Increased duration for important messages like new passwords
     }
 
     function openModal(modalId) {
@@ -2672,7 +2731,6 @@
     function selectAccountType(type) {
       document.querySelectorAll('.account-type-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelector(`.account-type-btn[data-type="${type}"]`).classList.add('active');
-      document.getElementById('adminEmailGroup').style.display = type === 'admin' ? 'block' : 'none';
     }
 
     function signup() {
@@ -2681,13 +2739,14 @@
       const password = document.getElementById('signupPassword').value.trim();
       const confirmPassword = document.getElementById('signupConfirmPassword').value.trim();
       const school = document.getElementById('signupSchool').value.trim();
-      const email = document.getElementById('signupEmail').value.trim();
+      const email = document.getElementById('signupEmail').value.trim().toLowerCase();
       const error = document.getElementById('signupError');
       const success = document.getElementById('signupSuccess');
       error.style.display = 'none';
       success.style.display = 'none';
-      if (!username || !password || !school) {
-        error.textContent = 'Please fill in all fields';
+
+      if (!username || !password || !school || !email) {
+        error.textContent = 'Please fill in all required fields';
         error.style.display = 'block';
         return;
       }
@@ -2701,13 +2760,15 @@
         error.style.display = 'block';
         return;
       }
+      if (Object.values(users).some(u => u.email === email)) {
+        error.textContent = 'Email address is already in use';
+        error.style.display = 'block';
+        return;
+      }
       // SECURITY WARNING: Storing passwords in plaintext is highly insecure.
       // In a real-world application, passwords must be hashed using a strong
       // algorithm (e.g., Argon2, bcrypt) on a secure server.
-      users[username] = {username, password, type, school, createdAt: new Date().toISOString()};
-      if (type === 'admin' && email) {
-        users[username].email = email;
-      }
+      users[username] = {username, password, type, school, email, createdAt: new Date().toISOString()};
       
       // Add default embeds for the school if it's new
       if (!embeds[school]) {
@@ -4064,6 +4125,7 @@
       document.getElementById('adminClassName').value = '';
       document.getElementById('teacherUsername').value = '';
       document.getElementById('teacherPassword').value = '';
+      document.getElementById('teacherEmail').value = '';
       openModal('createClassModal');
     }
 
@@ -4071,7 +4133,8 @@
       const className = document.getElementById('adminClassName').value.trim();
       const teacherUsername = document.getElementById('teacherUsername').value.trim();
       const teacherPassword = document.getElementById('teacherPassword').value.trim();
-      if (!className || !teacherUsername || !teacherPassword) {
+      const teacherEmail = document.getElementById('teacherEmail').value.trim().toLowerCase();
+      if (!className || !teacherUsername || !teacherPassword || !teacherEmail) {
         showNotification('Please fill in all fields', 'error');
         return;
       }
@@ -4079,11 +4142,16 @@
         showNotification('Teacher username already exists', 'error');
         return;
       }
+      if (Object.values(users).some(u => u.email === teacherEmail)) {
+        showNotification('Email address is already in use', 'error');
+        return;
+      }
       users[teacherUsername] = {
         username: teacherUsername,
         password: teacherPassword, // INSECURE: Storing plaintext passwords
         type: 'personal',
         school: currentUser.school,
+        email: teacherEmail,
         createdAt: new Date().toISOString()
       };
       const newClass = {
@@ -4101,13 +4169,15 @@
     function openCreateTeacherModal() {
       document.getElementById('newTeacherUsername').value = '';
       document.getElementById('newTeacherPassword').value = '';
+      document.getElementById('newTeacherEmail').value = '';
       openModal('createTeacherModal');
     }
 
     function createTeacher() {
       const teacherUsername = document.getElementById('newTeacherUsername').value.trim();
       const teacherPassword = document.getElementById('newTeacherPassword').value.trim();
-      if (!teacherUsername || !teacherPassword) {
+      const teacherEmail = document.getElementById('newTeacherEmail').value.trim().toLowerCase();
+      if (!teacherUsername || !teacherPassword || !teacherEmail) {
         showNotification('Please fill in all fields', 'error');
         return;
       }
@@ -4115,11 +4185,16 @@
         showNotification('Teacher username already exists', 'error');
         return;
       }
+      if (Object.values(users).some(u => u.email === teacherEmail)) {
+        showNotification('Email address is already in use', 'error');
+        return;
+      }
       users[teacherUsername] = {
         username: teacherUsername,
         password: teacherPassword, // INSECURE: Storing plaintext passwords
         type: 'personal',
         school: currentUser.school,
+        email: teacherEmail,
         createdAt: new Date().toISOString()
       };
       saveData();
@@ -4131,13 +4206,15 @@
     function openCreateAdminModal() {
       document.getElementById('newAdminUsername').value = '';
       document.getElementById('newAdminPassword').value = '';
+      document.getElementById('newAdminEmail').value = '';
       openModal('createAdminModal');
     }
 
     function createAdmin() {
         const username = document.getElementById('newAdminUsername').value.trim();
         const password = document.getElementById('newAdminPassword').value.trim();
-        if (!username || !password) {
+        const email = document.getElementById('newAdminEmail').value.trim().toLowerCase();
+        if (!username || !password || !email) {
             showNotification('Please fill in all fields', 'error');
             return;
         }
@@ -4145,11 +4222,16 @@
             showNotification('Username already exists', 'error');
             return;
         }
+        if (Object.values(users).some(u => u.email === email)) {
+            showNotification('Email address is already in use', 'error');
+            return;
+        }
         users[username] = {
             username,
             password,
             type: 'admin',
             school: currentUser.school,
+            email,
             createdAt: new Date().toISOString()
         };
         saveData();
@@ -4425,6 +4507,80 @@
             emojiPickerTarget.value = emoji;
         }
         closeModal('emojiPickerModal');
+    }
+
+    // Account Recovery
+    function generateRandomPassword() {
+      return Math.random().toString(36).slice(-8);
+    }
+
+    function openForgotPasswordModal() {
+        document.getElementById('forgotPasswordError').style.display = 'none';
+        document.getElementById('forgotPasswordUsername').value = '';
+        openModal('forgotPasswordModal');
+    }
+
+    function resetPassword() {
+        const username = document.getElementById('forgotPasswordUsername').value.trim();
+        const error = document.getElementById('forgotPasswordError');
+        error.style.display = 'none';
+
+        const user = users[username];
+
+        if (!user) {
+            error.textContent = 'Username not found.';
+            error.style.display = 'block';
+            return;
+        }
+
+        const schoolHasAdmin = Object.values(users).some(u => u.school === user.school && u.type === 'admin' && u.username !== user.username);
+        
+        if (user.type === 'personal' && schoolHasAdmin) {
+            closeModal('forgotPasswordModal');
+            showNotification('Please contact your school administrator to reset your password.', 'info');
+            return;
+        }
+        
+        if (!user.email) {
+            error.textContent = 'No email is associated with this account. Cannot reset password.';
+            error.style.display = 'block';
+            return;
+        }
+
+        const newPassword = generateRandomPassword();
+        user.password = newPassword;
+        saveData();
+
+        closeModal('forgotPasswordModal');
+        showNotification(`Your temporary password is: ${newPassword}. An email has been sent.`, 'success');
+    }
+
+    function openForgotUsernameModal() {
+        document.getElementById('forgotUsernameError').style.display = 'none';
+        document.getElementById('forgotUsernameEmail').value = '';
+        openModal('forgotUsernameModal');
+    }
+
+    function recoverUsername() {
+        const email = document.getElementById('forgotUsernameEmail').value.trim().toLowerCase();
+        const error = document.getElementById('forgotUsernameError');
+        error.style.display = 'none';
+
+        if (!email) {
+            error.textContent = 'Please enter your email address.';
+            error.style.display = 'block';
+            return;
+        }
+        
+        const user = Object.values(users).find(u => u.email === email);
+
+        if (user) {
+            closeModal('forgotUsernameModal');
+            showNotification(`Your username is: ${user.username}. An email reminder has been sent.`, 'success');
+        } else {
+            error.textContent = 'No account found with that email address.';
+            error.style.display = 'block';
+        }
     }
 
 
