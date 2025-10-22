@@ -527,6 +527,24 @@
       gap: 0.5rem;
     }
 
+    .list-view-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .list-view-controls .btn {
+      padding: 0.25rem 0.75rem;
+    }
+
+    #listSizeDisplay {
+      font-weight: 500;
+      min-width: 120px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
     /* Admin Styles */
     .admin-header {
       background: var(--surface);
@@ -598,8 +616,6 @@
 
     .students-list {
       display: none;
-      flex-direction: column;
-      gap: 0.75rem;
     }
 
     .students-compact {
@@ -608,31 +624,40 @@
       gap: 1rem;
     }
 
-    .student-list-item {
+    #studentListTable {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    #studentListTable th {
+      background-color: var(--surface-secondary);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    #studentListTable td, #studentListTable th {
+      padding: 1rem;
+      vertical-align: middle;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+    #studentListTable tbody tr {
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    #studentListTable tbody tr:hover {
+      background-color: var(--surface-secondary);
+    }
+    #studentListTable tbody tr.selected {
+      border-left: 3px solid var(--primary-color);
+      background: rgb(26 181 244 / 0.05);
+    }
+    .student-list-avatar-cell {
       display: flex;
       align-items: center;
       gap: 1rem;
-      padding: 1rem;
-      background: var(--surface);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
     }
-
-    .student-list-item:hover {
-      box-shadow: var(--shadow);
-      background: var(--surface-secondary);
-    }
-
-    .student-list-item.selected {
-      border-color: var(--primary-color);
-      background: rgb(26 181 244 / 0.05);
-    }
-
     .student-list-avatar {
-      width: 48px;
-      height: 48px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background: var(--primary-color);
       color: var(--surface);
@@ -641,45 +666,87 @@
       justify-content: center;
       font-weight: 600;
       overflow: hidden;
+      flex-shrink: 0;
     }
-
     .student-list-avatar img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-
-    .student-list-info {
-      flex: 1;
-      min-width: 0;
-    }
-
     .student-list-name {
       font-weight: 600;
       color: var(--text-primary);
-      margin-bottom: 0.25rem;
     }
-
-    .student-list-details {
-      color: var(--text-secondary);
-      font-size: 0.875rem;
+    #studentListTable .student-list-points,
+    #studentListTable .student-list-rewards {
+      text-align: center;
+      font-weight: 500;
     }
-
-    .student-list-points {
-      font-weight: 700;
-      color: var(--primary-color);
-      font-size: 1.125rem;
-    }
-
     .student-list-actions {
       display: flex;
       gap: 0.5rem;
-      opacity: 0;
-      transition: opacity 0.2s;
+      justify-content: center;
     }
 
-    .student-list-item:hover .student-list-actions {
-      opacity: 1;
+    /* List View Sizing Styles */
+    #studentListTable td, #studentListTable th, 
+    #studentListTable .student-list-avatar, #studentListTable .student-list-actions .btn {
+        transition: all 0.2s ease-in-out;
+    }
+
+    /* Size Level -2 (Smallest) */
+    #studentListTable[data-size-level="-2"] td, #studentListTable[data-size-level="-2"] th {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+    #studentListTable[data-size-level="-2"] .student-list-avatar {
+        width: 24px;
+        height: 24px;
+    }
+    #studentListTable[data-size-level="-2"] .student-list-actions .btn {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.65rem;
+    }
+
+    /* Size Level -1 (Small) */
+    #studentListTable[data-size-level="-1"] td, #studentListTable[data-size-level="-1"] th {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+    #studentListTable[data-size-level="-1"] .student-list-avatar {
+        width: 32px;
+        height: 32px;
+    }
+    #studentListTable[data-size-level="-1"] .student-list-actions .btn {
+        padding: 0.35rem;
+    }
+
+    /* Size Level 1 (Large) */
+    #studentListTable[data-size-level="1"] td, #studentListTable[data-size-level="1"] th {
+        padding: 1.25rem;
+        font-size: 1.1rem;
+    }
+    #studentListTable[data-size-level="1"] .student-list-avatar {
+        width: 48px;
+        height: 48px;
+    }
+    #studentListTable[data-size-level="1"] .student-list-actions .btn {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    /* Size Level 2 (Largest) */
+    #studentListTable[data-size-level="2"] td, #studentListTable[data-size-level="2"] th {
+        padding: 1.5rem;
+        font-size: 1.2rem;
+    }
+    #studentListTable[data-size-level="2"] .student-list-avatar {
+        width: 56px;
+        height: 56px;
+    }
+    #studentListTable[data-size-level="2"] .student-list-actions .btn {
+        padding: 0.7rem 1rem;
+        font-size: 1rem;
     }
    
     .student-card {
@@ -1459,6 +1526,475 @@
       transition: opacity 0.3s ease;
     }
 
+    /* Extras Grid */
+    .extras-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .tool-card {
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.2s;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .tool-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .tool-card-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      margin: 0 auto 1rem;
+      object-fit: contain;
+      background: var(--surface-secondary);
+      padding: 0.5rem;
+    }
+
+    .tool-card-title {
+      font-weight: 600;
+    }
+
+    #extrasEmbedView {
+        display: none;
+    }
+    
+    /* Messaging Layout */
+    .messaging-layout {
+      display: flex;
+      height: calc(100vh - var(--topbar-height) - 4rem);
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .chat-list-panel {
+      width: 320px;
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      overflow-x: hidden;
+    }
+
+    .chat-list-header {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .chat-list-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+
+    .chat-list {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .chat-list-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      cursor: pointer;
+      border-bottom: 1px solid var(--surface-secondary);
+      transition: background-color 0.2s;
+    }
+
+    .chat-list-item:hover {
+      background: var(--surface-secondary);
+    }
+
+    .chat-list-item.active {
+      background: rgb(26 181 244 / 0.1);
+    }
+
+    .chat-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      color: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .chat-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .chat-info-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .chat-name {
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .chat-timestamp {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .chat-last-message {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .conversation-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #f9fafb;
+      overflow-x: hidden;
+    }
+    
+    .conversation-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 1.125rem;
+    }
+    
+    .conversation-placeholder svg {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 1rem;
+        fill: var(--border-color);
+    }
+
+    .conversation-header {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      font-weight: 600;
+      font-size: 1.125rem;
+      background: var(--surface);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .conversation-back-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      margin-right: 0.75rem;
+    }
+
+    .conversation-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message-bubble-wrapper {
+      display: flex;
+      margin-bottom: 1rem;
+      position: relative;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .message-bubble-wrapper.sent {
+      justify-content: flex-end;
+    }
+    .message-bubble-wrapper.received {
+      justify-content: flex-start;
+      align-items: flex-end;
+    }
+
+    .message-bubble {
+      max-width: 70%;
+      padding: 0.75rem 1rem;
+      border-radius: 18px;
+      line-height: 1.4;
+      position: relative;
+    }
+
+    .message-bubble.sent {
+      background: var(--primary-color);
+      color: var(--surface);
+      border-bottom-right-radius: 4px;
+    }
+
+    .message-bubble.received {
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      border-bottom-left-radius: 4px;
+    }
+
+    .message-meta {
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      color: var(--text-secondary);
+    }
+    
+    .message-meta .edited-indicator {
+      font-style: italic;
+      margin-left: 0.5rem;
+    }
+
+    .message-bubble.sent .message-meta {
+      color: rgba(255, 255, 255, 0.7);
+      text-align: right;
+    }
+
+    .message-sender {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      font-size: 0.875rem;
+      color: var(--primary-dark);
+    }
+    
+    .message-attachment {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        background: rgba(0,0,0,0.1);
+        border-radius: 8px;
+        margin-top: 0.5rem;
+        cursor: pointer;
+    }
+    .message-bubble.sent .message-attachment {
+        background: rgba(255,255,255,0.2);
+    }
+    .message-attachment-name {
+        word-break: break-all;
+    }
+
+    .message-content.deleted {
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+    
+    /* Message Actions Menu */
+    .message-menu-btn {
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      padding: 0.25rem;
+      border-radius: 50%;
+      display: none;
+    }
+    .message-bubble-wrapper:hover .message-menu-btn {
+      display: block;
+    }
+    .message-menu-btn:hover {
+      background: var(--surface-secondary);
+    }
+    
+    .message-menu-dropdown {
+      position: absolute;
+      background: var(--surface);
+      box-shadow: var(--shadow-lg);
+      border-radius: 8px;
+      padding: 0.5rem 0;
+      display: none;
+      z-index: 10;
+      min-width: 120px;
+    }
+    .message-bubble-wrapper.sent .message-menu-dropdown {
+      right: 0;
+      top: 100%;
+    }
+    .message-bubble-wrapper.received .message-menu-dropdown {
+      left: 0;
+      top: 100%;
+    }
+    .message-menu-dropdown.active {
+      display: block;
+    }
+    .message-menu-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 0.5rem 1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .message-menu-item:hover {
+      background: var(--surface-secondary);
+    }
+    
+    /* Message Editing Styles */
+    .message-edit-form {
+        width: 100%;
+    }
+    .message-edit-textarea {
+        width: 100%;
+        resize: vertical;
+        padding: 0.5rem;
+        border-radius: 6px;
+        border: 1px solid var(--border-color);
+        font-family: inherit;
+        font-size: inherit;
+        min-height: 50px;
+    }
+    .message-edit-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .conversation-input-form {
+      padding: 1rem;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      gap: 0.75rem;
+      background: var(--surface);
+    }
+    
+    .attachment-btn {
+        padding: 0.75rem;
+        font-size: 1rem;
+    }
+
+    .conversation-input {
+      flex: 1;
+      border: 1px solid var(--border-color);
+      background: var(--surface);
+      padding: 0.75rem 1rem;
+      border-radius: 20px;
+      resize: none;
+      font-family: inherit;
+    }
+    .conversation-input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgb(26 181 244 / 0.2);
+      border-color: var(--primary-color);
+    }
+    
+    /* Student Portal */
+    .student-portal-layout {
+        display: none;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    .student-portal-layout.active {
+        display: flex;
+    }
+    .student-portal-header {
+        height: var(--topbar-height);
+        background: var(--surface);
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2rem;
+        box-shadow: var(--shadow);
+    }
+    .student-portal-info {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+    .student-portal-name {
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+    .student-portal-points {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+    .student-portal-main {
+        flex: 1;
+        padding: 2rem;
+        display: flex;
+    }
+    .student-portal-main .messaging-layout {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+    }
+    
+    /* Toggle Switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 28px;
+    }
+    .switch input { 
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 28px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: var(--primary-color);
+    }
+    input:checked + .slider:before {
+      transform: translateX(22px);
+    }
+
     /* Tablet and Mobile Responsiveness */
     @media (max-width: 1024px) {
       .hamburger-menu {
@@ -1476,16 +2012,16 @@
         transform: translateX(0);
       }
      
-      .main-content {
+      .main-content, .student-portal-main {
         margin-left: 0;
         width: 100%;
       }
      
-      .topbar {
+      .topbar, .student-portal-header {
         padding: 0 1rem;
       }
      
-      .content-area {
+      .content-area, .student-portal-main {
         padding: 1rem;
       }
      
@@ -1569,9 +2105,52 @@
       .search-input, .class-selector {
         width: 100%;
       }
+      
+      .student-portal-header {
+        height: auto;
+        padding: 0.75rem 1rem;
+      }
+      .student-portal-name, .student-portal-points {
+        font-size: 1rem;
+      }
 
       .admin-stats, .class-stats {
         grid-template-columns: 1fr; /* Single column on phones */
+      }
+      
+      .messaging-layout {
+        height: calc(100vh - var(--topbar-height) - 2rem);
+        overflow-x: hidden;
+      }
+      .chat-list-panel, .conversation-panel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.3s ease-in-out;
+        border-right: none;
+      }
+      .chat-list-panel {
+        transform: translateX(0);
+        z-index: 2;
+      }
+      .conversation-panel {
+        transform: translateX(100%);
+        z-index: 1;
+      }
+      .messaging-layout.show-conversation .chat-list-panel {
+        transform: translateX(-100%);
+      }
+      .messaging-layout.show-conversation .conversation-panel {
+        transform: translateX(0);
+        z-index: 3;
+      }
+      .conversation-placeholder {
+        display: none;
+      }
+      .conversation-back-btn {
+        display: block;
       }
       
       /* Responsive Table Styles */
@@ -1610,22 +2189,6 @@
       .responsive-table td .btn {
         padding: 0.25rem 0.5rem;
         font-size: 0.75rem;
-      }
-
-      /* Student List Mobile */
-      .student-list-item {
-        flex-wrap: wrap;
-        gap: 0.5rem;
-      }
-      .student-list-info {
-        flex-basis: 100%;
-        margin-bottom: 0.25rem;
-      }
-      .student-list-points {
-        margin-right: auto;
-      }
-      .student-list-actions {
-        opacity: 1;
       }
     }
 
@@ -1676,6 +2239,8 @@
       </div>
 
       <p class="text-center">Don't have an account? <a href="#" class="auth-switch" onclick="showSignup()">Create one here</a></p>
+      <hr style="border: none; border-top: 1px solid var(--border-color); margin: 1.5rem 0;">
+      <p class="text-center">Are you a student? <a href="#" class="auth-switch" onclick="showStudentLogin()">Login with PIN</a></p>
     </div>
     <a href="#" class="corner-button about-button btn btn-info" onclick="openAboutModal()">About & How to Use</a>
     <a href="#" class="corner-button demo-button btn btn-info" onclick="openModal('demoModal')">Try Demo</a>
@@ -1732,6 +2297,25 @@
     </div>
     <a href="#" class="corner-button about-button btn btn-info" onclick="openAboutModal()">About & How to Use</a>
     <a href="#" class="corner-button demo-button btn btn-info" onclick="openModal('demoModal')">Try Demo</a>
+  </div>
+  
+  <!-- Student Login Screen -->
+  <div class="auth-screen" id="studentLoginScreen" style="display: none;">
+    <div class="auth-card">
+      <h1 class="auth-title">Student Portal</h1>
+      <p class="auth-subtitle">Enter your secure PIN to access your points and messages</p>
+     
+      <div class="error-message" id="studentLoginError"></div>
+     
+      <div class="form-group">
+        <label class="form-label" for="studentPin">Student PIN</label>
+        <input type="text" class="form-input" id="studentPin" placeholder="e.g., A4T-B9P" maxlength="7"/>
+      </div>
+     
+      <button class="btn btn-primary btn-full" id="studentLoginBtn">Enter Portal</button>
+     
+      <p class="text-center">Not a student? <a href="#" class="auth-switch" onclick="showLogin()">Teacher/Admin Login</a></p>
+    </div>
   </div>
 
   <!-- Main App Layout -->
@@ -1797,10 +2381,17 @@
         <!-- Students View -->
         <div id="studentsView" class="page-view" style="display:none;">
           <div class="content-header">
-            <div class="view-toggle">
-              <button class="view-option active" data-view="grid" onclick="switchStudentView(event, 'grid')">Grid View</button>
-              <button class="view-option" data-view="list" onclick="switchStudentView(event, 'list')">List View</button>
-              <button class="view-option" data-view="compact" onclick="switchStudentView(event, 'compact')">Compact View</button>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+              <div class="view-toggle">
+                <button class="view-option active" data-view="grid" onclick="switchStudentView(event, 'grid')">Grid</button>
+                <button class="view-option" data-view="list" onclick="switchStudentView(event, 'list')">List</button>
+                <button class="view-option" data-view="compact" onclick="switchStudentView(event, 'compact')">Compact</button>
+              </div>
+              <div class="list-view-controls" style="display: none;">
+                <button class="btn btn-secondary" id="decreaseListSizeBtn">-</button>
+                <span id="listSizeDisplay"></span>
+                <button class="btn btn-secondary" id="increaseListSizeBtn">+</button>
+              </div>
             </div>
             <div class="grid-columns-selector">
               <label>Columns:</label>
@@ -1814,6 +2405,7 @@
               </select>
             </div>
             <div class="action-buttons">
+              <button class="btn btn-info" onclick="openManagePinsModal()">Manage PINs</button>
               <button class="btn btn-success" onclick="openAddStudentModal()">Add Student</button>
               <button class="btn btn-success" onclick="openAddMultipleModal()">Add Multiple</button>
               <button class="btn btn-secondary" onclick="enterBulkMode()">Bulk Actions</button>
@@ -1827,7 +2419,19 @@
             </div>
           </div>
 
-          <div class="students-list" id="studentsList"></div>
+          <div class="students-list" id="studentsList">
+             <table class="responsive-table" id="studentListTable">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th style="text-align: center;">Points</th>
+                        <th style="text-align: center;">Rewards</th>
+                        <th style="text-align: center;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+          </div>
 
           <div class="students-compact" id="studentsCompact"></div>
         </div>
@@ -1884,10 +2488,17 @@
             </div>
            
             <div style="background: var(--surface); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
-              <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Class Statistics</h3>
+              <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Class Settings</h3>
               <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                 <span>Current Class:</span>
                 <span id="currentClassName" style="font-weight: 600;"></span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <label for="offlineClassToggle" style="font-weight: 500;">Make available offline</label>
+                <label class="switch">
+                  <input type="checkbox" id="offlineClassToggle">
+                  <span class="slider"></span>
+                </label>
               </div>
               <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                 <span>Total Students:</span>
@@ -1907,6 +2518,17 @@
               <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Saved Reasons</h3>
               <div id="savedReasonsList" style="display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
             </div>
+
+            <div style="background: var(--surface); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+              <h3 style="margin-bottom: 1rem; color: var(--text-primary);">App Preferences</h3>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label for="offlineModeToggle" style="font-weight: 500;">Enable Offline Mode (disables messaging)</label>
+                <label class="switch">
+                  <input type="checkbox" id="offlineModeToggle" onchange="toggleOfflineMode(this.checked)">
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
            
             <div style="background: rgb(220 38 38 / 0.1); padding: 2rem; border-radius: 12px; border: 1px solid rgb(220 38 38 / 0.2);">
               <h3 style="margin-bottom: 1rem; color: var(--danger-color);">Danger Zone</h3>
@@ -1923,7 +2545,8 @@
           <div class="content-header">
             <h2 style="margin: 0; font-size: 1.25rem; font-weight: 600;">Extras</h2>
           </div>
-          <div id="embedsList"></div>
+          <div id="extrasGridView" class="extras-grid"></div>
+          <div id="extrasEmbedView"></div>
         </div>
 
         <!-- Power Ups View -->
@@ -1941,7 +2564,24 @@
         <div id="admin-classesView" class="page-view" style="display:none;"></div>
         <div id="admin-usersView" class="page-view" style="display:none;"></div>
         <div id="admin-embedsView" class="page-view" style="display:none;"></div>
+        
+        <!-- Messaging View -->
+        <div id="messagingView" class="page-view" style="display:none;"></div>
       </div>
+    </main>
+  </div>
+  
+  <!-- Student Portal Layout -->
+  <div class="student-portal-layout" id="studentPortalLayout">
+    <header class="student-portal-header">
+        <div class="student-portal-info">
+            <span class="student-portal-name" id="studentPortalName">Student Name</span>
+            <span class="student-portal-points" id="studentPortalPoints">0 pts</span>
+        </div>
+        <button class="btn btn-warning" onclick="logoutStudent()">🚪 Sign Out</button>
+    </header>
+    <main class="student-portal-main">
+        <div id="studentMessagingView" style="width: 100%; height: 100%;"></div>
     </main>
   </div>
 
@@ -1950,6 +2590,9 @@
 
   <!-- Notification -->
   <div class="notification" id="notification"></div>
+  
+  <!-- Hidden file input for message attachments -->
+  <input type="file" id="messageAttachmentInput" class="hidden" onchange="handleFileAttachment(event)">
 
   <!-- Modals -->
  
@@ -1963,7 +2606,7 @@
       <div class="modal-body">
         <h3>About</h3>
         <p>Limud Points is a professional teacher management system designed to help teachers manage classrooms, track student points, rewards, and more.</p>
-        <p>Developed with care for educational excellence. Version 1.1.</p>
+        <p>Developed with care for educational excellence. Version 1.2.</p>
         <h3>How to Use</h3>
         <h4>Getting Started</h4>
         <p>1. Sign up or log in using your credentials.</p>
@@ -1972,6 +2615,9 @@
         <p>- Add students individually or in bulk.</p>
         <p>- Award or subtract points with reasons.</p>
         <p>- Use bulk actions for multiple students.</p>
+        <h4>Student Portal</h4>
+        <p>- Go to Students > Manage PINs to generate unique 5-digit PINs for your students.</p>
+        <p>- Students can log in with their PIN to view points and use the messaging feature.</p>
         <h4>Rewards and Leaderboard</h4>
         <p>- Create rewards (points-based or instant).</p>
         <p>- View leaderboard for top students.</p>
@@ -2278,14 +2924,7 @@
         <p id="bulkSummary">Apply to X selected students</p>
         <div class="form-group">
           <label class="form-label" for="bulkReason">Reason (optional)</label>
-           <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <input type="text" class="form-input" id="bulkReason" list="reasonsList" placeholder="Enter reason" style="flex-grow: 1;"/>
-            <button class="btn btn-info" onclick="generateWithAi('reasons-bulk')" type="button">✨ AI</button>
-          </div>
-        </div>
-        <div class="form-group hidden" id="bulkAiReasonsContainer">
-            <label class="form-label">AI Suggestions</label>
-            <div id="bulkAiReasons" class="saved-reasons-container"></div>
+          <input type="text" class="form-input" id="bulkReason" list="reasonsList" placeholder="Enter reason"/>
         </div>
         <div class="form-group">
             <label class="form-label">Saved Reasons</label>
@@ -2313,14 +2952,7 @@
         </div>
         <div class="form-group">
           <label class="form-label" for="pointsReason">Reason (optional)</label>
-          <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <input type="text" class="form-input" id="pointsReason" list="reasonsList" placeholder="Enter reason" style="flex-grow: 1;"/>
-            <button class="btn btn-info" onclick="generateWithAi('reasons-student')" type="button">✨ AI</button>
-          </div>
-        </div>
-         <div class="form-group hidden" id="studentAiReasonsContainer">
-            <label class="form-label">AI Suggestions</label>
-            <div id="studentAiReasons" class="saved-reasons-container"></div>
+          <input type="text" class="form-input" id="pointsReason" list="reasonsList" placeholder="Enter reason"/>
         </div>
         <div class="form-group">
             <label class="form-label">Saved Reasons</label>
@@ -2346,7 +2978,6 @@
           <label class="form-label" for="rewardTitle">Title</label>
           <input type="text" class="form-input" id="rewardTitle" placeholder="Enter reward title"/>
         </div>
-        <button class="btn btn-info mb-4" onclick="generateWithAi('rewards')" style="width:100%;">✨ Generate Ideas with AI</button>
         <div class="form-group">
           <label class="form-label" for="rewardDescription">Description (optional)</label>
           <textarea class="form-input" id="rewardDescription" placeholder="Enter description"></textarea>
@@ -2548,22 +3179,6 @@
       </div>
     </div>
   </div>
-  
-  <!-- AI Suggestions Modal -->
-  <div class="modal" id="aiSuggestionsModal">
-    <div class="modal-content large">
-      <div class="modal-header">
-        <h2 class="modal-title" id="aiSuggestionsTitle">AI Suggestions</h2>
-        <button class="modal-close" onclick="closeModal('aiSuggestionsModal')">&times;</button>
-      </div>
-      <div class="modal-body" id="aiSuggestionsBody">
-        <!-- AI suggestions will be rendered here -->
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" onclick="closeModal('aiSuggestionsModal')">Close</button>
-      </div>
-    </div>
-  </div>
 
   <!-- Forgot Password Modal -->
   <div class="modal" id="forgotPasswordModal">
@@ -2607,10 +3222,68 @@
     </div>
   </div>
 
+  <!-- New Message Modal -->
+  <div class="modal" id="newMessageModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">New Message</h2>
+        <button class="modal-close" onclick="closeModal('newMessageModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="recipientSelect">Select Recipient</label>
+          <select class="form-input" id="recipientSelect"></select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('newMessageModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="startDirectMessage()">Start Chat</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Manage Student PINs Modal -->
+    <div class="modal" id="managePinsModal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h2 class="modal-title">Manage Student PINs</h2>
+                <button class="modal-close" onclick="closeModal('managePinsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-4">Here are the PINs for your students. Students can use these to log in to their portal.</p>
+                <div id="studentPinList" style="max-height: 400px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem;"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-info" onclick="generateStudentPINs()">Generate/Regenerate PINs</button>
+                <button class="btn btn-success" onclick="copyPinsToClipboard()">Copy All</button>
+                <button class="btn btn-secondary" onclick="closeModal('managePinsModal')">Close</button>
+            </div>
+        </div>
+    </div>
+    
+  <!-- Manage Chat Members Modal -->
+    <div class="modal" id="manageChatMembersModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Manage Group Chat Members</h2>
+                <button class="modal-close" onclick="closeModal('manageChatMembersModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Select other teachers from your school to add to this class group chat.</p>
+                <div id="chatMemberList" class="multi-select-list" style="margin-top: 1rem;"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('manageChatMembersModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="updateChatMembers()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
 
   <script>
     const STORAGE_KEY = 'limudPointsData';
     let currentUser = null;
+    let currentStudent = null;
     let currentClassId = null;
     let classes = [];
     let students = {};
@@ -2620,6 +3293,7 @@
     let reasons = {};
     let embeds = {};
     let users = {};
+    let messages = {};
     let bulkMode = false;
     let selectedStudents = new Set();
     let bulkAction = '';
@@ -2631,7 +3305,18 @@
     let currentUsernameToEdit = '';
     let emojiPickerTarget = null;
     let demoMode = false;
-    let lastAiSuggestions = [];
+    let currentChatId = null;
+
+    let listViewSizeLevel = 0;
+    const LIST_VIEW_SIZE_MIN = -2;
+    const LIST_VIEW_SIZE_MAX = 2;
+    const sizeLevelMap = {
+        "-2": "Smallest",
+        "-1": "Small",
+        "0": "Normal",
+        "1": "Large",
+        "2": "Largest"
+    };
     
     const EMOJI_LIST = ['😀', '😂', '😍', '🥳', '👍', '🙏', '🚀', '⭐', '🏆', '🥇', '🎁', '🎉', '💯', '🔥', '📚', '✏️', '💡', '🍎', '🎯', '✅', '✔️', '➕', '🙌', '👏', '💪', '🧠', '👑'];
 
@@ -2646,11 +3331,49 @@
         history,
         reasons,
         embeds,
+        messages,
         currentUser: currentUser ? currentUser.username : null,
+        currentStudent: currentStudent ? { studentId: currentStudent.id, classId: currentStudent.classId } : null,
         currentClassId
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      
+      // Sync data for any offline-enabled classes
+      if (currentClassId) {
+        const currentClass = classes.find(c => c.id === currentClassId);
+        if (currentClass && currentClass.offlineEnabled) {
+          syncOfflineClass(currentClassId);
+        }
+      }
     }
+
+    function syncOfflineClass(classId) {
+        const classData = {
+            students: students[classId] || {},
+            rewards: rewards[classId] || [],
+            powerups: powerups[classId] || [],
+            history: history[classId] || [],
+            reasons: reasons[classId] || [],
+        };
+        localStorage.setItem(`offline_${classId}`, JSON.stringify(classData));
+    }
+    
+    function toggleOfflineAccess(classId, isEnabled) {
+        const classIndex = classes.findIndex(c => c.id === classId);
+        if (classIndex === -1) return;
+
+        classes[classIndex].offlineEnabled = isEnabled;
+        if (isEnabled) {
+            syncOfflineClass(classId);
+            showNotification('Class is now available offline!', 'success');
+        } else {
+            localStorage.removeItem(`offline_${classId}`);
+            showNotification('Offline data for this class removed.', 'info');
+        }
+        // Save the change to the `classes` array itself
+        saveData();
+    }
+
 
     function loadData() {
       try {
@@ -2666,15 +3389,36 @@
           history = data.history || {};
           reasons = data.reasons || {};
           embeds = data.embeds || {};
+          messages = data.messages || {};
           currentClassId = data.currentClassId;
+          
+          // Restore from offline cache if available
+          classes.forEach(c => {
+            if (c.offlineEnabled) {
+              const offlineDataString = localStorage.getItem(`offline_${c.id}`);
+              if (offlineDataString) {
+                const offlineData = JSON.parse(offlineDataString);
+                students[c.id] = offlineData.students || {};
+                rewards[c.id] = offlineData.rewards || [];
+                powerups[c.id] = offlineData.powerups || [];
+                history[c.id] = offlineData.history || [];
+                reasons[c.id] = offlineData.reasons || [];
+              }
+            }
+          });
+
           if (data.currentUser && users[data.currentUser]) {
             currentUser = users[data.currentUser];
+          }
+          if (data.currentStudent) {
+              const { studentId, classId } = data.currentStudent;
+              if (students[classId] && students[classId][studentId]) {
+                  currentStudent = { ...students[classId][studentId], classId };
+              }
           }
         }
       } catch (error) {
         console.error("Failed to load data from localStorage", error);
-        // Optionally clear corrupted data
-        // localStorage.removeItem(STORAGE_KEY);
       }
     }
 
@@ -2693,7 +3437,7 @@
       notification.className = 'notification show ' + type;
       setTimeout(() => {
         notification.classList.remove('show');
-      }, 5000); // Increased duration for important messages like new passwords
+      }, 5000);
     }
 
     function openModal(modalId) {
@@ -2720,12 +3464,20 @@
 
     function showLogin() {
       document.getElementById('signupScreen').style.display = 'none';
+      document.getElementById('studentLoginScreen').style.display = 'none';
       document.getElementById('loginScreen').style.display = 'flex';
     }
 
     function showSignup() {
       document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('studentLoginScreen').style.display = 'none';
       document.getElementById('signupScreen').style.display = 'flex';
+    }
+    
+    function showStudentLogin() {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('signupScreen').style.display = 'none';
+        document.getElementById('studentLoginScreen').style.display = 'flex';
     }
 
     function selectAccountType(type) {
@@ -2765,16 +3517,15 @@
         error.style.display = 'block';
         return;
       }
-      // SECURITY WARNING: Storing passwords in plaintext is highly insecure.
-      // In a real-world application, passwords must be hashed using a strong
-      // algorithm (e.g., Argon2, bcrypt) on a secure server.
-      users[username] = {username, password, type, school, email, createdAt: new Date().toISOString()};
+
+      users[username] = {username, password, type, school, email, createdAt: new Date().toISOString(), settings: { offlineMode: false }};
       
-      // Add default embeds for the school if it's new
       if (!embeds[school]) {
         embeds[school] = [
           { id: generateId(), name: 'Wheel of Names', url: 'https://wheelofnames.com/' },
-          { id: generateId(), name: 'Online Notepad', url: 'https://www.onlinenotepad.io/' }
+          { id: generateId(), name: 'Online Notepad', url: 'https://www.onlinenotepad.io/' },
+          { id: generateId(), name: 'Gynzy Teacher Tools', url: 'https://teacher.gynzy.com/' },
+          { id: generateId(), name: 'Classroom Seating Plan', url: 'https://thinklit.co.uk/classroom-seating-plan-generator/' }
         ];
       }
       
@@ -2795,37 +3546,89 @@
         return;
       }
       currentUser = users[username];
+      currentStudent = null;
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('signupScreen').style.display = 'none';
+      document.getElementById('studentLoginScreen').style.display = 'none';
       document.getElementById('appLayout').classList.add('active');
       initializeApp();
       saveData();
     }
+    
+    function loginWithPIN() {
+        const pin = document.getElementById('studentPin').value.trim().toUpperCase();
+        const error = document.getElementById('studentLoginError');
+        error.style.display = 'none';
+
+        if (!/^[A-Z0-9]{3}-[A-Z0-9]{3}$/.test(pin)) {
+            error.textContent = 'Please enter a valid PIN in the format XXX-XXX.';
+            error.style.display = 'block';
+            return;
+        }
+
+        let foundStudent = null;
+        let foundClassId = null;
+
+        for (const classId in students) {
+            for (const studentId in students[classId]) {
+                if (students[classId][studentId].pin === pin) {
+                    foundStudent = students[classId][studentId];
+                    foundClassId = classId;
+                    break;
+                }
+            }
+            if (foundStudent) break;
+        }
+
+        if (foundStudent) {
+            currentStudent = { ...foundStudent, classId: foundClassId };
+            currentUser = null;
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('studentLoginScreen').style.display = 'none';
+            document.getElementById('appLayout').classList.remove('active');
+            document.getElementById('studentPortalLayout').classList.add('active');
+            initializeAppStudent();
+            saveData();
+        } else {
+            error.textContent = 'Invalid PIN. Please try again.';
+            error.style.display = 'block';
+        }
+    }
 
     function logout() {
-      // Fully reset the application state to prevent demo data from persisting in memory.
       currentUser = null;
+      currentStudent = null;
       currentClassId = null;
+      currentChatId = null;
       demoMode = false;
       document.getElementById('switchDemoViewBtn').style.display = 'none';
-      classes = [];
-      students = {};
-      rewards = {};
-      powerups = {};
-      history = {};
-      reasons = {};
-      embeds = {};
-      // Note: `users` is not cleared here, as it will be reloaded from localStorage.
 
       window.location.hash = '';
       document.getElementById('appLayout').classList.remove('active');
+      document.getElementById('studentPortalLayout').classList.remove('active');
       document.getElementById('loginScreen').style.display = 'flex';
-
-      // Reload the original data from localStorage. This purges any demo data from memory.
-      loadData(); 
       
-      // Now save the clean, logged-out state.
-      saveData();
+      const persistentData = {
+          users,
+          classes,
+          students,
+          rewards,
+          powerups,
+          history,
+          reasons,
+          embeds,
+          messages,
+          currentUser: null,
+          currentStudent: null,
+          currentClassId: null
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(persistentData));
+      // Re-init global vars to be safe
+      loadData();
+    }
+    
+    function logoutStudent() {
+        logout();
     }
 
     function initializeApp() {
@@ -2833,12 +3636,24 @@
       document.getElementById('sidebarSchool').textContent = currentUser.school;
       document.getElementById('sidebarUserAvatar').textContent = currentUser.username.charAt(0).toUpperCase();
       updateNavItems();
-      router(); // Call router to load the correct initial view
+      router(); 
+    }
+    
+    function initializeAppStudent() {
+        document.getElementById('studentPortalName').textContent = currentStudent.name;
+        document.getElementById('studentPortalPoints').textContent = `${currentStudent.points} pts`;
+        
+        currentClassId = currentStudent.classId;
+        const mainTeacher = classes.find(c => c.id === currentClassId).teacherUsername;
+        const directChatId = [currentStudent.id, mainTeacher].sort().join('_');
+        
+        currentChatId = 'group'; // Default to group chat
+        renderMessagingView('studentMessagingView');
     }
 
     // Router
     function router() {
-        const hash = window.location.hash.substring(2); // Remove #/
+        const hash = window.location.hash.substring(2) || ''; // Remove #/
         let defaultView;
 
         if (currentUser.type === 'admin') {
@@ -2854,6 +3669,11 @@
             updateClassSelector();
         }
         
+        if (currentUser.settings?.offlineMode && hash === 'messaging') {
+            window.location.hash = `/${defaultView}`;
+            return;
+        }
+
         switchView(hash || defaultView);
     }
 
@@ -2866,6 +3686,8 @@
     function updateNavItems() {
       const nav = document.getElementById('sidebarNav');
       nav.innerHTML = '';
+      const showMessaging = !currentUser.settings?.offlineMode;
+
       if (currentUser.type === 'admin') {
         nav.innerHTML = `
           <div class="nav-section">
@@ -2873,6 +3695,7 @@
             <a href="#/admin-classes" class="nav-item" data-view="admin-classes" onclick="closeMobileSidebar()"><span class="nav-icon">📚</span>Classes</a>
             <a href="#/admin-users" class="nav-item" data-view="admin-users" onclick="closeMobileSidebar()"><span class="nav-icon">👩‍🏫</span>Users</a>
             <a href="#/admin-embeds" class="nav-item" data-view="admin-embeds" onclick="closeMobileSidebar()"><span class="nav-icon">🖥️</span>Embeds</a>
+            ${showMessaging ? `<a href="#/messaging" class="nav-item" data-view="messaging" onclick="closeMobileSidebar()"><span class="nav-icon">💬</span>Messaging</a>` : ''}
           </div>
         `;
       } else {
@@ -2884,10 +3707,10 @@
             <a href="#/rewards" class="nav-item" data-view="rewards" onclick="closeMobileSidebar()"><span class="nav-icon">🎁</span>Rewards</a>
             <a href="#/powerups" class="nav-item" data-view="powerups" onclick="closeMobileSidebar()"><span class="nav-icon">⚡</span>Power Ups</a>
             <a href="#/history" class="nav-item" data-view="history" onclick="closeMobileSidebar()"><span class="nav-icon">📜</span>History</a>
-            
           </div>
           <div class="nav-section">
             <div class="nav-section-title">General</div>
+            ${showMessaging ? `<a href="#/messaging" class="nav-item" data-view="messaging" onclick="closeMobileSidebar()"><span class="nav-icon">💬</span>Messaging</a>` : ''}
             <a href="#/settings" class="nav-item" data-view="settings" onclick="closeMobileSidebar()"><span class="nav-icon">⚙️</span>Settings</a>
             <a href="#/extras" class="nav-item" data-view="extras" onclick="closeMobileSidebar()"><span class="nav-icon">⭐</span>Extras</a>
           </div>
@@ -2915,7 +3738,6 @@
         else if (view === 'admin-users') renderAdminUsersView();
         else if (view === 'admin-embeds') renderAdminEmbedsView();
       } else {
-        // Teacher-specific view rendering/updates
         if (currentClassId) {
             renderStudentsView();
             renderLeaderboard();
@@ -2923,22 +3745,26 @@
             renderHistoryView();
             renderSettingsView();
             renderPowerUpsView();
-            renderExtrasView();
         } else if (view === 'students') {
-            // Handle case where teacher has no classes yet
             document.getElementById('studentsGrid').innerHTML = `
                 <div class="student-card add-student-card" onclick="openNewClassModal()">
                     <div class="add-student-icon">➕</div>
                     <div>Create Your First Class</div>
                 </div>`;
-            document.getElementById('studentsList').innerHTML = '';
             document.getElementById('studentsCompact').innerHTML = '';
+            document.getElementById('studentListTable').querySelector('tbody').innerHTML = '';
         }
+        
+        if (view === 'extras') renderExtrasView();
 
         if (view === 'students') {
           document.getElementById('searchInput').style.display = 'block';
           document.getElementById('pageTitle').textContent = 'Students';
         }
+      }
+
+      if (view === 'messaging') {
+        renderMessagingView('messagingView');
       }
 
       if (view === 'leaderboard') {
@@ -3034,7 +3860,6 @@
       selector.onchange = () => {
         currentClassId = selector.value;
         saveData();
-        // The switchView will trigger all necessary re-renders
         router();
       };
     }
@@ -3053,7 +3878,9 @@
       const newClass = {
         id: generateId(),
         name: className,
-        teacherUsername: currentUser.username
+        teacherUsername: currentUser.username,
+        chatMembers: [currentUser.username],
+        offlineEnabled: false
       };
       classes.push(newClass);
       currentClassId = newClass.id;
@@ -3085,8 +3912,9 @@
       if (!history[currentClassId]) history[currentClassId] = [];
       updateReasonsList();
       const classStudents = Object.values(students[currentClassId]);
+      
       const grid = document.getElementById('studentsGrid');
-      const list = document.getElementById('studentsList');
+      const listTableBody = document.getElementById('studentListTable').querySelector('tbody');
       const compact = document.getElementById('studentsCompact');
       
       const addCardHTML = `
@@ -3095,10 +3923,11 @@
           <div>Add New Student</div>
         </div>
       `;
-      grid.innerHTML = addCardHTML; // Start with the add card
-      list.innerHTML = '';
+      grid.innerHTML = addCardHTML;
+      listTableBody.innerHTML = '';
       compact.innerHTML = '';
 
+      // Grid & Compact Rendering
       classStudents.forEach(student => {
         const powerUpInfo = getPowerUpInfo(student.id);
         const multiplierBadge = powerUpInfo ? `<span style="background: var(--warning-color); color: var(--surface); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem;">x${powerUpInfo.multiplier}</span>` : '';
@@ -3117,19 +3946,6 @@
             <div class="student-rewards">${totalRewards} rewards claimed</div>
           </div>
         `;
-        const listItem = `
-          <div class="student-list-item ${selectedClass}" onclick="${bulkMode ? `toggleStudentSelection('${student.id}')` : `openStudentPointsModal('${student.id}')`}">
-            <div class="student-list-avatar">${avatar}</div>
-            <div class="student-list-info">
-              <div class="student-list-name">${sanitizeHTML(student.name)}</div>
-              <div class="student-list-details">${totalRewards} rewards claimed</div>
-            </div>
-            <div class="student-list-points">${student.points} pts${multiplierBadge}</div>
-            <div class="student-list-actions">
-              <button class="btn btn-secondary" onclick="event.stopPropagation(); openEditStudentModal('${student.id}')">Edit</button>
-            </div>
-          </div>
-        `;
         const compactItem = `
           <div class="compact-student-item ${selectedClass}" onclick="${bulkMode ? `toggleStudentSelection('${student.id}')` : `openStudentPointsModal('${student.id}')`}">
             <div class="compact-avatar">${avatar}</div>
@@ -3139,21 +3955,91 @@
             <div class="compact-points">${student.points} pts${multiplierBadge}</div>
           </div>
         `;
-        grid.insertAdjacentHTML('afterbegin', gridItem); // Prepend to keep 'add' card at the end
-        list.insertAdjacentHTML('beforeend', listItem);
+        grid.insertAdjacentHTML('afterbegin', gridItem);
         compact.insertAdjacentHTML('beforeend', compactItem);
       });
+
+      // List View (Spreadsheet) Rendering
+      if (classStudents.length > 0) {
+          classStudents.forEach(student => {
+              const powerUpInfo = getPowerUpInfo(student.id);
+              const multiplierBadge = powerUpInfo ? `<span style="background: var(--warning-color); color: var(--surface); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem;">x${powerUpInfo.multiplier}</span>` : '';
+              const selectedClass = selectedStudents.has(student.id) ? 'selected' : '';
+              const avatar = student.photo ? `<img src="${student.photo}" alt="${sanitizeHTML(student.name)}"/>` : student.name.charAt(0).toUpperCase();
+              const totalRewards = (student.pointsRewards || 0) + (student.instantRewards || 0);
+              
+              const listItem = `
+                  <tr class="${selectedClass}" onclick="${bulkMode ? `toggleStudentSelection('${student.id}')` : `openStudentPointsModal('${student.id}')`}">
+                      <td data-label="Student">
+                          <div class="student-list-avatar-cell">
+                              <div class="student-list-avatar">${avatar}</div>
+                              <span class="student-list-name">${sanitizeHTML(student.name)}</span>
+                          </div>
+                      </td>
+                      <td data-label="Points" class="student-list-points">${student.points} pts ${multiplierBadge}</td>
+                      <td data-label="Rewards" class="student-list-rewards">${totalRewards}</td>
+                      <td data-label="Actions">
+                          <div class="student-list-actions">
+                              <button class="btn btn-secondary" style="padding: 0.5rem;" onclick="event.stopPropagation(); openEditStudentModal('${student.id}')">Edit</button>
+                              <button class="btn btn-success" style="padding: 0.5rem;" onclick="event.stopPropagation(); openStudentPointsModal('${student.id}')">+/-</button>
+                          </div>
+                      </td>
+                  </tr>
+              `;
+              listTableBody.innerHTML += listItem;
+          });
+      } else {
+           listTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 2rem;">No students in this class yet.</td></tr>';
+      }
       onSearchChange();
     }
 
     function switchStudentView(event, view) {
       document.querySelectorAll('.view-option').forEach(opt => opt.classList.remove('active'));
       event.currentTarget.classList.add('active');
+      const listControls = document.querySelector('.list-view-controls');
+      const gridControls = document.querySelector('.grid-columns-selector');
+
       document.getElementById('studentsGrid').style.display = view === 'grid' ? 'grid' : 'none';
-      document.getElementById('studentsList').style.display = view === 'list' ? 'flex' : 'none';
+      document.getElementById('studentsList').style.display = view === 'list' ? 'block' : 'none';
       document.getElementById('studentsCompact').style.display = view === 'compact' ? 'grid' : 'none';
+      
+      listControls.style.display = view === 'list' ? 'flex' : 'none';
+      gridControls.style.display = view === 'grid' ? 'flex' : 'none';
+
+      if (view === 'list') {
+        updateListViewSize();
+      }
+      
       currentView = view;
       renderStudentsView();
+    }
+    
+    function updateListViewSize() {
+        const table = document.getElementById('studentListTable');
+        const display = document.getElementById('listSizeDisplay');
+        const increaseBtn = document.getElementById('increaseListSizeBtn');
+        const decreaseBtn = document.getElementById('decreaseListSizeBtn');
+
+        table.dataset.sizeLevel = listViewSizeLevel;
+        display.textContent = `View Size: ${sizeLevelMap[listViewSizeLevel]}`;
+        
+        increaseBtn.disabled = listViewSizeLevel >= LIST_VIEW_SIZE_MAX;
+        decreaseBtn.disabled = listViewSizeLevel <= LIST_VIEW_SIZE_MIN;
+    }
+
+    function increaseListViewSize() {
+        if (listViewSizeLevel < LIST_VIEW_SIZE_MAX) {
+            listViewSizeLevel++;
+            updateListViewSize();
+        }
+    }
+
+    function decreaseListViewSize() {
+        if (listViewSizeLevel > LIST_VIEW_SIZE_MIN) {
+            listViewSizeLevel--;
+            updateListViewSize();
+        }
     }
 
     function setGridColumns(val) {
@@ -3244,19 +4130,159 @@
       showNotification(`${names.length} students added!`, 'success');
     }
 
+    function onSearchChange() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        
+        document.querySelectorAll('.student-card:not(.add-student-card)').forEach(el => {
+            const name = el.querySelector('.student-name').textContent.toLowerCase();
+            el.style.display = name.includes(query) ? '' : 'none';
+        });
+
+        document.querySelectorAll('#studentListTable tbody tr').forEach(el => {
+            const name = el.querySelector('.student-list-name').textContent.toLowerCase();
+            el.style.display = name.includes(query) ? '' : 'none';
+        });
+
+        document.querySelectorAll('.compact-student-item').forEach(el => {
+            const name = el.querySelector('.compact-name').textContent.toLowerCase();
+            el.style.display = name.includes(query) ? '' : 'none';
+        });
+    }
+
+
+    function copyAllStudentNames() {
+        if (!currentClassId) return;
+        const classStudents = Object.values(students[currentClassId] || {});
+        if (classStudents.length === 0) {
+            showNotification('No students to copy.', 'info');
+            return;
+        }
+        const studentNames = classStudents.map(s => s.name).join('\n');
+        navigator.clipboard.writeText(studentNames).then(() => {
+            showNotification('All student names copied to clipboard!', 'success');
+        }, (err) => {
+            showNotification('Failed to copy names.', 'error');
+            console.error('Clipboard copy failed: ', err);
+        });
+    }
+
+    // Bulk Actions Logic
+    function enterBulkMode() {
+      bulkMode = true;
+      document.getElementById('bulkActions').classList.add('active');
+      document.getElementById('selectedCount').textContent = '0 selected';
+      selectedStudents.clear();
+      renderStudentsView();
+    }
+
+    function exitBulkMode() {
+      bulkMode = false;
+      document.getElementById('bulkActions').classList.remove('active');
+      selectedStudents.clear();
+      renderStudentsView();
+    }
+
+    function toggleStudentSelection(studentId) {
+      if (!bulkMode) return;
+      if (selectedStudents.has(studentId)) {
+        selectedStudents.delete(studentId);
+      } else {
+        selectedStudents.add(studentId);
+      }
+      document.getElementById('selectedCount').textContent = `${selectedStudents.size} selected`;
+      renderStudentsView();
+    }
+
+    function openBulkPointsModal(action) {
+      bulkAction = action;
+      document.getElementById('bulkModalTitle').textContent = action === 'add' ? 'Bulk Add Points' : 'Bulk Subtract Points';
+      document.getElementById('bulkSummary').textContent = `Apply to ${selectedStudents.size} selected students`;
+      document.getElementById('bulkReason').value = '';
+      const amount = parseInt(document.getElementById('bulkPointAmount').value);
+      document.getElementById('bulkModalTitle').textContent += ` (${action === 'add' ? '+' : '-'}${amount} pts)`;
+      renderSavedReasons('bulkPointsSavedReasons', 'bulkReason');
+      openModal('bulkPointsModal');
+    }
+
+    function confirmBulkPoints() {
+      const amount = parseInt(document.getElementById('bulkPointAmount').value);
+      const reason = document.getElementById('bulkReason').value.trim();
+      if (!amount) {
+        showNotification('Please enter a point amount', 'error');
+        return;
+      }
+      const finalAmount = bulkAction === 'add' ? amount : -amount;
+      selectedStudents.forEach(studentId => {
+        const student = students[currentClassId][studentId];
+        if (student) {
+          const powerUpInfo = getPowerUpInfo(student.id);
+          const pointsToAdd = powerUpInfo ? Math.round(finalAmount * powerUpInfo.multiplier) : finalAmount;
+          student.points += pointsToAdd;
+          history[currentClassId].push({
+            studentId,
+            studentName: student.name,
+            points: pointsToAdd,
+            reason: reason || 'Bulk action',
+            timestamp: new Date().toISOString()
+          });
+        }
+      });
+      if (reason) saveReason(reason);
+      saveData();
+      exitBulkMode();
+      closeModal('bulkPointsModal');
+      showNotification('Points updated for selected students!', 'success');
+    }
+
+    // Student Points Logic
+    function openStudentPointsModal(studentId) {
+      currentStudentId = studentId;
+      const student = students[currentClassId][studentId];
+      document.getElementById('studentModalTitle').textContent = `Change points for ${sanitizeHTML(student.name)}`;
+      document.getElementById('pointsChange').value = 1;
+      document.getElementById('pointsReason').value = '';
+      renderSavedReasons('studentPointsSavedReasons', 'pointsReason');
+      openModal('studentPointsModal');
+    }
+
+    function updateStudentPoints() {
+      const student = students[currentClassId][currentStudentId];
+      let change = parseInt(document.getElementById('pointsChange').value);
+      const reason = document.getElementById('pointsReason').value.trim();
+      if (isNaN(change)) {
+        showNotification('Invalid point value', 'error');
+        return;
+      }
+      const powerUpInfo = getPowerUpInfo(currentStudentId);
+      const pointsToAdd = powerUpInfo ? Math.round(change * powerUpInfo.multiplier) : change;
+      student.points += pointsToAdd;
+      history[currentClassId].push({
+        studentId: currentStudentId,
+        studentName: student.name,
+        points: pointsToAdd,
+        reason: reason || 'No reason',
+        timestamp: new Date().toISOString()
+      });
+      if (reason) saveReason(reason);
+      saveData();
+      renderStudentsView();
+      closeModal('studentPointsModal');
+      showNotification(`Points updated for ${student.name}!`, 'success');
+    }
+
+    // Student Edit/Delete Logic
     function openEditStudentModal(studentId) {
       currentStudentId = studentId;
       const student = students[currentClassId][studentId];
       document.getElementById('editStudentName').value = student.name;
+      document.getElementById('editStudentPhoto').value = '';
       const preview = document.getElementById('editPhotoPreview');
       const img = document.getElementById('editPreviewImg');
-      document.getElementById('editStudentPhoto').value = '';
       if (student.photo) {
-        img.src = student.photo;
-        preview.style.display = 'block';
+          img.src = student.photo;
+          preview.style.display = 'block';
       } else {
-        preview.style.display = 'none';
-        img.src = '';
+          preview.style.display = 'none';
       }
       openModal('editStudentModal');
     }
@@ -3265,18 +4291,18 @@
       const name = document.getElementById('editStudentName').value.trim();
       const file = document.getElementById('editStudentPhoto').files[0];
       if (!name) {
-        showNotification('Please enter name', 'error');
+        showNotification('Student name cannot be empty', 'error');
         return;
       }
       const student = students[currentClassId][currentStudentId];
       student.name = name;
+      
       if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
           student.photo = e.target.result;
           saveData();
           renderStudentsView();
-          renderLeaderboard();
           closeModal('editStudentModal');
           showNotification('Student updated!', 'success');
         };
@@ -3284,194 +4310,82 @@
       } else {
         saveData();
         renderStudentsView();
-        renderLeaderboard();
         closeModal('editStudentModal');
         showNotification('Student updated!', 'success');
       }
     }
 
     function deleteStudent() {
-      if (!confirm('Are you sure?')) return;
-      delete students[currentClassId][currentStudentId];
-      saveData();
-      renderStudentsView();
-      renderLeaderboard();
-      closeModal('editStudentModal');
-      showNotification('Student deleted', 'success');
+      if (confirm('Are you sure you want to delete this student? This cannot be undone.')) {
+        delete students[currentClassId][currentStudentId];
+        saveData();
+        renderStudentsView();
+        closeModal('editStudentModal');
+        showNotification('Student deleted', 'warning');
+      }
     }
-    
-    function copyAllStudentNames() {
-      if (!currentClassId || !students[currentClassId]) {
-        showNotification('No students to copy.', 'warning');
+
+    // Leaderboard Logic
+    function renderLeaderboard() {
+      if (!currentClassId) return;
+      const classStudents = Object.values(students[currentClassId] || {});
+      const sortedStudents = classStudents.sort((a, b) => b.points - a.points);
+      const leaderboard = document.getElementById('leaderboard');
+      leaderboard.innerHTML = '';
+      if (sortedStudents.length === 0) {
+        leaderboard.innerHTML = '<p>No students in this class yet.</p>';
         return;
       }
-      const studentNames = Object.values(students[currentClassId]).map(s => s.name).join('\n');
-      navigator.clipboard.writeText(studentNames).then(() => {
-        showNotification('All student names copied to clipboard!', 'success');
-      }, () => {
-        showNotification('Failed to copy names.', 'error');
+      sortedStudents.forEach((student, index) => {
+        const rank = index + 1;
+        const rankClass = rank <= 3 ? `rank-${rank}` : '';
+        const avatar = student.photo ? `<img src="${student.photo}" alt="${sanitizeHTML(student.name)}"/>` : student.name.charAt(0).toUpperCase();
+        leaderboard.innerHTML += `
+          <div class="leaderboard-item">
+            <div class="leaderboard-rank ${rankClass}">${rank}</div>
+            <div class="leaderboard-avatar">${avatar}</div>
+            <div class="leaderboard-name">${sanitizeHTML(student.name)}</div>
+            <div class="leaderboard-points">${student.points} pts</div>
+          </div>
+        `;
       });
     }
 
-    function enterBulkMode() {
-      bulkMode = true;
-      selectedStudents.clear();
-      renderStudentsView();
-      document.getElementById('bulkActions').classList.add('active');
-      updateSelectedCount();
-    }
-
-    function exitBulkMode() {
-      bulkMode = false;
-      selectedStudents.clear();
-      renderStudentsView();
-      document.getElementById('bulkActions').classList.remove('active');
-    }
-
-    function toggleStudentSelection(studentId) {
-      if (selectedStudents.has(studentId)) {
-        selectedStudents.delete(studentId);
-      } else {
-        selectedStudents.add(studentId);
-      }
-      renderStudentsView();
-      updateSelectedCount();
-    }
-
-    function updateSelectedCount() {
-      document.getElementById('selectedCount').textContent = `${selectedStudents.size} selected`;
-    }
-
-    function openBulkPointsModal(action) {
-      bulkAction = action;
-      document.getElementById('bulkModalTitle').textContent = action === 'add' ? 'Bulk Add Points' : 'Bulk Subtract Points';
-      document.getElementById('bulkSummary').textContent = `Apply to ${selectedStudents.size} selected students`;
-      document.getElementById('bulkReason').value = '';
-      document.getElementById('bulkAiReasonsContainer').classList.add('hidden');
-      document.getElementById('bulkAiReasons').innerHTML = '';
-      renderSavedReasons('bulkPointsSavedReasons', 'bulkReason');
-      openModal('bulkPointsModal');
-    }
-
-    function confirmBulkPoints() {
-      const reason = document.getElementById('bulkReason').value.trim();
-      const points = parseInt(document.getElementById('bulkPointAmount').value);
-      const change = bulkAction === 'add' ? points : -points;
-      selectedStudents.forEach(studentId => {
-        const powerUpInfo = getPowerUpInfo(studentId);
-        const multiplier = (bulkAction === 'add' && powerUpInfo) ? powerUpInfo.multiplier : 1;
-        const effectiveChange = Math.round(change * multiplier);
-        const student = students[currentClassId][studentId];
-        student.points = Math.max(0, (student.points || 0) + effectiveChange);
-        history[currentClassId].push({
-          id: generateId(),
-          type: bulkAction,
-          studentId,
-          points: effectiveChange,
-          reason,
-          multiplier,
-          timestamp: new Date().toISOString()
-        });
-      });
-      if (reason && !reasons[currentClassId].includes(reason)) {
-        reasons[currentClassId].push(reason);
-        updateReasonsList();
-        renderSettingsView();
-      }
-      saveData();
-      renderStudentsView();
-      renderLeaderboard();
-      renderHistoryView();
-      exitBulkMode();
-      closeModal('bulkPointsModal');
-      showNotification(`${bulkAction === 'add' ? 'Added' : 'Subtracted'} points to selected students`, 'success');
-    }
-
-    function openStudentPointsModal(studentId) {
-      currentStudentId = studentId;
-      document.getElementById('studentModalTitle').textContent = 'Change Points';
-      document.getElementById('pointsChange').value = 1;
-      document.getElementById('pointsReason').value = '';
-      document.getElementById('studentAiReasonsContainer').classList.add('hidden');
-      document.getElementById('studentAiReasons').innerHTML = '';
-      renderSavedReasons('studentPointsSavedReasons', 'pointsReason');
-      openModal('studentPointsModal');
-    }
-
-    function updateStudentPoints() {
-      const change = parseInt(document.getElementById('pointsChange').value);
-      const reason = document.getElementById('pointsReason').value.trim();
-      if (isNaN(change)) {
-        showNotification('Please enter valid points', 'error');
+    // Rewards Logic
+    function renderRewardsView() {
+      if (!currentClassId) return;
+      if (!rewards[currentClassId]) rewards[currentClassId] = [];
+      const classRewards = rewards[currentClassId];
+      const grid = document.getElementById('rewardsGrid');
+      grid.innerHTML = '';
+      if (classRewards.length === 0) {
+        grid.innerHTML = '<p>No rewards created for this class yet.</p>';
         return;
       }
-      const type = change > 0 ? 'add' : 'subtract';
-      const powerUpInfo = getPowerUpInfo(currentStudentId);
-      const multiplier = (change > 0 && powerUpInfo) ? powerUpInfo.multiplier : 1;
-      const effectiveChange = Math.round(change * multiplier);
-      const student = students[currentClassId][currentStudentId];
-      student.points = Math.max(0, (student.points || 0) + effectiveChange);
-      history[currentClassId].push({
-        id: generateId(),
-        type: type,
-        studentId: currentStudentId,
-        points: effectiveChange,
-        reason,
-        multiplier,
-        timestamp: new Date().toISOString()
-      });
-      if (reason && !reasons[currentClassId].includes(reason)) {
-        reasons[currentClassId].push(reason);
-        updateReasonsList();
-        renderSettingsView();
-      }
-      saveData();
-      renderStudentsView();
-      renderLeaderboard();
-      renderHistoryView();
-      closeModal('studentPointsModal');
-      showNotification(`${type === 'add' ? 'Added' : 'Subtracted'} ${Math.abs(effectiveChange)} points`, 'success');
-    }
+      classRewards.forEach(reward => {
+        const typeClass = reward.type === 'deduct' ? 'deduct-reward' : 'require-reward';
+        const badgeClass = reward.type === 'deduct' ? 'deduct-badge' : 'require-badge';
+        const icon = reward.icon || '🎁';
 
-    function updateReasonsList() {
-      const datalist = document.getElementById('reasonsList');
-      if (reasons[currentClassId]) {
-        datalist.innerHTML = reasons[currentClassId].map(r => `<option value="${sanitizeHTML(r)}">`).join('');
-      }
-    }
-
-    function renderSavedReasons(containerId, inputId) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = '';
-      if (reasons[currentClassId]) {
-        reasons[currentClassId].forEach(reason => {
-          const chip = document.createElement('button');
-          chip.className = 'reason-select-chip';
-          chip.textContent = sanitizeHTML(reason);
-          chip.type = 'button';
-          chip.onclick = () => {
-            document.getElementById(inputId).value = reason;
-          };
-          container.appendChild(chip);
-        });
-      }
-    }
-
-    function onSearchChange() {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      const selectors = {
-        grid: '.student-card:not(.add-student-card)',
-        list: '.student-list-item',
-        compact: '.compact-student-item'
-      };
-      const currentSelector = selectors[currentView];
-      document.querySelectorAll(currentSelector).forEach(item => {
-        const name = item.querySelector('.student-name, .student-list-name, .compact-name').textContent.toLowerCase();
-        item.style.display = name.includes(query) ? '' : 'flex'; // Use flex for list/compact for proper display
+        grid.innerHTML += `
+          <div class="reward-card ${typeClass}">
+            <span class="reward-type-badge ${badgeClass}">${reward.type}</span>
+            <div class="reward-header">
+                <div>
+                    <h3 class="reward-title">${icon} ${sanitizeHTML(reward.title)}</h3>
+                    <p class="reward-points">${reward.points} pts</p>
+                </div>
+            </div>
+            <p class="reward-description">${sanitizeHTML(reward.description)}</p>
+            <div class="reward-actions">
+              <button class="btn btn-success" onclick="openClaimRewardModal('${reward.id}')">Claim</button>
+              <button class="btn btn-secondary" onclick="openEditRewardModal('${reward.id}')">Edit</button>
+            </div>
+          </div>
+        `;
       });
     }
 
-    // Reward management
     function openCreateRewardModal() {
       document.getElementById('rewardTitle').value = '';
       document.getElementById('rewardDescription').value = '';
@@ -3484,218 +4398,163 @@
     function createReward() {
       const title = document.getElementById('rewardTitle').value.trim();
       const description = document.getElementById('rewardDescription').value.trim();
-      const pointsRequired = parseInt(document.getElementById('rewardPoints').value);
-      const icon = document.getElementById('rewardIcon').value;
+      const points = parseInt(document.getElementById('rewardPoints').value);
       const type = document.querySelector('input[name="rewardType"]:checked').value;
-      
-      if (!title) {
-        showNotification('Please enter a reward title', 'error');
+      const icon = document.getElementById('rewardIcon').value.trim();
+
+      if (!title || !points) {
+        showNotification('Title and points are required', 'error');
         return;
       }
-      
-      if (!pointsRequired || pointsRequired < 1) {
-        showNotification('Please enter valid points required', 'error');
-        return;
-      }
-      
-      const reward = {
-        id: generateId(),
-        title: title,
-        description: description,
-        type: type,
-        pointsRequired: pointsRequired,
-        icon: icon,
-        createdAt: new Date().toISOString()
-      };
-      
-      if (!rewards[currentClassId]) rewards[currentClassId] = {};
-      rewards[currentClassId][reward.id] = reward;
-      
+      const reward = { id: generateId(), title, description, points, type, icon };
+      if (!rewards[currentClassId]) rewards[currentClassId] = [];
+      rewards[currentClassId].push(reward);
       saveData();
       renderRewardsView();
       closeModal('createRewardModal');
-      showNotification('Reward created successfully!', 'success');
+      showNotification('Reward created!', 'success');
     }
 
     function openEditRewardModal(rewardId) {
       currentRewardId = rewardId;
-      const reward = rewards[currentClassId][rewardId];
-      if (!reward) return;
+      const reward = rewards[currentClassId].find(r => r.id === rewardId);
       document.getElementById('editRewardTitle').value = reward.title;
-      document.getElementById('editRewardDescription').value = reward.description || '';
-      document.getElementById('editRewardIcon').value = reward.icon || '';
-      document.getElementById('editRewardPoints').value = reward.pointsRequired;
+      document.getElementById('editRewardDescription').value = reward.description;
+      document.getElementById('editRewardPoints').value = reward.points;
+      document.getElementById('editRewardIcon').value = reward.icon;
       document.querySelector(`input[name="editRewardType"][value="${reward.type}"]`).checked = true;
       openModal('editRewardModal');
     }
 
     function updateReward() {
+      const rewardIndex = rewards[currentClassId].findIndex(r => r.id === currentRewardId);
       const title = document.getElementById('editRewardTitle').value.trim();
       const description = document.getElementById('editRewardDescription').value.trim();
-      const pointsRequired = parseInt(document.getElementById('editRewardPoints').value);
-      const icon = document.getElementById('editRewardIcon').value;
+      const points = parseInt(document.getElementById('editRewardPoints').value);
       const type = document.querySelector('input[name="editRewardType"]:checked').value;
-
-      if (!title) {
-        showNotification('Please enter a reward title', 'error');
+      const icon = document.getElementById('editRewardIcon').value.trim();
+      
+      if (!title || !points) {
+        showNotification('Title and points are required', 'error');
         return;
       }
-      if (!pointsRequired || pointsRequired < 1) {
-        showNotification('Please enter valid points required', 'error');
-        return;
-      }
-      const reward = rewards[currentClassId][currentRewardId];
-      if (reward) {
-        reward.title = title;
-        reward.description = description;
-        reward.type = type;
-        reward.pointsRequired = pointsRequired;
-        reward.icon = icon;
-        saveData();
-        renderRewardsView();
-        closeModal('editRewardModal');
-        showNotification('Reward updated successfully!', 'success');
-      }
-    }
-
-    function deleteReward() {
-      if (!confirm('Are you sure you want to delete this reward?')) return;
-      delete rewards[currentClassId][currentRewardId];
+      rewards[currentClassId][rewardIndex] = { ...rewards[currentClassId][rewardIndex], title, description, points, type, icon };
       saveData();
       renderRewardsView();
       closeModal('editRewardModal');
-      showNotification('Reward deleted successfully!', 'success');
+      showNotification('Reward updated', 'success');
     }
 
-    function renderRewardsView() {
-      if (!currentClassId || !rewards[currentClassId]) {
-          document.getElementById('rewardsGrid').innerHTML = '';
-          return;
+    function deleteReward() {
+      if (confirm('Are you sure you want to delete this reward?')) {
+        rewards[currentClassId] = rewards[currentClassId].filter(r => r.id !== currentRewardId);
+        saveData();
+        renderRewardsView();
+        closeModal('editRewardModal');
+        showNotification('Reward deleted', 'warning');
       }
-      const rewardsGrid = document.getElementById('rewardsGrid');
-      const classRewards = Object.values(rewards[currentClassId]);
-      rewardsGrid.innerHTML = classRewards.map(reward => {
-        let className = '';
-        let badgeClass = '';
-        let badgeText = '';
-        if (reward.type === 'deduct') {
-          className = 'deduct-reward';
-          badgeClass = 'deduct-badge';
-          badgeText = 'Points Deducted';
-        } else if (reward.type === 'require') {
-          className = 'require-reward';
-          badgeClass = 'require-badge';
-          badgeText = 'Points Required';
-        } else {
-          // Gracefully handle old reward types by not rendering them
-          return '';
-        }
-        return `
-          <div class="reward-card ${className}">
-            <div class="reward-type-badge ${badgeClass}">
-              ${badgeText}
-            </div>
-            <div class="reward-header">
-              <div>
-                <h3 class="reward-title">${reward.icon ? reward.icon + ' ' : ''}${sanitizeHTML(reward.title)}</h3>
-                ${reward.description ? `<p class="reward-description">${sanitizeHTML(reward.description)}</p>` : ''}
-              </div>
-              <span class="reward-points">${reward.pointsRequired} pts</span>
-            </div>
-            <div class="reward-actions">
-              <button class="btn btn-primary" onclick="openClaimRewardModal('${reward.id}')">Claim for Students</button>
-              <button class="btn btn-secondary" onclick="openEditRewardModal('${reward.id}')">Edit</button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function toggleSelectAll() {
-      const checkboxes = document.querySelectorAll('.multi-select-list input[type="checkbox"]');
-      const allChecked = Array.from(checkboxes).every(cb => cb.checked);
-      checkboxes.forEach(cb => cb.checked = !allChecked);
     }
 
     function openClaimRewardModal(rewardId) {
       currentRewardId = rewardId;
-      const reward = rewards[currentClassId][rewardId];
-      if (!reward) return;
+      const reward = rewards[currentClassId].find(r => r.id === rewardId);
       const content = document.getElementById('claimRewardContent');
-      content.innerHTML = `
-        <h3>${reward.icon ? reward.icon + ' ' : ''}${sanitizeHTML(reward.title)}</h3>
-        ${reward.description ? `<p>${sanitizeHTML(reward.description)}</p>` : ''}
-        <p>Requires ${reward.pointsRequired} points</p>
-        <div class="form-group">
-          <label class="form-label">Select Students</label>
-          <button class="btn btn-secondary mb-2" onclick="toggleSelectAll()">Select All / Deselect All</button>
-          <div class="multi-select-list">
-            ${Object.values(students[currentClassId]).map(student => `
-              <div class="multi-select-option">
-                <input type="checkbox" id="chk-${student.id}" value="${student.id}">
-                <label for="chk-${student.id}">${sanitizeHTML(student.name)} (${student.points} pts)</label>
+      const classStudents = Object.values(students[currentClassId] || {}).filter(s => s.points >= reward.points);
+      
+      if (classStudents.length === 0) {
+        content.innerHTML = `<p>No students have enough points (${reward.points}) to claim "${sanitizeHTML(reward.title)}".</p>`;
+      } else {
+        let optionsHTML = classStudents.map(s => `<option value="${s.id}">${s.name} (${s.points} pts)</option>`).join('');
+        content.innerHTML = `
+          <p>Claiming: <strong>${sanitizeHTML(reward.title)}</strong> (${reward.points} pts)</p>
+          <div class="form-group">
+            <label class="form-label">Select Student(s)</label>
+            <div class="multi-select-container">
+              <input type="text" class="multi-select-search" onkeyup="filterMultiSelect(this)" placeholder="Search students...">
+              <div class="multi-select-list">
+                ${classStudents.map(s => `
+                  <div class="multi-select-option">
+                    <input type="checkbox" value="${s.id}" id="student-claim-${s.id}">
+                    <label for="student-claim-${s.id}">${s.name} (${s.points} pts)</label>
+                  </div>
+                `).join('')}
               </div>
-            `).join('')}
+            </div>
           </div>
-        </div>
-      `;
-      document.querySelector('#claimRewardModal .modal-title').textContent = 'Claim Reward';
-      document.querySelector('#claimRewardModal .btn-primary').onclick = confirmClaimReward;
+        `;
+      }
       openModal('claimRewardModal');
     }
 
-    function confirmClaimReward() {
-      const studentIds = Array.from(document.querySelectorAll('.multi-select-list input:checked')).map(cb => cb.value);
-      const reward = rewards[currentClassId][currentRewardId];
-      if (!reward || studentIds.length === 0) return;
-      let successCount = 0;
-      let failCount = 0;
-      studentIds.forEach(studentId => {
-        const student = students[currentClassId][studentId];
-        if (student.points < reward.pointsRequired) {
-          failCount++;
-          return; // Skip if not enough points
-        }
-        
-        student.pointsRewards = (student.pointsRewards || 0) + 1;
+    function filterMultiSelect(input) {
+      const filter = input.value.toLowerCase();
+      const options = input.parentElement.querySelectorAll('.multi-select-option');
+      options.forEach(opt => {
+        const label = opt.querySelector('label').textContent.toLowerCase();
+        opt.style.display = label.includes(filter) ? '' : 'none';
+      });
+    }
 
+    function confirmClaimReward() {
+      const selectedStudentIds = Array.from(document.querySelectorAll('#claimRewardContent input[type="checkbox"]:checked')).map(cb => cb.value);
+      const reward = rewards[currentClassId].find(r => r.id === currentRewardId);
+
+      if (selectedStudentIds.length === 0) {
+        showNotification('Please select at least one student', 'error');
+        return;
+      }
+      
+      selectedStudentIds.forEach(id => {
+        const student = students[currentClassId][id];
         if (reward.type === 'deduct') {
-          student.points -= reward.pointsRequired;
-          history[currentClassId].push({
-            id: generateId(),
-            type: 'reward_claim',
-            studentId: studentId,
-            rewardId: currentRewardId,
-            points: -reward.pointsRequired,
-            reason: `Claimed reward: ${reward.title}`,
-            timestamp: new Date().toISOString()
-          });
-        } else if (reward.type === 'require') {
-          history[currentClassId].push({
-            id: generateId(),
-            type: 'reward_claim',
-            studentId: studentId,
-            rewardId: currentRewardId,
-            points: 0,
-            reason: `Claimed reward: ${reward.title} (required points)`,
-            timestamp: new Date().toISOString()
-          });
+            student.points -= reward.points;
         }
-        successCount++;
+        student.pointsRewards = (student.pointsRewards || 0) + 1;
+        history[currentClassId].push({
+          studentId: id,
+          studentName: student.name,
+          points: reward.type === 'deduct' ? -reward.points : 0,
+          reason: `Claimed reward: ${reward.title}`,
+          timestamp: new Date().toISOString()
+        });
       });
       saveData();
       renderStudentsView();
-      renderLeaderboard();
-      renderHistoryView();
       closeModal('claimRewardModal');
-      let message = `${successCount} rewards claimed successfully!`;
-      if (failCount > 0) {
-        message += ` ${failCount} students had insufficient points.`
-      }
-      showNotification(message, failCount > 0 ? 'warning' : 'success');
+      showNotification('Reward claimed!', 'success');
     }
 
-    // Power Up management
+    // Power Ups Logic
+    function renderPowerUpsView() {
+      if (!currentClassId) return;
+      if (!powerups[currentClassId]) powerups[currentClassId] = [];
+      const classPowerups = powerups[currentClassId];
+      const grid = document.getElementById('powerupsGrid');
+      grid.innerHTML = '';
+      if (classPowerups.length === 0) {
+        grid.innerHTML = '<p>No power ups created for this class yet.</p>';
+        return;
+      }
+      classPowerups.forEach(powerup => {
+        grid.innerHTML += `
+          <div class="reward-card instant-reward">
+            <span class="reward-type-badge instant-badge">POWER UP</span>
+            <div class="reward-header">
+                <div>
+                    <h3 class="reward-title">⚡ ${sanitizeHTML(powerup.title)}</h3>
+                    <p class="reward-points">${powerup.multiplier}x for ${powerup.duration} days</p>
+                </div>
+            </div>
+            <p class="reward-description">${sanitizeHTML(powerup.description)}</p>
+            <div class="reward-actions">
+              <button class="btn btn-success" onclick="assignPowerUp('${powerup.id}')">Assign</button>
+              <button class="btn btn-secondary" onclick="openEditPowerUpModal('${powerup.id}')">Edit</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
     function openCreatePowerUpModal() {
       document.getElementById('powerUpTitle').value = '';
       document.getElementById('powerUpDescription').value = '';
@@ -3709,249 +4568,325 @@
       const description = document.getElementById('powerUpDescription').value.trim();
       const multiplier = parseFloat(document.getElementById('powerUpMultiplier').value);
       const duration = parseInt(document.getElementById('powerUpDuration').value);
-      if (!title || multiplier < 1 || duration < 1) {
-        showNotification('Please fill in valid values', 'error');
+
+      if (!title || !multiplier || !duration) {
+        showNotification('All fields are required', 'error');
         return;
       }
-      const powerup = {
-        id: generateId(),
-        title,
-        description,
-        multiplier,
-        duration,
-        createdAt: new Date().toISOString()
-      };
-      if (!powerups[currentClassId]) powerups[currentClassId] = {};
-      powerups[currentClassId][powerup.id] = powerup;
+      const powerup = { id: generateId(), title, description, multiplier, duration };
+      if (!powerups[currentClassId]) powerups[currentClassId] = [];
+      powerups[currentClassId].push(powerup);
       saveData();
       renderPowerUpsView();
       closeModal('createPowerUpModal');
-      showNotification('Power Up created!', 'success');
+      showNotification('Power up created!', 'success');
     }
 
-    function openEditPowerUpModal(powerUpId) {
-      currentPowerUpId = powerUpId;
-      const powerup = powerups[currentClassId][powerUpId];
-      if (!powerup) return;
+    function openEditPowerUpModal(powerupId) {
+      currentPowerUpId = powerupId;
+      const powerup = powerups[currentClassId].find(p => p.id === powerupId);
       document.getElementById('editPowerUpTitle').value = powerup.title;
-      document.getElementById('editPowerUpDescription').value = powerup.description || '';
+      document.getElementById('editPowerUpDescription').value = powerup.description;
       document.getElementById('editPowerUpMultiplier').value = powerup.multiplier;
       document.getElementById('editPowerUpDuration').value = powerup.duration;
       openModal('editPowerUpModal');
     }
 
     function updatePowerUp() {
-      const title = document.getElementById('editPowerUpTitle').value.trim();
-      const description = document.getElementById('editPowerUpDescription').value.trim();
-      const multiplier = parseFloat(document.getElementById('editPowerUpMultiplier').value);
-      const duration = parseInt(document.getElementById('editPowerUpDuration').value);
-      if (!title || multiplier < 1 || duration < 1) {
-        showNotification('Please fill in valid values', 'error');
-        return;
-      }
-      const powerup = powerups[currentClassId][currentPowerUpId];
-      if (powerup) {
-        powerup.title = title;
-        powerup.description = description;
-        powerup.multiplier = multiplier;
-        powerup.duration = duration;
+        const powerupIndex = powerups[currentClassId].findIndex(p => p.id === currentPowerUpId);
+        const title = document.getElementById('editPowerUpTitle').value.trim();
+        const description = document.getElementById('editPowerUpDescription').value.trim();
+        const multiplier = parseFloat(document.getElementById('editPowerUpMultiplier').value);
+        const duration = parseInt(document.getElementById('editPowerUpDuration').value);
+
+        if (!title || !multiplier || !duration) {
+            showNotification('All fields are required', 'error');
+            return;
+        }
+        powerups[currentClassId][powerupIndex] = { ...powerups[currentClassId][powerupIndex], title, description, multiplier, duration };
         saveData();
         renderPowerUpsView();
         closeModal('editPowerUpModal');
-        showNotification('Power Up updated!', 'success');
-      }
+        showNotification('Power up updated', 'success');
     }
 
     function deletePowerUp() {
-      if (!confirm('Are you sure?')) return;
-      delete powerups[currentClassId][currentPowerUpId];
-      saveData();
-      renderPowerUpsView();
-      closeModal('editPowerUpModal');
-      showNotification('Power Up deleted!', 'success');
+        if (confirm('Are you sure you want to delete this power up?')) {
+            powerups[currentClassId] = powerups[currentClassId].filter(p => p.id !== currentPowerUpId);
+            saveData();
+            renderPowerUpsView();
+            closeModal('editPowerUpModal');
+            showNotification('Power up deleted', 'warning');
+        }
     }
-
-    function renderPowerUpsView() {
-      if (!currentClassId || !powerups[currentClassId]) return;
-      const powerupsGrid = document.getElementById('powerupsGrid');
-      const classPowerUps = Object.values(powerups[currentClassId]);
-      powerupsGrid.innerHTML = classPowerUps.map(powerup => `
-        <div class="reward-card">
-          <div class="reward-header">
-            <div>
-              <h3 class="reward-title">${sanitizeHTML(powerup.title)}</h3>
-              ${powerup.description ? `<p class="reward-description">${sanitizeHTML(powerup.description)}</p>` : ''}
-            </div>
-            <span class="reward-points">${powerup.multiplier}x for ${powerup.duration} days</span>
-          </div>
-          <div class="reward-actions">
-            <button class="btn btn-primary" onclick="openAssignPowerUpModal('${powerup.id}')">Assign to Students</button>
-            <button class="btn btn-secondary" onclick="openEditPowerUpModal('${powerup.id}')">Edit</button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function openAssignPowerUpModal(powerUpId) {
-      currentPowerUpId = powerUpId;
-      const powerup = powerups[currentClassId][powerUpId];
+    
+    function assignPowerUp(powerupId) {
+      currentPowerUpId = powerupId;
+      const powerup = powerups[currentClassId].find(p => p.id === powerupId);
       const content = document.getElementById('claimRewardContent');
+      const classStudents = Object.values(students[currentClassId] || {});
+
       content.innerHTML = `
-        <h3>Assign ${sanitizeHTML(powerup.title)}</h3>
-        ${powerup.description ? `<p>${sanitizeHTML(powerup.description)}</p>` : ''}
-        <p>${powerup.multiplier}x points for ${powerup.duration} days</p>
-        <div class="form-group">
-          <label class="form-label">Select Students</label>
-          <button class="btn btn-secondary mb-2" onclick="toggleSelectAll()">Select All / Deselect All</button>
-          <div class="multi-select-list">
-            ${Object.values(students[currentClassId]).map(student => `
-              <div class="multi-select-option">
-                <input type="checkbox" id="chk-${student.id}" value="${student.id}">
-                <label for="chk-${student.id}">${sanitizeHTML(student.name)}</label>
+          <p>Assigning Power Up: <strong>${sanitizeHTML(powerup.title)}</strong> (${powerup.multiplier}x for ${powerup.duration} days)</p>
+          <div class="form-group">
+            <label class="form-label">Select Student(s)</label>
+            <div class="multi-select-container">
+              <input type="text" class="multi-select-search" onkeyup="filterMultiSelect(this)" placeholder="Search students...">
+              <div class="multi-select-list">
+                ${classStudents.map(s => `
+                  <div class="multi-select-option">
+                    <input type="checkbox" value="${s.id}" id="student-assign-${s.id}">
+                    <label for="student-assign-${s.id}">${s.name}</label>
+                  </div>
+                `).join('')}
               </div>
-            `).join('')}
+            </div>
           </div>
-        </div>
-      `;
-      document.querySelector('#claimRewardModal .modal-title').textContent = 'Assign Power Up';
-      document.querySelector('#claimRewardModal .btn-primary').onclick = confirmAssignPowerUp;
+        `;
+
+      const modal = document.getElementById('claimRewardModal');
+      modal.querySelector('.modal-title').textContent = 'Assign Power Up';
+      modal.querySelector('.modal-footer .btn-primary').textContent = 'Assign';
+      modal.querySelector('.modal-footer .btn-primary').onclick = confirmAssignPowerUp;
       openModal('claimRewardModal');
     }
 
     function confirmAssignPowerUp() {
-      const studentIds = Array.from(document.querySelectorAll('.multi-select-list input:checked')).map(cb => cb.value);
-      const powerup = powerups[currentClassId][currentPowerUpId];
-      if (!powerup || studentIds.length === 0) return;
-      studentIds.forEach(studentId => {
-        const student = students[currentClassId][studentId];
+      const selectedStudentIds = Array.from(document.querySelectorAll('#claimRewardContent input[type="checkbox"]:checked')).map(cb => cb.value);
+      const powerup = powerups[currentClassId].find(p => p.id === currentPowerUpId);
+      
+      selectedStudentIds.forEach(id => {
+        const student = students[currentClassId][id];
+        const endDate = new Date();
+        endDate.setDate(endDate.getDate() + powerup.duration);
         student.powerUp = {
-          multiplier: powerup.multiplier,
-          endDate: new Date(Date.now() + powerup.duration * 24 * 60 * 60 * 1000).toISOString()
+            id: powerup.id,
+            multiplier: powerup.multiplier,
+            endDate: endDate.toISOString()
         };
-        history[currentClassId].push({
-          id: generateId(),
-          type: 'powerup_assign',
-          studentId: studentId,
-          powerUpId: currentPowerUpId,
-          reason: `Assigned power up: ${powerup.title}`,
-          timestamp: new Date().toISOString()
-        });
       });
       saveData();
       renderStudentsView();
-      renderLeaderboard();
-      renderHistoryView();
       closeModal('claimRewardModal');
-      showNotification('Power Up assigned!', 'success');
+      showNotification('Power up assigned!', 'success');
     }
 
-    // Leaderboard
-    function renderLeaderboard() {
-      const leaderboard = document.getElementById('leaderboard');
-      const classStudents = Object.values(students[currentClassId] || {}).sort((a,b) => b.points - a.points);
-      leaderboard.innerHTML = classStudents.map((student, index) => {
-        const rank = index + 1;
-        const rankClass = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : '';
-        const avatar = student.photo ? `<img src="${student.photo}" alt="${sanitizeHTML(student.name)}"/>` : student.name.charAt(0).toUpperCase();
-        return `
-          <div class="leaderboard-item">
-            <div class="leaderboard-rank ${rankClass}">${rank}</div>
-            <div class="leaderboard-avatar">${avatar}</div>
-            <div class="leaderboard-name">${sanitizeHTML(student.name)}</div>
-            <div class="leaderboard-points">${student.points} pts</div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    // History
+    // History Logic
     function renderHistoryView() {
-      const historyList = document.getElementById('historyList');
+      if (!currentClassId) return;
       const classHistory = history[currentClassId] || [];
-      historyList.innerHTML = classHistory.slice().reverse().map(entry => {
-        const student = students[currentClassId]?.[entry.studentId] || {name: 'Unknown'};
-        let actionText = '';
-        if (entry.type === 'add' || entry.type === 'subtract') {
-          actionText = `${entry.points > 0 ? '+' : ''}${entry.points} points`;
-          if (entry.multiplier > 1) actionText += ` (x${entry.multiplier})`;
-        } else if (entry.type === 'reward_claim') {
-          const reward = rewards[currentClassId]?.[entry.rewardId];
-          actionText = `Claimed ${reward ? reward.title : 'reward'} (${entry.points ? -Math.abs(entry.points) + ' pts' : 'no deduct'})`;
-        } else if (entry.type === 'instant_reward') {
-          const reward = rewards[currentClassId]?.[entry.rewardId];
-          actionText = `Received ${reward ? reward.title : 'instant reward'}`;
-        } else if (entry.type === 'powerup_assign') {
-          const powerup = powerups[currentClassId]?.[entry.powerUpId];
-          actionText = `Assigned ${powerup ? powerup.title : 'power up'}`;
-        } else if (entry.type === 'reset') {
-          actionText = 'Points reset';
-        }
-        return `
-          <div style="padding: 1rem; border-bottom: 1px solid var(--border-color);">
-            <div style="font-weight: 600;">${sanitizeHTML(student.name)}</div>
-            <div>${actionText}</div>
-            ${entry.reason ? `<div style="color: var(--text-secondary);">${sanitizeHTML(entry.reason)}</div>` : ''}
-            <div style="font-size: 0.875rem; color: var(--text-secondary);">${new Date(entry.timestamp).toLocaleString()}</div>
+      const list = document.getElementById('historyList');
+      list.innerHTML = '';
+      if (classHistory.length === 0) {
+        list.innerHTML = '<p>No point history for this class yet.</p>';
+        return;
+      }
+      [...classHistory].reverse().forEach(item => {
+        list.innerHTML += `
+          <div style="display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid var(--border-color);">
+            <span><strong>${sanitizeHTML(item.studentName)}:</strong> ${item.points > 0 ? '+' : ''}${item.points} pts for "${sanitizeHTML(item.reason)}"</span>
+            <span style="color: var(--text-secondary); font-size: 0.875rem;">${new Date(item.timestamp).toLocaleString()}</span>
           </div>
         `;
-      }).join('');
+      });
     }
 
     function exportHistory() {
-      if (!currentClassId || !history[currentClassId]) return;
-      const currentClass = classes.find(c => c.id === currentClassId);
-      const historyData = history[currentClassId].map(entry => {
-        const student = students[currentClassId]?.[entry.studentId];
-        return {
-          date: new Date(entry.timestamp).toLocaleString(),
-          student: student ? student.name : 'Unknown',
-          action: entry.type,
-          points: entry.points,
-          reason: entry.reason || '',
-          multiplier: entry.multiplier || 1
-        };
+      if (!currentClassId || (history[currentClassId] || []).length === 0) {
+        showNotification('No history to export.', 'info');
+        return;
+      }
+      let csvContent = "data:text/csv;charset=utf-8,Timestamp,Student,Points,Reason\n";
+      history[currentClassId].forEach(item => {
+        const row = [
+          new Date(item.timestamp).toISOString(),
+          item.studentName,
+          item.points,
+          `"${item.reason.replace(/"/g, '""')}"`
+        ].join(',');
+        csvContent += row + "\r\n";
       });
-      const csvContent = [
-        ['Date', 'Student', 'Action', 'Points', 'Reason', 'Multiplier'],
-        ...historyData.map(row => [row.date, row.student, row.action, row.points, row.reason, row.multiplier])
-      ].map(row => row.map(cell => `"${(cell ?? '').toString().replace(/"/g, '""')}"`).join(',')).join('\n');
-      const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `${currentClass.name}_history_${new Date().toISOString().split('T')[0]}.csv`;
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `history_${currentClassId}.csv`);
+      document.body.appendChild(link);
       link.click();
-      URL.revokeObjectURL(url);
-      showNotification('History exported successfully!', 'success');
+      document.body.removeChild(link);
+      showNotification('History exported!', 'success');
     }
 
     function clearHistory() {
-      if (!confirm('Are you sure you want to clear all history? This action cannot be undone.')) return;
-      history[currentClassId] = [];
-      saveData();
-      renderHistoryView();
-      showNotification('History cleared successfully!', 'success');
+      if (confirm('Are you sure you want to clear all point history for this class? This cannot be undone.')) {
+        history[currentClassId] = [];
+        saveData();
+        renderHistoryView();
+        showNotification('History cleared', 'warning');
+      }
     }
 
-    // Settings
+    // Settings Logic
     function renderSettingsView() {
       document.getElementById('settingsUsername').textContent = currentUser.username;
       document.getElementById('settingsSchool').textContent = currentUser.school;
-      const currentClass = classes.find(c => c.id === currentClassId);
-      document.getElementById('currentClassName').textContent = currentClass ? currentClass.name : 'None';
-      document.getElementById('totalStudents').textContent = Object.keys(students[currentClassId] || {}).length;
-      document.getElementById('totalPoints').textContent = Object.values(students[currentClassId] || {}).reduce((sum, s) => sum + s.points, 0);
-      const savedReasonsList = document.getElementById('savedReasonsList');
-      if (reasons[currentClassId]) {
-        savedReasonsList.innerHTML = reasons[currentClassId].map((reason, index) => `
-            <div class="reason-chip">
-              <span>${sanitizeHTML(reason)}</span>
-              <button onclick="openEditReasonModal(${index})">✏️</button>
-            </div>
-          `).join('');
-      } else {
-        savedReasonsList.innerHTML = '';
+
+      if (currentClassId) {
+        const currentClass = classes.find(c => c.id === currentClassId);
+        if (currentClass) {
+          document.getElementById('currentClassName').textContent = currentClass.name;
+          const classStudents = Object.values(students[currentClassId] || {});
+          document.getElementById('totalStudents').textContent = classStudents.length;
+          document.getElementById('totalPoints').textContent = classStudents.reduce((sum, s) => sum + s.points, 0);
+
+          const offlineClassToggle = document.getElementById('offlineClassToggle');
+          offlineClassToggle.checked = currentClass.offlineEnabled || false;
+          offlineClassToggle.onchange = (e) => toggleOfflineAccess(currentClassId, e.target.checked);
+
+        }
       }
+      
+      const offlineToggle = document.getElementById('offlineModeToggle');
+      if (offlineToggle) {
+          offlineToggle.checked = currentUser.settings?.offlineMode || false;
+      }
+
+      renderSavedReasonsList();
+    }
+    
+    function toggleOfflineMode(isEnabled) {
+      if (!currentUser.settings) {
+          currentUser.settings = {};
+      }
+      currentUser.settings.offlineMode = isEnabled;
+      users[currentUser.username].settings = currentUser.settings;
+      saveData();
+      showNotification(`Offline mode ${isEnabled ? 'enabled' : 'disabled'}.`, 'success');
+      updateNavItems();
+      router();
+    }
+
+    function openChangePasswordModal() {
+        document.getElementById('currentPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmNewPassword').value = '';
+        openModal('changePasswordModal');
+    }
+
+    function changePassword() {
+        const currentPass = document.getElementById('currentPassword').value;
+        const newPass = document.getElementById('newPassword').value;
+        const confirmPass = document.getElementById('confirmNewPassword').value;
+
+        if (currentUser.password !== currentPass) {
+            showNotification('Current password is incorrect.', 'error');
+            return;
+        }
+        if (newPass !== confirmPass) {
+            showNotification('New passwords do not match.', 'error');
+            return;
+        }
+        if (!newPass) {
+            showNotification('New password cannot be empty.', 'error');
+            return;
+        }
+
+        currentUser.password = newPass;
+        users[currentUser.username].password = newPass;
+        saveData();
+        closeModal('changePasswordModal');
+        showNotification('Password changed successfully!', 'success');
+    }
+
+    function resetAllPoints() {
+      if (confirm('Are you sure you want to reset all points for all students in this class to 0? This cannot be undone.')) {
+        Object.values(students[currentClassId] || {}).forEach(s => s.points = 0);
+        saveData();
+        renderSettingsView();
+        showNotification('All points have been reset.', 'warning');
+      }
+    }
+
+    function deleteCurrentClass() {
+      if (confirm('Are you sure you want to permanently delete this class and all its data? THIS CANNOT BE UNDONE.')) {
+        delete students[currentClassId];
+        delete rewards[currentClassId];
+        delete history[currentClassId];
+        delete reasons[currentClassId];
+        delete messages[currentClassId];
+        localStorage.removeItem(`offline_${currentClassId}`);
+        classes = classes.filter(c => c.id !== currentClassId);
+        currentClassId = classes.filter(c => c.teacherUsername === currentUser.username).length > 0 ? classes.filter(c => c.teacherUsername === currentUser.username)[0].id : null;
+        saveData();
+        updateClassSelector();
+        router();
+        showNotification('Class deleted.', 'danger');
+      }
+    }
+    
+    function backupClassData() {
+        if (!currentClassId) return;
+        const currentClass = classes.find(c => c.id === currentClassId);
+        const backupData = {
+            classInfo: currentClass,
+            students: students[currentClassId] || {},
+            rewards: rewards[currentClassId] || [],
+            powerups: powerups[currentClassId] || [],
+            history: history[currentClassId] || [],
+            reasons: reasons[currentClassId] || [],
+        };
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", `limud_points_backup_${backupData.classInfo.name.replace(/\s/g, '_')}_${new Date().toISOString().split('T')[0]}.json`);
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+        showNotification('Backup created!', 'success');
+    }
+
+    // Reasons Logic
+    function saveReason(reason) {
+      if (!reasons[currentClassId]) reasons[currentClassId] = [];
+      if (reason && !reasons[currentClassId].includes(reason)) {
+        reasons[currentClassId].push(reason);
+        saveData();
+        updateReasonsList();
+      }
+    }
+
+    function updateReasonsList() {
+      const datalist = document.getElementById('reasonsList');
+      datalist.innerHTML = '';
+      (reasons[currentClassId] || []).forEach(reason => {
+        datalist.innerHTML += `<option value="${sanitizeHTML(reason)}">`;
+      });
+    }
+
+    function renderSavedReasons(containerId, inputId) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        (reasons[currentClassId] || []).forEach(reason => {
+            const chip = document.createElement('button');
+            chip.className = 'reason-select-chip';
+            chip.textContent = reason;
+            chip.onclick = () => {
+                document.getElementById(inputId).value = reason;
+            };
+            container.appendChild(chip);
+        });
+    }
+
+    function renderSavedReasonsList() {
+      const list = document.getElementById('savedReasonsList');
+      list.innerHTML = '';
+      (reasons[currentClassId] || []).forEach((reason, index) => {
+        list.innerHTML += `
+          <div class="reason-chip">
+            <span>${sanitizeHTML(reason)}</span>
+            <button onclick="openEditReasonModal(${index})">✏️</button>
+          </div>
+        `;
+      });
     }
 
     function openEditReasonModal(index) {
@@ -3961,288 +4896,412 @@
     }
 
     function updateReason() {
-      const newReason = document.getElementById('editReasonText').value.trim();
-      if (!newReason) {
-        showNotification('Please enter a reason', 'error');
-        return;
+      const newText = document.getElementById('editReasonText').value.trim();
+      if (newText) {
+        reasons[currentClassId][currentReasonIndex] = newText;
+        saveData();
+        renderSavedReasonsList();
+        updateReasonsList();
+        closeModal('editReasonModal');
       }
-      reasons[currentClassId][currentReasonIndex] = newReason;
-      saveData();
-      renderSettingsView();
-      updateReasonsList();
-      closeModal('editReasonModal');
-      showNotification('Reason updated!', 'success');
     }
 
     function deleteReason() {
-      if (!confirm('Are you sure?')) return;
       reasons[currentClassId].splice(currentReasonIndex, 1);
       saveData();
-      renderSettingsView();
+      renderSavedReasonsList();
       updateReasonsList();
       closeModal('editReasonModal');
-      showNotification('Reason deleted!', 'success');
     }
-
-    function resetAllPoints() {
-      if (!confirm('Are you sure you want to reset all student points to 0? This action cannot be undone.')) return;
-      if (students[currentClassId]) {
-        Object.values(students[currentClassId]).forEach(student => {
-          student.points = 0;
-        });
-        history[currentClassId].push({
-          id: generateId(),
-          type: 'reset',
-          reason: 'All points reset by teacher',
-          timestamp: new Date().toISOString()
-        });
-        saveData();
-        renderStudentsView();
-        renderLeaderboard();
-        showNotification('All points reset successfully!', 'success');
-      }
-    }
-
-    function backupClassData() {
-      if (!currentClassId) return;
-      const currentClass = classes.find(c => c.id === currentClassId);
-      const classStudents = Object.values(students[currentClassId] || {});
-      const csvContent = [
-        ['Student Name', 'Points', 'Rewards Claimed'],
-        ...classStudents.map(s => [s.name, s.points, (s.pointsRewards || 0) + (s.instantRewards || 0)])
-      ].map(row => row.map(cell => `"${(cell ?? '').toString().replace(/"/g, '""')}"`).join(',')).join('\n');
-      const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `${currentClass.name}_backup_${new Date().toISOString().split('T')[0]}.csv`;
-      link.click();
-      URL.revokeObjectURL(url);
-      showNotification('Class data backed up as spreadsheet!', 'success');
-    }
-
-    function deleteCurrentClass() {
-      if (!currentClassId) return;
-      const currentClass = classes.find(c => c.id === currentClassId);
-      if (!confirm(`Are you sure you want to delete "${currentClass.name}"? This action cannot be undone.`)) return;
-      classes = classes.filter(c => c.id !== currentClassId);
-      delete students[currentClassId];
-      delete rewards[currentClassId];
-      delete history[currentClassId];
-      delete powerups[currentClassId];
-      delete reasons[currentClassId];
-      const remainingClasses = classes.filter(c => c.teacherUsername === currentUser.username);
-      currentClassId = remainingClasses.length > 0 ? remainingClasses[0].id : null;
-      saveData();
-      updateClassSelector();
-      router();
-      showNotification('Class deleted successfully!', 'success');
-    }
-
-    // Extras
+    
+    // Extras Logic
     function renderExtrasView() {
-      const embedsList = document.getElementById('embedsList');
+      const gridView = document.getElementById('extrasGridView');
+      const embedView = document.getElementById('extrasEmbedView');
       const schoolEmbeds = embeds[currentUser.school] || [];
-      embedsList.innerHTML = schoolEmbeds.map(embed => `
-        <div class="embed-container" id="embed-${embed.id}">
-          <div class="embed-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-            <div class="embed-header-content">
-              <h3 class="embed-title">${sanitizeHTML(embed.name)}</h3>
-              <div class="embed-url">${sanitizeHTML(embed.url)}</div>
+
+      gridView.innerHTML = '';
+      embedView.innerHTML = '';
+      gridView.style.display = 'grid';
+      embedView.style.display = 'none';
+
+      if (schoolEmbeds.length === 0) {
+        gridView.innerHTML = '<p>No extra tools have been added for your school.</p>';
+        return;
+      }
+
+      schoolEmbeds.forEach(embed => {
+        try {
+          const domain = new URL(embed.url).hostname;
+          const logoUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+          
+          const card = document.createElement('a');
+          card.href = '#';
+          card.className = 'tool-card';
+          card.onclick = (e) => {
+              e.preventDefault();
+              showExtraTool(embed.id);
+          };
+          card.innerHTML = `
+            <img src="${logoUrl}" alt="${sanitizeHTML(embed.name)} logo" class="tool-card-logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%2364748b%22%3E%3Cpath d=%22M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z%22/%3E%3C/svg%3E'; this.onerror=null;">
+            <div class="tool-card-title">${sanitizeHTML(embed.name)}</div>
+          `;
+          gridView.appendChild(card);
+        } catch (e) {
+          console.error(`Invalid URL for embed "${embed.name}": ${embed.url}`);
+        }
+      });
+    }
+
+    function showExtraTool(embedId) {
+        const gridView = document.getElementById('extrasGridView');
+        const embedView = document.getElementById('extrasEmbedView');
+        const schoolEmbeds = embeds[currentUser.school] || [];
+        const embed = schoolEmbeds.find(e => e.id === embedId);
+
+        if (!embed) return;
+
+        gridView.style.display = 'none';
+        embedView.style.display = 'block';
+
+        embedView.innerHTML = `
+            <div class="embed-container" style="height: calc(100vh - var(--topbar-height) - 4rem); margin: 0;">
+                <div class="embed-header" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="embed-header-content">
+                        <h3 class="embed-title">${sanitizeHTML(embed.name)}</h3>
+                    </div>
+                    <div>
+                        <button class="btn btn-secondary" onclick="switchView('extras')">Back to Tools</button>
+                        <button class="btn btn-info" onclick="window.open('${embed.url}', '_blank')">Open in New Tab</button>
+                    </div>
+                </div>
+                <iframe src="${embed.url}" title="${sanitizeHTML(embed.name)}" style="height: calc(100% - 60px);"></iframe>
             </div>
-            <div style="display: flex; gap: 0.5rem; align-items: center;">
-              <button class="embed-button" onclick="toggleFullscreen('${embed.id}')">⛶ Fullscreen</button>
+        `;
+    }
+
+    // Emoji Picker Logic
+    function openEmojiPicker(targetId) {
+      emojiPickerTarget = document.getElementById(targetId);
+      renderEmojiPicker();
+      openModal('emojiPickerModal');
+    }
+
+    function renderEmojiPicker() {
+      const grid = document.getElementById('emojiGrid');
+      const query = document.getElementById('emojiSearch').value;
+      grid.innerHTML = '';
+      const filteredEmojis = EMOJI_LIST;
+      filteredEmojis.forEach(emoji => {
+        const item = document.createElement('div');
+        item.className = 'emoji-item';
+        item.textContent = emoji;
+        item.onclick = () => selectEmoji(emoji);
+        grid.appendChild(item);
+      });
+    }
+
+    function selectEmoji(emoji) {
+      if (emojiPickerTarget) {
+        emojiPickerTarget.value = emoji;
+      }
+      closeModal('emojiPickerModal');
+    }
+    
+    // Recovery Modals
+    function openForgotPasswordModal() {
+        closeModal('loginScreen');
+        document.getElementById('forgotPasswordError').style.display = 'none';
+        document.getElementById('forgotPasswordUsername').value = '';
+        openModal('forgotPasswordModal');
+    }
+    
+    function openForgotUsernameModal() {
+        closeModal('loginScreen');
+        document.getElementById('forgotUsernameError').style.display = 'none';
+        document.getElementById('forgotUsernameEmail').value = '';
+        openModal('forgotUsernameModal');
+    }
+    
+    function resetPassword() {
+        const username = document.getElementById('forgotPasswordUsername').value.trim();
+        const errorDiv = document.getElementById('forgotPasswordError');
+        const user = users[username];
+        
+        if (!user) {
+            errorDiv.textContent = 'Username not found.';
+            errorDiv.style.display = 'block';
+            return;
+        }
+        
+        const newPassword = Math.random().toString(36).slice(-8);
+        user.password = newPassword;
+        saveData();
+        
+        closeModal('forgotPasswordModal');
+        showNotification(`Password for ${username} reset to: ${newPassword}. Please change it immediately.`, 'success');
+    }
+
+    function recoverUsername() {
+        const email = document.getElementById('forgotUsernameEmail').value.trim().toLowerCase();
+        const errorDiv = document.getElementById('forgotUsernameError');
+        const foundUser = Object.values(users).find(u => u.email === email);
+        
+        if (!foundUser) {
+            errorDiv.textContent = 'Email address not found.';
+            errorDiv.style.display = 'block';
+            return;
+        }
+        
+        closeModal('forgotUsernameModal');
+        showNotification(`Username for this email is: ${foundUser.username}`, 'success');
+    }
+
+    // Initialize
+    window.onload = () => {
+      loadData();
+      document.getElementById('loginBtn').onclick = login;
+      document.getElementById('signupBtn').onclick = signup;
+      document.getElementById('studentLoginBtn').onclick = loginWithPIN;
+      document.getElementById('increaseListSizeBtn').onclick = increaseListViewSize;
+      document.getElementById('decreaseListSizeBtn').onclick = decreaseListViewSize;
+      if (currentUser) {
+        initializeApp();
+      } else if (currentStudent) {
+        initializeAppStudent();
+      }
+      window.addEventListener('hashchange', router);
+      updateListViewSize();
+      // Global click listener to close message menus
+      document.body.addEventListener('click', (e) => {
+          if (!e.target.closest('.message-menu-btn')) {
+              document.querySelectorAll('.message-menu-dropdown.active').forEach(menu => menu.classList.remove('active'));
+          }
+      });
+    };
+
+    // Include all admin-specific functions here
+    // Admin Views
+    function renderAdminClassesView() {
+      const view = document.getElementById('admin-classesView');
+      const schoolClasses = classes.filter(c => c.teacherUsername in users && users[c.teacherUsername].school === currentUser.school);
+
+      view.innerHTML = `
+        <div class="admin-header">
+            <h2 class="admin-title">📚 Manage Classes</h2>
+            <p>View all classes in ${sanitizeHTML(currentUser.school)}. You can see details for each class, including student count and total points.</p>
+            <div class="admin-controls">
+                <button class="btn btn-primary" onclick="openCreateClassModal()">Create New Class</button>
             </div>
-          </div>
-          <iframe src="${embed.url}" loading="lazy" referrerpolicy="no-referrer"></iframe>
         </div>
-      `).join('');
-    }
-
-    function toggleFullscreen(embedId) {
-      const container = document.getElementById(`embed-${embedId}`);
-      container.classList.toggle('fullscreen');
-    }
-
-    // Change Password
-    function openChangePasswordModal() {
-      document.getElementById('currentPassword').value = '';
-      document.getElementById('newPassword').value = '';
-      document.getElementById('confirmNewPassword').value = '';
-      openModal('changePasswordModal');
-    }
-
-    function changePassword() {
-      const currentPass = document.getElementById('currentPassword').value.trim();
-      const newPass = document.getElementById('newPassword').value.trim();
-      const confirmPass = document.getElementById('confirmNewPassword').value.trim();
-
-      if (currentPass !== currentUser.password) {
-        showNotification('Current password incorrect', 'error');
-        return;
-      }
-
-      if (!newPass || newPass !== confirmPass) {
-        showNotification('New passwords do not match or empty', 'error');
-        return;
-      }
-
-      currentUser.password = newPass;
-      users[currentUser.username].password = newPass;
-      saveData();
-      closeModal('changePasswordModal');
-      showNotification('Password changed successfully!', 'success');
-    }
-
-    // Admin functions
-    function calculateStudentStats(studentId, classId) {
-        const classHistory = history[classId] || [];
-        const studentHistory = classHistory.filter(entry => entry.studentId === studentId);
-        
-        let pointsEarned = 0;
-        let pointsSpent = 0;
-        let rewardsClaimed = 0;
-
-        studentHistory.forEach(entry => {
-            if (entry.points && entry.points > 0) {
-                pointsEarned += entry.points;
-            }
-            if (entry.type === 'subtract' && entry.points) {
-                pointsSpent += Math.abs(entry.points);
-            }
-            if (entry.type === 'reward_claim') {
-                rewardsClaimed++;
-                if (entry.points && entry.points < 0) {
-                    pointsSpent += Math.abs(entry.points);
-                }
-            }
-        });
-        
-        return { pointsEarned, pointsSpent, rewardsClaimed };
+        <div class="admin-content">
+            <table class="students-table responsive-table">
+                <thead><tr><th>Class Name</th><th>Teacher</th><th>Students</th><th>Total Points</th><th>Actions</th></tr></thead>
+                <tbody>
+                    ${schoolClasses.map(c => {
+                        const classStudents = Object.values(students[c.id] || {});
+                        const totalPoints = classStudents.reduce((sum, s) => sum + s.points, 0);
+                        return `
+                        <tr>
+                            <td data-label="Class">${sanitizeHTML(c.name)}</td>
+                            <td data-label="Teacher">${sanitizeHTML(c.teacherUsername)}</td>
+                            <td data-label="Students">${classStudents.length}</td>
+                            <td data-label="Points">${totalPoints}</td>
+                            <td data-label="Actions">
+                                <button class="btn btn-info" onclick="openClassDetailModal('${c.id}')">View Details</button>
+                            </td>
+                        </tr>
+                        `;
+                    }).join('')}
+                </tbody>
+            </table>
+        </div>
+      `;
     }
 
     function openCreateClassModal() {
-      document.getElementById('adminClassName').value = '';
-      document.getElementById('teacherUsername').value = '';
-      document.getElementById('teacherPassword').value = '';
-      document.getElementById('teacherEmail').value = '';
-      openModal('createClassModal');
-    }
-
-    function createClass() {
-      const className = document.getElementById('adminClassName').value.trim();
-      const teacherUsername = document.getElementById('teacherUsername').value.trim();
-      const teacherPassword = document.getElementById('teacherPassword').value.trim();
-      const teacherEmail = document.getElementById('teacherEmail').value.trim().toLowerCase();
-      if (!className || !teacherUsername || !teacherPassword || !teacherEmail) {
-        showNotification('Please fill in all fields', 'error');
-        return;
-      }
-      if (users[teacherUsername]) {
-        showNotification('Teacher username already exists', 'error');
-        return;
-      }
-      if (Object.values(users).some(u => u.email === teacherEmail)) {
-        showNotification('Email address is already in use', 'error');
-        return;
-      }
-      users[teacherUsername] = {
-        username: teacherUsername,
-        password: teacherPassword, // INSECURE: Storing plaintext passwords
-        type: 'personal',
-        school: currentUser.school,
-        email: teacherEmail,
-        createdAt: new Date().toISOString()
-      };
-      const newClass = {
-        id: generateId(),
-        name: className,
-        teacherUsername
-      };
-      classes.push(newClass);
-      saveData();
-      renderAdminClassesView();
-      closeModal('createClassModal');
-      showNotification('Class and teacher created!', 'success');
+        document.getElementById('adminClassName').value = '';
+        document.getElementById('teacherUsername').value = '';
+        document.getElementById('teacherPassword').value = '';
+        document.getElementById('teacherEmail').value = '';
+        openModal('createClassModal');
     }
     
-    function openCreateTeacherModal() {
-      document.getElementById('newTeacherUsername').value = '';
-      document.getElementById('newTeacherPassword').value = '';
-      document.getElementById('newTeacherEmail').value = '';
-      openModal('createTeacherModal');
+    function createClass() {
+        const className = document.getElementById('adminClassName').value.trim();
+        const teacherUsername = document.getElementById('teacherUsername').value.trim();
+        const teacherPassword = document.getElementById('teacherPassword').value.trim();
+        const teacherEmail = document.getElementById('teacherEmail').value.trim().toLowerCase();
+
+        if (!className || !teacherUsername || !teacherPassword || !teacherEmail) {
+            showNotification('All fields are required.', 'error');
+            return;
+        }
+
+        if (users[teacherUsername]) {
+            showNotification('Teacher username already exists.', 'error');
+            return;
+        }
+
+        users[teacherUsername] = {
+            username: teacherUsername,
+            password: teacherPassword,
+            type: 'teacher',
+            school: currentUser.school,
+            email: teacherEmail,
+            createdAt: new Date().toISOString(),
+            settings: { offlineMode: false }
+        };
+
+        const newClass = {
+            id: generateId(),
+            name: className,
+            teacherUsername: teacherUsername,
+            chatMembers: [teacherUsername]
+        };
+        classes.push(newClass);
+        saveData();
+        renderAdminClassesView();
+        closeModal('createClassModal');
+        showNotification('Class and Teacher account created!', 'success');
+    }
+    
+    function openClassDetailModal(classId) {
+        const classInfo = classes.find(c => c.id === classId);
+        const classStudents = Object.values(students[classId] || {});
+        const totalPoints = classStudents.reduce((sum, s) => sum + s.points, 0);
+        const topStudent = classStudents.length > 0 ? classStudents.sort((a,b) => b.points - a.points)[0] : null;
+
+        document.getElementById('classDetailTitle').textContent = `Details for ${sanitizeHTML(classInfo.name)}`;
+        const content = document.getElementById('classDetailContent');
+        content.innerHTML = `
+            <div class="class-detail-card">
+                <div class="class-detail-header">
+                    <div>
+                        <h3 class="class-detail-title">${sanitizeHTML(classInfo.name)}</h3>
+                        <p class="class-detail-teacher">Teacher: ${sanitizeHTML(classInfo.teacherUsername)}</p>
+                    </div>
+                </div>
+                <div class="class-stats">
+                    <div class="class-stat"><div class="class-stat-value">${classStudents.length}</div><div class="class-stat-label">Students</div></div>
+                    <div class="class-stat"><div class="class-stat-value">${totalPoints}</div><div class="class-stat-label">Total Points</div></div>
+                    <div class="class-stat"><div class="class-stat-value">${topStudent ? sanitizeHTML(topStudent.name) : 'N/A'}</div><div class="class-stat-label">Top Student</div></div>
+                    <div class="class-stat"><div class="class-stat-value">${topStudent ? topStudent.points : '0'}</div><div class="class-stat-label">Top Score</div></div>
+                </div>
+                <h4>Student Roster</h4>
+                <table class="students-table responsive-table">
+                    <thead><tr><th>Name</th><th>Points</th><th>Rewards Claimed</th></tr></thead>
+                    <tbody>
+                        ${classStudents.map(s => `
+                            <tr>
+                                <td data-label="Name">${sanitizeHTML(s.name)}</td>
+                                <td data-label="Points">${s.points}</td>
+                                <td data-label="Rewards">${(s.pointsRewards || 0) + (s.instantRewards || 0)}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        `;
+        openModal('classDetailModal');
+    }
+
+    function renderAdminUsersView() {
+      const view = document.getElementById('admin-usersView');
+      const schoolUsers = Object.values(users).filter(u => u.school === currentUser.school);
+
+      view.innerHTML = `
+        <div class="admin-header">
+            <h2 class="admin-title">👩‍🏫 Manage Users</h2>
+            <p>Manage all teacher and admin accounts for ${sanitizeHTML(currentUser.school)}.</p>
+            <div class="admin-controls">
+                <button class="btn btn-success" onclick="openModal('createTeacherModal')">Create Teacher</button>
+                <button class="btn btn-primary" onclick="openModal('createAdminModal')">Create Admin</button>
+            </div>
+        </div>
+        <div class="admin-content">
+            <table class="students-table responsive-table">
+                <thead><tr><th>Username</th><th>Type</th><th>Email</th><th>Created On</th><th>Actions</th></tr></thead>
+                <tbody>
+                    ${schoolUsers.map(u => `
+                        <tr>
+                            <td data-label="Username">${sanitizeHTML(u.username)}</td>
+                            <td data-label="Type">${u.type}</td>
+                            <td data-label="Email">${u.email || 'N/A'}</td>
+                            <td data-label="Created">${new Date(u.createdAt).toLocaleDateString()}</td>
+                            <td data-label="Actions">
+                                ${u.username !== currentUser.username ? `
+                                    <button class="btn btn-warning" onclick="openChangeTeacherPasswordModal('${u.username}')">Change Password</button>
+                                    <button class="btn btn-danger" onclick="deleteUser('${u.username}')">Delete</button>
+                                ` : 'Your Account'}
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+      `;
     }
 
     function createTeacher() {
-      const teacherUsername = document.getElementById('newTeacherUsername').value.trim();
-      const teacherPassword = document.getElementById('newTeacherPassword').value.trim();
-      const teacherEmail = document.getElementById('newTeacherEmail').value.trim().toLowerCase();
-      if (!teacherUsername || !teacherPassword || !teacherEmail) {
-        showNotification('Please fill in all fields', 'error');
-        return;
-      }
-      if (users[teacherUsername]) {
-        showNotification('Teacher username already exists', 'error');
-        return;
-      }
-      if (Object.values(users).some(u => u.email === teacherEmail)) {
-        showNotification('Email address is already in use', 'error');
-        return;
-      }
-      users[teacherUsername] = {
-        username: teacherUsername,
-        password: teacherPassword, // INSECURE: Storing plaintext passwords
-        type: 'personal',
-        school: currentUser.school,
-        email: teacherEmail,
-        createdAt: new Date().toISOString()
-      };
-      saveData();
-      renderAdminUsersView();
-      closeModal('createTeacherModal');
-      showNotification('Teacher created!', 'success');
-    }
+        const username = document.getElementById('newTeacherUsername').value.trim();
+        const password = document.getElementById('newTeacherPassword').value.trim();
+        const email = document.getElementById('newTeacherEmail').value.trim().toLowerCase();
 
-    function openCreateAdminModal() {
-      document.getElementById('newAdminUsername').value = '';
-      document.getElementById('newAdminPassword').value = '';
-      document.getElementById('newAdminEmail').value = '';
-      openModal('createAdminModal');
+        if (!username || !password || !email) {
+            showNotification('All fields are required.', 'error');
+            return;
+        }
+
+        if (users[username]) {
+            showNotification('Username already exists.', 'error');
+            return;
+        }
+
+        users[username] = {
+            username, password, email,
+            type: 'teacher',
+            school: currentUser.school,
+            createdAt: new Date().toISOString(),
+            settings: { offlineMode: false }
+        };
+        saveData();
+        renderAdminUsersView();
+        closeModal('createTeacherModal');
+        showNotification('Teacher account created!', 'success');
     }
 
     function createAdmin() {
         const username = document.getElementById('newAdminUsername').value.trim();
         const password = document.getElementById('newAdminPassword').value.trim();
         const email = document.getElementById('newAdminEmail').value.trim().toLowerCase();
+
         if (!username || !password || !email) {
-            showNotification('Please fill in all fields', 'error');
+            showNotification('All fields are required.', 'error');
             return;
         }
+
         if (users[username]) {
-            showNotification('Username already exists', 'error');
+            showNotification('Username already exists.', 'error');
             return;
         }
-        if (Object.values(users).some(u => u.email === email)) {
-            showNotification('Email address is already in use', 'error');
-            return;
-        }
+
         users[username] = {
-            username,
-            password,
+            username, password, email,
             type: 'admin',
             school: currentUser.school,
-            email,
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
+            settings: { offlineMode: false }
         };
         saveData();
         renderAdminUsersView();
         closeModal('createAdminModal');
-        showNotification('Admin created successfully!', 'success');
+        showNotification('Admin account created!', 'success');
     }
 
     function openChangeTeacherPasswordModal(username) {
         currentUsernameToEdit = username;
-        document.getElementById('changeTeacherPasswordTitle').textContent = `Change Password for ${username}`;
+        document.getElementById('changeTeacherPasswordTitle').textContent = `Change password for ${username}`;
         document.getElementById('newTeacherPass').value = '';
         openModal('changeTeacherPasswordModal');
     }
@@ -4250,562 +5309,639 @@
     function changeTeacherPassword() {
         const newPassword = document.getElementById('newTeacherPass').value.trim();
         if (!newPassword) {
-            showNotification('Password cannot be empty', 'error');
+            showNotification('Password cannot be empty.', 'error');
             return;
         }
-        if (users[currentUsernameToEdit]) {
-            users[currentUsernameToEdit].password = newPassword;
+        users[currentUsernameToEdit].password = newPassword;
+        saveData();
+        closeModal('changeTeacherPasswordModal');
+        showNotification(`Password for ${currentUsernameToEdit} has been changed.`, 'success');
+    }
+
+    function deleteUser(username) {
+        if (confirm(`Are you sure you want to delete the user "${username}"? This will also delete all their classes and associated data. THIS CANNOT BE UNDONE.`)) {
+            const userClasses = classes.filter(c => c.teacherUsername === username);
+            userClasses.forEach(c => {
+                delete students[c.id];
+                delete rewards[c.id];
+                delete history[c.id];
+                delete reasons[c.id];
+                delete messages[c.id];
+                localStorage.removeItem(`offline_${c.id}`);
+            });
+            classes = classes.filter(c => c.teacherUsername !== username);
+            
+            delete users[username];
+            
             saveData();
             renderAdminUsersView();
-            closeModal('changeTeacherPasswordModal');
-            showNotification(`Password for ${currentUsernameToEdit} updated!`, 'success');
+            showNotification(`User ${username} and all their data have been deleted.`, 'danger');
         }
     }
     
-    function searchAdminClasses(query) {
-      const lowerQuery = query.toLowerCase();
-      document.querySelectorAll('#classesList .class-detail-card').forEach(card => {
-        const name = card.querySelector('.class-detail-title').textContent.toLowerCase();
-        const teacher = card.querySelector('.class-detail-teacher').textContent.toLowerCase();
-        card.style.display = (name.includes(lowerQuery) || teacher.includes(lowerQuery)) ? 'block' : 'none';
-      });
-    }
-
-    function searchAdminUsers(query) {
-        const lowerQuery = query.toLowerCase();
-        document.querySelectorAll('#admin-usersView tbody tr').forEach(row => {
-            const username = row.querySelector('td:first-child').textContent.toLowerCase();
-            row.style.display = username.includes(lowerQuery) ? '' : 'none';
-        });
-    }
-
-    function renderAdminClassesView() {
-      const view = document.getElementById('admin-classesView');
-      const schoolClasses = classes.filter(c => users[c.teacherUsername]?.school === currentUser.school);
-      view.innerHTML = `
-        <div class="admin-header">
-          <h1 class="admin-title">Classes</h1>
-          <p class="text-secondary">View and manage all classes in ${sanitizeHTML(currentUser.school)}.</p>
-          <div class="admin-controls">
-            <input type="text" class="search-input" placeholder="Search classes or teachers..." oninput="searchAdminClasses(this.value)"/>
-            <button class="btn btn-primary" onclick="openCreateClassModal()">Create Class</button>
-          </div>
-        </div>
-        <div class="admin-content">
-          <div class="admin-stats">
-            <div class="stat-card">
-              <div class="stat-value">${schoolClasses.length}</div>
-              <div class="stat-label">Total Classes</div>
-            </div>
-          </div>
-          <div id="classesList">
-            ${schoolClasses.map(cls => {
-              const classStudents = Object.values(students[cls.id] || {});
-              const totalPoints = classStudents.reduce((sum, s) => sum + s.points, 0);
-              const avgPoints = classStudents.length > 0 ? Math.round(totalPoints / classStudents.length) : 0;
-              const topStudent = classStudents.length > 0 ? classStudents.sort((a,b) => b.points - a.points)[0] : { name: 'N/A', points: 0 };
-              return `
-              <div class="class-detail-card">
-                <div class="class-detail-header">
-                  <div>
-                    <h2 class="class-detail-title">${sanitizeHTML(cls.name)}</h2>
-                    <p class="class-detail-teacher">Teacher: ${cls.teacherUsername}</p>
-                  </div>
-                  <button class="btn btn-secondary" onclick="openClassDetailModal('${cls.id}')">View Details</button>
-                </div>
-                <div class="class-stats" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); margin-bottom: 0;">
-                  <div class="class-stat">
-                    <div class="class-stat-value">${classStudents.length}</div>
-                    <div class="class-stat-label">Students</div>
-                  </div>
-                  <div class="class-stat">
-                    <div class="class-stat-value">${totalPoints}</div>
-                    <div class="class-stat-label">Total Points</div>
-                  </div>
-                   <div class="class-stat">
-                    <div class="class-stat-value">${avgPoints}</div>
-                    <div class="class-stat-label">Avg. Points</div>
-                  </div>
-                  <div class="class-stat">
-                    <div class="class-stat-value" style="font-size: 1.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${sanitizeHTML(topStudent.name)}</div>
-                    <div class="stat-label">Top Student (${topStudent.points} pts)</div>
-                  </div>
-                </div>
-              </div>
-            `}).join('')}
-          </div>
-        </div>
-      `;
-    }
-
-    function openClassDetailModal(classId) {
-      const cls = classes.find(c => c.id === classId);
-      const teacher = users[cls.teacherUsername];
-      const classStudents = Object.values(students[classId] || {});
-      document.getElementById('classDetailTitle').textContent = `Details for ${cls.name}`;
-      document.getElementById('classDetailContent').innerHTML = `
-        <p><strong>Teacher:</strong> ${cls.teacherUsername}</p>
-        <p><strong>Password:</strong> ${teacher.password} <em style="color:var(--text-secondary)">(Visible to admin)</em></p>
-        <h3 style="margin-top: 2rem;">Student Statistics</h3>
-        <table class="students-table responsive-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Current Points</th>
-              <th>Total Earned</th>
-              <th>Total Spent</th>
-              <th>Rewards Claimed</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${classStudents.length > 0 ? classStudents.map(s => {
-                const stats = calculateStudentStats(s.id, classId);
-                return `
-              <tr>
-                <td data-label="Name">${sanitizeHTML(s.name)}</td>
-                <td data-label="Current Points">${s.points}</td>
-                <td data-label="Total Earned" style="color: var(--success-color);">${stats.pointsEarned}</td>
-                <td data-label="Total Spent" style="color: var(--danger-color);">${stats.pointsSpent}</td>
-                <td data-label="Rewards Claimed">${stats.rewardsClaimed}</td>
-              </tr>
-            `}).join('') : `<tr><td colspan="5" class="text-center">No students in this class.</td></tr>`}
-          </tbody>
-        </table>
-      `;
-      openModal('classDetailModal');
-    }
-
-    function renderAdminUsersView() {
-      const view = document.getElementById('admin-usersView');
-      const schoolUsers = Object.values(users).filter(u => u.school === currentUser.school);
-      const schoolAdmins = schoolUsers.filter(u => u.type === 'admin');
-      const schoolTeachers = schoolUsers.filter(u => u.type === 'personal');
-      view.innerHTML = `
-        <div class="admin-header">
-          <h1 class="admin-title">Users</h1>
-          <p class="text-secondary">View and manage all user accounts in ${sanitizeHTML(currentUser.school)}.</p>
-          <div class="admin-controls">
-            <input type="text" class="search-input" placeholder="Search users..." oninput="searchAdminUsers(this.value)"/>
-            <button class="btn btn-primary" onclick="openCreateTeacherModal()">Create Teacher</button>
-            <button class="btn btn-info" onclick="openCreateAdminModal()">Create Admin</button>
-          </div>
-        </div>
-        <div class="admin-content">
-          <h3 class="mb-4">Administrators (${schoolAdmins.length})</h3>
-          <table class="students-table responsive-table mb-4">
-            <thead><tr><th>Username</th><th>Created</th></tr></thead>
-            <tbody>
-              ${schoolAdmins.map(admin => `
-                <tr>
-                  <td data-label="Username">${admin.username} ${admin.username === currentUser.username ? '(You)' : ''}</td>
-                  <td data-label="Created">${new Date(admin.createdAt).toLocaleDateString()}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-
-          <h3 class="mb-4">Teachers (${schoolTeachers.length})</h3>
-          <table class="students-table responsive-table">
-            <thead><tr><th>Username</th><th>Classes</th><th>Created</th><th>Actions</th></tr></thead>
-            <tbody>
-              ${schoolTeachers.map(teacher => `
-                <tr>
-                  <td data-label="Username">${teacher.username}</td>
-                  <td data-label="Classes">${classes.filter(c => c.teacherUsername === teacher.username).length}</td>
-                  <td data-label="Created">${new Date(teacher.createdAt).toLocaleDateString()}</td>
-                  <td data-label="Actions"><button class="btn btn-secondary" onclick="openChangeTeacherPasswordModal('${teacher.username}')">Change Password</button></td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      `;
-    }
-
     function renderAdminEmbedsView() {
       const view = document.getElementById('admin-embedsView');
       const schoolEmbeds = embeds[currentUser.school] || [];
       view.innerHTML = `
         <div class="admin-header">
-          <h1 class="admin-title">Embeds</h1>
-          <p class="text-secondary">Manage school-wide embeds available to all teachers in the "Extras" section.</p>
-          <div class="admin-controls">
-             <button class="btn btn-primary" onclick="openAddEmbedModal()">Add Embed</button>
-          </div>
+            <h2 class="admin-title">🖥️ Manage Embeds</h2>
+            <p>Add or remove tools for the "Extras" page for all teachers in ${sanitizeHTML(currentUser.school)}.</p>
+            <div class="admin-controls">
+                <button class="btn btn-primary" onclick="openModal('addEmbedModal')">Add New Embed</button>
+            </div>
         </div>
         <div class="admin-content">
-          <div id="adminEmbedsList">
-            ${schoolEmbeds.length > 0 ? schoolEmbeds.map(embed => `
-              <div class="embed-container" id="embed-admin-${embed.id}">
-                <div class="embed-header" style="display: flex; justify-content: space-between; align-items: center;">
-                  <div>
-                    <h3 class="embed-title">${sanitizeHTML(embed.name)}</h3>
-                    <div class="embed-url">${sanitizeHTML(embed.url)}</div>
-                  </div>
-                  <button class="btn btn-danger" onclick="deleteEmbed('${embed.id}')">Delete</button>
-                </div>
-                <iframe src="${embed.url}" loading="lazy" referrerpolicy="no-referrer"></iframe>
-              </div>
-            `).join('') : '<p>No embeds configured for this school. Add one to get started!</p>'}
-          </div>
+            <table class="students-table responsive-table">
+                <thead><tr><th>Name</th><th>URL</th><th>Actions</th></tr></thead>
+                <tbody>
+                    ${schoolEmbeds.map(e => `
+                        <tr>
+                            <td data-label="Name">${sanitizeHTML(e.name)}</td>
+                            <td data-label="URL">${sanitizeHTML(e.url)}</td>
+                            <td data-label="Actions">
+                                <button class="btn btn-danger" onclick="removeEmbed('${e.id}')">Remove</button>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
         </div>
       `;
-    }
-    
-    function openAddEmbedModal() {
-        document.getElementById('embedName').value = '';
-        document.getElementById('embedUrl').value = '';
-        openModal('addEmbedModal');
     }
 
     function addEmbed() {
         const name = document.getElementById('embedName').value.trim();
         const url = document.getElementById('embedUrl').value.trim();
         if (!name || !url) {
-            showNotification('Please fill in both name and URL', 'error');
+            showNotification('Name and URL are required.', 'error');
             return;
         }
-        if (!embeds[currentUser.school]) {
-            embeds[currentUser.school] = [];
+        try {
+            new URL(url);
+        } catch (_) {
+            showNotification('Please enter a valid URL.', 'error');
+            return;
         }
+        if (!embeds[currentUser.school]) embeds[currentUser.school] = [];
         embeds[currentUser.school].push({ id: generateId(), name, url });
         saveData();
         renderAdminEmbedsView();
         closeModal('addEmbedModal');
-        showNotification('Embed added successfully!', 'success');
+        showNotification('Embed added!', 'success');
     }
 
-    function deleteEmbed(embedId) {
-        if (!confirm('Are you sure you want to delete this embed?')) return;
-        if (embeds[currentUser.school]) {
+    function removeEmbed(embedId) {
+        if (confirm('Are you sure you want to remove this embed?')) {
             embeds[currentUser.school] = embeds[currentUser.school].filter(e => e.id !== embedId);
             saveData();
             renderAdminEmbedsView();
-            showNotification('Embed deleted successfully!', 'success');
+            showNotification('Embed removed.', 'warning');
         }
     }
 
-    // Emoji Picker
-    function openEmojiPicker(targetInputId) {
-        emojiPickerTarget = document.getElementById(targetInputId);
-        document.getElementById('emojiSearch').value = '';
-        renderEmojiPicker();
-        openModal('emojiPickerModal');
-    }
-    
-    function renderEmojiPicker() {
-        const query = document.getElementById('emojiSearch').value;
-        const grid = document.getElementById('emojiGrid');
-        const filteredEmojis = EMOJI_LIST.filter(emoji => emoji.includes(query));
-        grid.innerHTML = filteredEmojis.map(emoji => 
-            `<div class="emoji-item" onclick="selectEmoji('${emoji}')">${emoji}</div>`
-        ).join('');
-    }
-
-    function selectEmoji(emoji) {
-        if (emojiPickerTarget) {
-            emojiPickerTarget.value = emoji;
-        }
-        closeModal('emojiPickerModal');
-    }
-
-    // Account Recovery
-    function generateRandomPassword() {
-      return Math.random().toString(36).slice(-8);
-    }
-
-    function openForgotPasswordModal() {
-        document.getElementById('forgotPasswordError').style.display = 'none';
-        document.getElementById('forgotPasswordUsername').value = '';
-        openModal('forgotPasswordModal');
-    }
-
-    function resetPassword() {
-        const username = document.getElementById('forgotPasswordUsername').value.trim();
-        const error = document.getElementById('forgotPasswordError');
-        error.style.display = 'none';
-
-        const user = users[username];
-
-        if (!user) {
-            error.textContent = 'Username not found.';
-            error.style.display = 'block';
-            return;
-        }
-
-        const schoolHasAdmin = Object.values(users).some(u => u.school === user.school && u.type === 'admin' && u.username !== user.username);
-        
-        if (user.type === 'personal' && schoolHasAdmin) {
-            closeModal('forgotPasswordModal');
-            showNotification('Please contact your school administrator to reset your password.', 'info');
-            return;
-        }
-        
-        if (!user.email) {
-            error.textContent = 'No email is associated with this account. Cannot reset password.';
-            error.style.display = 'block';
-            return;
-        }
-
-        const newPassword = generateRandomPassword();
-        user.password = newPassword;
-        saveData();
-
-        closeModal('forgotPasswordModal');
-        showNotification(`Your temporary password is: ${newPassword}. An email has been sent.`, 'success');
-    }
-
-    function openForgotUsernameModal() {
-        document.getElementById('forgotUsernameError').style.display = 'none';
-        document.getElementById('forgotUsernameEmail').value = '';
-        openModal('forgotUsernameModal');
-    }
-
-    function recoverUsername() {
-        const email = document.getElementById('forgotUsernameEmail').value.trim().toLowerCase();
-        const error = document.getElementById('forgotUsernameError');
-        error.style.display = 'none';
-
-        if (!email) {
-            error.textContent = 'Please enter your email address.';
-            error.style.display = 'block';
-            return;
-        }
-        
-        const user = Object.values(users).find(u => u.email === email);
-
-        if (user) {
-            closeModal('forgotUsernameModal');
-            showNotification(`Your username is: ${user.username}. An email reminder has been sent.`, 'success');
-        } else {
-            error.textContent = 'No account found with that email address.';
-            error.style.display = 'block';
-        }
-    }
-
-
-    // Demo Mode
+    // DEMO MODE
     function startDemoMode(type) {
-        closeModal('demoModal');
         demoMode = true;
-
-        // Reset demo data structure
-        const originalUsers = { ...users }; // Preserve original users for logout
-        classes = [];
-        students = {};
-        rewards = {};
-        powerups = {};
-        history = {};
-        reasons = {};
-        embeds = {};
-        users = {}; // Start fresh for demo users
-
-        if (type === 'teacher') {
-            currentUser = { username: 'demoTeacher', school: 'Demo School', type: 'personal' };
-            users[currentUser.username] = currentUser;
-            
-            classes = [{ id: 'demoClass1', name: 'Grade 5 Reading', teacherUsername: 'demoTeacher' }];
-            currentClassId = 'demoClass1';
-            
-            students['demoClass1'] = {
-            's1': { id: 's1', name: 'Alice', points: 125 },
-            's2': { id: 's2', name: 'Bob', points: 210 },
-            's3': { id: 's3', name: 'Charlie', points: 95 },
-            's4': { id: 's4', name: 'Diana', points: 180 },
-            };
-            rewards['demoClass1'] = { 'r1': { id: 'r1', title: 'Free Homework Pass', pointsRequired: 100, type: 'deduct'} };
-            history['demoClass1'] = [];
-            powerups['demoClass1'] = {};
-            reasons['demoClass1'] = ['Good Participation', 'Helping a classmate'];
-            embeds['Demo School'] = [{ id: 'e1', name: 'Wheel of Names', url: 'https://wheelofnames.com/' }, { id: 'e2', name: 'Online Notepad', url: 'https://www.onlinenotepad.io/' }];
-
-        } else { // admin mode
-            currentUser = { username: 'demoAdmin', school: 'Demo School', type: 'admin', email: 'admin@demo.com', createdAt: new Date().toISOString() };
-            users[currentUser.username] = currentUser;
-
-            const teacher1 = { username: 'msDavis', password: '123', type: 'personal', school: 'Demo School', createdAt: new Date().toISOString() };
-            const teacher2 = { username: 'mrChen', password: '123', type: 'personal', school: 'Demo School', createdAt: new Date().toISOString() };
-            users[teacher1.username] = teacher1;
-            users[teacher2.username] = teacher2;
-
-            classes = [
-                { id: 'demoClassAdmin1', name: 'Math Grade 8', teacherUsername: 'msDavis' },
-                { id: 'demoClassAdmin2', name: 'History Grade 8', teacherUsername: 'msDavis' },
-                { id: 'demoClassAdmin3', name: 'Science Grade 7', teacherUsername: 'mrChen' }
-            ];
-            students['demoClassAdmin1'] = { 's_a1': { id: 's_a1', name: 'Eva', points: 150 } };
-            students['demoClassAdmin3'] = { 's_a2': { id: 's_a2', name: 'Frank', points: 200 } };
-            currentClassId = null; // No class selected for admin by default
-            embeds['Demo School'] = [{ id: 'e1', name: 'Wheel of Names', url: 'https://wheelofnames.com/' }];
-        }
-
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('signupScreen').style.display = 'none';
-        document.getElementById('appLayout').classList.add('active');
-
-        const switchBtn = document.getElementById('switchDemoViewBtn');
-        switchBtn.style.display = 'inline-flex';
-        switchBtn.textContent = type === 'teacher' ? 'Switch to Admin View' : 'Switch to Teacher View';
         
+        // Reset all data for a clean demo
+        users = {}; classes = []; students = {}; rewards = {}; powerups = {}; history = {}; reasons = {}; embeds = {}; messages = {};
+
+        const demoSchool = "Demo Academy";
+        
+        embeds[demoSchool] = [
+            { id: 'demo1', name: 'Wheel of Names', url: 'https://wheelofnames.com/' },
+            { id: 'demo2', name: 'Online Notepad', url: 'https://www.onlinenotepad.io/' }
+        ];
+
+        users['demoAdmin'] = { username: 'demoAdmin', password: '123', type: 'admin', school: demoSchool, email: 'admin@demo.com', createdAt: new Date().toISOString(), settings: { offlineMode: false } };
+        const demoTeacherUser = 'demoTeacher';
+        users[demoTeacherUser] = { username: demoTeacherUser, password: '123', type: 'teacher', school: demoSchool, email: 'teacher@demo.com', createdAt: new Date().toISOString(), settings: { offlineMode: false } };
+        
+        const demoClassId = 'demoClass1';
+        classes.push({ id: demoClassId, name: 'Grade 5 Heroes', teacherUsername: demoTeacherUser, chatMembers: [demoTeacherUser] });
+
+        students[demoClassId] = {};
+        const demoStudents = ['Chaim', 'Dob', 'Moshe', 'Doniel', 'Avi', 'Mendy', 'Yitsi', 'Yehudah'];
+        demoStudents.forEach((name, i) => {
+            const id = `s${i}`;
+            students[demoClassId][id] = { id, name, pin: (10000 + i).toString(), points: Math.floor(Math.random() * 50) + 10 };
+        });
+        
+        rewards[demoClassId] = [{ id: 'r1', title: 'Homework Pass', points: 25, type: 'deduct', icon: '🎟️' }];
+        powerups[demoClassId] = [{ id: 'p1', title: 'Weekend Warrior', multiplier: 2, duration: 1 }];
+        history[demoClassId] = [{ studentName: 'Mendy', points: 5, reason: 'Great answer', timestamp: new Date().toISOString() }];
+        reasons[demoClassId] = ['Helping others', 'Good listening', 'On task'];
+        
+        messages[demoClassId] = {
+            group: [
+                { id: generateId(), sender: 'demoTeacher', content: 'Welcome to the class chat!', timestamp: new Date(Date.now() - 86400000).toISOString() },
+                { id: generateId(), sender: 's0', content: 'Hello!', timestamp: new Date().toISOString() }
+            ],
+            direct: {}
+        };
+
+        currentUser = users[type === 'admin' ? 'demoAdmin' : 'demoTeacher'];
+        currentClassId = type === 'teacher' ? demoClassId : null;
+        currentChatId = type === 'teacher' ? 'group' : null;
+
+        closeModal('demoModal');
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('studentLoginScreen').style.display = 'none';
+        document.getElementById('appLayout').classList.add('active');
+        document.getElementById('studentPortalLayout').classList.remove('active');
+        document.getElementById('switchDemoViewBtn').style.display = 'block';
         initializeApp();
-        showNotification(`Demo mode activated (${type} view). Changes will not be saved.`, 'info');
     }
-    
+
     function switchDemoView() {
         if (!demoMode) return;
-        const currentType = currentUser.type;
-        if (currentType === 'personal') { // is a teacher
-            startDemoMode('admin');
-        } else { // is an admin
-            startDemoMode('teacher');
-        }
-    }
-
-    // AI Generation
-    async function generateWithAi(context) {
-      let prompt = '';
-      let button;
-
-      if (context === 'rewards') {
-        prompt = "You are an expert in Jewish education. Generate 3 creative classroom reward ideas suitable for a Jewish elementary school setting, connecting to concepts like Mitzvot, Tzedakah, or Torah study. For each reward, provide a 'title', a brief 'description', and a 'pointsRequired' value between 50 and 500. Respond ONLY with a valid JSON array of objects, with no other text before or after the array.";
-        button = document.querySelector('#createRewardModal .btn-info');
-      } else { // 'reasons-bulk' or 'reasons-student'
-        let pointsValue = 0;
-        if (context === 'reasons-bulk') {
-          pointsValue = document.getElementById('bulkPointAmount').value * (bulkAction === 'add' ? 1 : -1);
-          button = document.querySelector('#bulkPointsModal .btn-info');
-        } else { // 'reasons-student'
-          pointsValue = document.getElementById('pointsChange').value;
-          button = document.querySelector('#studentPointsModal .btn-info');
-        }
-
-        if (pointsValue >= 0) {
-          prompt = "You are an expert in Jewish education. Generate 4 short, positive reasons for awarding points in a Jewish classroom. Focus on concepts like 'chesed' (kindness), 'kavod' (respect), and being a 'mensch'. Respond ONLY with a valid JSON array of strings, with no other text before or after the array.";
+        if (currentUser.type === 'teacher') {
+            currentUser = users['demoAdmin'];
+            currentClassId = null;
+            currentChatId = null;
         } else {
-          prompt = "You are an expert in Jewish education. Generate 4 short, constructive reasons for deducting points in a Jewish classroom, framed to encourage positive change. Relate them to Jewish values like listening respectfully or avoiding 'lashon hara' (gossip). Respond ONLY with a valid JSON array of strings, with no other text before or after the array.";
+            currentUser = users['demoTeacher'];
+            currentClassId = 'demoClass1';
+            currentChatId = 'group';
         }
-      }
-
-      if (!button) return;
-      const originalButtonText = button.innerHTML;
-      button.disabled = true;
-      button.innerHTML = 'Generating...';
-
-      try {
-        const response = await fetch('/.netlify/functions/generateAiSuggestions', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt })
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || `API Error: ${response.statusText}`);
-        }
-
-        const suggestions = await response.json();
-
-        if (context === 'rewards') {
-          displayAiRewardSuggestions(suggestions);
-        } else if (context === 'reasons-bulk') {
-          displayAiReasonSuggestions(suggestions, 'bulk');
-        } else { // 'reasons-student'
-          displayAiReasonSuggestions(suggestions, 'student');
-        }
-
-      } catch (error) {
-        console.error("AI Generation Error:", error);
-        showNotification(`AI Error: ${error.message}`, 'error');
-      } finally {
-        button.disabled = false;
-        button.innerHTML = originalButtonText;
-      }
-    }
-
-    function displayAiRewardSuggestions(suggestions) {
-      const body = document.getElementById('aiSuggestionsBody');
-      body.innerHTML = ''; 
-
-      if (!suggestions || !Array.isArray(suggestions) || suggestions.length === 0) {
-        body.innerHTML = '<p>No suggestions were generated. Please try again.</p>';
-        openModal('aiSuggestionsModal');
-        return;
-      }
-      
-      lastAiSuggestions = suggestions; // Store for later retrieval
-      document.getElementById('aiSuggestionsTitle').textContent = 'AI Reward Ideas';
-
-      const suggestionHTML = suggestions.map((reward, index) => `
-        <div class="reward-card" style="cursor: pointer; margin-bottom: 1rem;" onclick='selectAiReward(${index})'>
-          <div class="reward-header">
-            <div>
-              <h3 class="reward-title">${sanitizeHTML(reward.title)}</h3>
-              <p class="reward-description">${sanitizeHTML(reward.description)}</p>
-            </div>
-            <span class="reward-points">${reward.pointsRequired} pts</span>
-          </div>
-        </div>
-      `).join('');
-      body.innerHTML = suggestionHTML;
-      openModal('aiSuggestionsModal');
-    }
-
-    function selectAiReward(index) {
-      const reward = lastAiSuggestions[index];
-      if (!reward) return;
-      document.getElementById('rewardTitle').value = reward.title;
-      document.getElementById('rewardDescription').value = reward.description;
-      document.getElementById('rewardPoints').value = reward.pointsRequired;
-      closeModal('aiSuggestionsModal');
-      showNotification('Reward details pre-filled!', 'success');
-    }
-
-    function displayAiReasonSuggestions(suggestions, modalType) {
-      const containerId = `${modalType}AiReasons`;
-      const containerWrapperId = `${modalType}AiReasonsContainer`;
-      const inputId = `${modalType === 'bulk' ? 'bulk' : 'points'}Reason`;
-
-      const container = document.getElementById(containerId);
-      const wrapper = document.getElementById(containerWrapperId);
-      container.innerHTML = '';
-
-      if (!suggestions || !Array.isArray(suggestions) || suggestions.length === 0) {
-        return;
-      }
-
-      suggestions.forEach(reason => {
-        const chip = document.createElement('button');
-        chip.className = 'reason-select-chip';
-        chip.textContent = sanitizeHTML(reason);
-        chip.type = 'button';
-        chip.onclick = () => {
-          document.getElementById(inputId).value = reason;
-        };
-        container.appendChild(chip);
-      });
-      wrapper.classList.remove('hidden');
-    }
-
-
-    // Event Listeners
-    document.getElementById('signupBtn').addEventListener('click', signup);
-    document.getElementById('loginBtn').addEventListener('click', login);
-    window.addEventListener('hashchange', router);
-
-    // Init
-    function init() {
-      loadData();
-      if (currentUser) {
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('signupScreen').style.display = 'none';
-        document.getElementById('appLayout').classList.add('active');
         initializeApp();
-      } else {
-        showLogin();
-      }
+    }
+    
+    // Student PIN Management
+    function openManagePinsModal() {
+        if (!currentClassId) {
+            showNotification("Please select a class first.", "error");
+            return;
+        }
+        renderStudentPinList();
+        openModal('managePinsModal');
     }
 
-    init();
+    function renderStudentPinList() {
+        const pinListContainer = document.getElementById('studentPinList');
+        const classStudents = Object.values(students[currentClassId] || {});
+        if (classStudents.length === 0) {
+            pinListContainer.innerHTML = "<p>No students in this class to assign PINs to.</p>";
+            return;
+        }
+        
+        pinListContainer.innerHTML = `
+            <table class="students-table">
+                <thead><tr><th>Student Name</th><th>PIN</th></tr></thead>
+                <tbody>
+                    ${classStudents.map(s => `
+                        <tr>
+                            <td>${sanitizeHTML(s.name)}</td>
+                            <td><strong>${s.pin || 'Not Generated'}</strong></td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    }
+
+    function generateComplexPin() {
+      const chars = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789'; // Omitted O and 0 for clarity
+      let part1 = '';
+      let part2 = '';
+      for (let i = 0; i < 3; i++) {
+        part1 += chars.charAt(Math.floor(Math.random() * chars.length));
+        part2 += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return `${part1}-${part2}`;
+    }
+
+    function generateStudentPINs() {
+        if (!currentClassId) return;
+        if (!confirm("This will generate new PINs for students who don't have one, and regenerate PINs for all existing students. Are you sure?")) return;
+        
+        const classStudents = Object.values(students[currentClassId] || {});
+        const allPins = new Set(Object.values(students).flatMap(classObj => Object.values(classObj).map(s => s.pin)).filter(Boolean));
+
+        classStudents.forEach(student => {
+            let newPin;
+            do {
+                newPin = generateComplexPin();
+            } while (allPins.has(newPin));
+            allPins.add(newPin);
+            students[currentClassId][student.id].pin = newPin;
+        });
+        
+        saveData();
+        renderStudentPinList();
+        showNotification("PINs have been generated/regenerated.", "success");
+    }
+
+    function copyPinsToClipboard() {
+        if (!currentClassId) return;
+        const classStudents = Object.values(students[currentClassId] || {});
+        const pinText = classStudents.map(s => `${s.name}: ${s.pin || 'N/A'}`).join('\n');
+        navigator.clipboard.writeText(pinText).then(() => {
+            showNotification('PIN list copied to clipboard!', 'success');
+        }, () => {
+            showNotification('Failed to copy PINs.', 'error');
+        });
+    }
+    
+    // Messaging Functions
+    function renderMessagingView(viewId) {
+        const view = document.getElementById(viewId);
+        if (!currentClassId) {
+            view.innerHTML = `<p class="text-center">Please select a class to view messages.</p>`;
+            return;
+        }
+        if (!messages[currentClassId]) {
+            messages[currentClassId] = { group: [], direct: {} };
+        }
+
+        view.innerHTML = `
+            <div class="messaging-layout" id="messagingLayout-${viewId}">
+                <aside class="chat-list-panel">
+                    <div class="chat-list-header">
+                        <h3 class="chat-list-title">Chats</h3>
+                        ${currentUser && currentUser.type !== 'admin' ? `<button class="btn btn-primary" style="padding: 0.5rem;" onclick="openNewMessageModal()">New Chat</button>` : ''}
+                    </div>
+                    <div class="chat-list" id="chatList-${viewId}"></div>
+                </aside>
+                <main class="conversation-panel" id="conversationPanel-${viewId}"></main>
+            </div>
+        `;
+        renderChatList(viewId);
+        renderConversation(viewId);
+    }
+    
+    function renderChatList(viewId) {
+        const listEl = document.getElementById(`chatList-${viewId}`);
+        const currentClass = classes.find(c => c.id === currentClassId);
+        if (!currentClass) return;
+        
+        let listHTML = '';
+
+        // Group Chat
+        const groupMessages = messages[currentClassId]?.group || [];
+        const lastGroupMessage = groupMessages[groupMessages.length - 1];
+        const fileIcon = lastGroupMessage?.attachment ? '📎 ' : '';
+        listHTML += `
+            <div class="chat-list-item ${currentChatId === 'group' ? 'active' : ''}" onclick="selectChat('group', '${viewId}')">
+                <div class="chat-avatar">🏫</div>
+                <div class="chat-info">
+                    <div class="chat-info-header">
+                        <span class="chat-name">${currentClass.name} Group</span>
+                        ${lastGroupMessage ? `<span class="chat-timestamp">${new Date(lastGroupMessage.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>` : ''}
+                    </div>
+                    <div class="chat-last-message">
+                        ${lastGroupMessage ? `${lastGroupMessage.senderName || lastGroupMessage.sender}: ${fileIcon}${lastGroupMessage.deleted ? '<i>This message was deleted</i>' : sanitizeHTML(lastGroupMessage.content)}` : 'No messages yet'}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Direct Messages for Teacher
+        if (currentUser) {
+            const directMessages = messages[currentClassId]?.direct || {};
+            Object.keys(directMessages).forEach(threadId => {
+                if (threadId.includes(currentUser.username)) {
+                    const otherUserId = threadId.replace(currentUser.username, '').replace('_', '');
+                    const otherUser = students[currentClassId]?.[otherUserId]?.name || users[otherUserId]?.username || 'Unknown';
+                    const threadMessages = directMessages[threadId];
+                    const lastMessage = threadMessages[threadMessages.length - 1];
+                    if (lastMessage) {
+                        const fileIcon = lastMessage.attachment ? '📎 ' : '';
+                        listHTML += `
+                          <div class="chat-list-item ${currentChatId === threadId ? 'active' : ''}" onclick="selectChat('${threadId}', '${viewId}')">
+                              <div class="chat-avatar">${otherUser.charAt(0).toUpperCase()}</div>
+                              <div class="chat-info">
+                                  <div class="chat-info-header">
+                                      <span class="chat-name">${otherUser}</span>
+                                      <span class="chat-timestamp">${new Date(lastMessage.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                                  </div>
+                                  <div class="chat-last-message">
+                                      ${fileIcon}${lastMessage.deleted ? '<i>This message was deleted</i>' : sanitizeHTML(lastMessage.content)}
+                                  </div>
+                              </div>
+                          </div>
+                        `;
+                    }
+                }
+            });
+        }
+        // Direct Message for Student
+        else if (currentStudent) {
+            const mainTeacher = currentClass.teacherUsername;
+            const threadId = [currentStudent.id, mainTeacher].sort().join('_');
+            const threadMessages = messages[currentClassId]?.direct?.[threadId] || [];
+            const lastMessage = threadMessages[threadMessages.length - 1];
+            if (lastMessage) {
+                const fileIcon = lastMessage.attachment ? '📎 ' : '';
+                 listHTML += `
+                    <div class="chat-list-item ${currentChatId === threadId ? 'active' : ''}" onclick="selectChat('${threadId}', '${viewId}')">
+                        <div class="chat-avatar">${mainTeacher.charAt(0).toUpperCase()}</div>
+                        <div class="chat-info">
+                            <div class="chat-info-header">
+                                <span class="chat-name">${mainTeacher}</span>
+                                <span class="chat-timestamp">${new Date(lastMessage.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                            </div>
+                            <div class="chat-last-message">
+                                ${fileIcon}${lastMessage.deleted ? '<i>This message was deleted</i>' : sanitizeHTML(lastMessage.content)}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        listEl.innerHTML = listHTML;
+    }
+
+    function renderConversation(viewId) {
+        const panelEl = document.getElementById(`conversationPanel-${viewId}`);
+        const currentClass = classes.find(c => c.id === currentClassId);
+        if (!currentClass) return;
+        
+        let conversationTitle = '';
+        let messageList = [];
+        
+        if (!currentChatId && window.innerWidth > 768) {
+             panelEl.innerHTML = `
+                <div class="conversation-placeholder">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+                    <h3>Select a conversation</h3>
+                    <p>Choose a chat from the left panel to start messaging.</p>
+                </div>`;
+            return;
+        }
+        
+        if (currentChatId === 'group') {
+            conversationTitle = `${currentClass.name} Group Chat`;
+            messageList = messages[currentClassId]?.group || [];
+        } else if (currentChatId) {
+            const loggedInUser = currentUser ? currentUser.username : currentStudent.id;
+            const otherUserId = currentChatId.replace(loggedInUser, '').replace('_', '');
+            conversationTitle = students[currentClassId]?.[otherUserId]?.name || users[otherUserId]?.username || 'Chat';
+            messageList = messages[currentClassId]?.direct?.[currentChatId] || [];
+        } else {
+             panelEl.innerHTML = ``;
+             return;
+        }
+        
+        const loggedInId = currentUser ? currentUser.username : currentStudent.id;
+
+        let messagesHTML = messageList.map(msg => {
+            const isSent = msg.sender === loggedInId;
+            const senderName = students[currentClassId]?.[msg.sender]?.name || users[msg.sender]?.username || msg.sender;
+            
+            // Permission checks
+            const canEdit = isSent && !msg.deleted;
+            const canDelete = isSent || (currentUser && currentUser.username === currentClass.teacherUsername);
+            const canModify = canEdit || canDelete;
+            
+            const menuId = `menu-${msg.id}`;
+            const bubbleId = `bubble-${msg.id}`;
+            const attachmentHTML = msg.attachment ? 
+                `<a href="${msg.attachment.dataUrl}" download="${msg.attachment.name}" class="message-attachment" target="_blank" rel="noopener noreferrer">
+                    📎 <span class="message-attachment-name">${sanitizeHTML(msg.attachment.name)}</span>
+                </a>` : '';
+
+            return `
+                <div class="message-bubble-wrapper ${isSent ? 'sent' : 'received'}" id="${bubbleId}">
+                    ${!isSent && currentChatId === 'group' ? `<div class="chat-avatar" style="width:32px; height:32px;">${senderName.charAt(0).toUpperCase()}</div>` : ''}
+                    
+                    ${canModify && isSent ? `
+                        <div class="relative">
+                            <button class="message-menu-btn" onclick="event.stopPropagation(); toggleMessageMenu('${menuId}')">⋮</button>
+                            <div class="message-menu-dropdown" id="${menuId}">
+                                ${canEdit ? `<button class="message-menu-item" onclick="startEditMessage('${currentChatId}', '${msg.id}', '${viewId}')">Edit</button>` : ''}
+                                ${canDelete ? `<button class="message-menu-item" onclick="deleteMessage('${currentChatId}', '${msg.id}', '${viewId}')">Delete</button>` : ''}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <div class="message-bubble ${isSent ? 'sent' : 'received'}">
+                        ${!isSent && currentChatId === 'group' ? `<div class="message-sender">${senderName}</div>` : ''}
+                        <div class="message-content ${msg.deleted ? 'deleted' : ''}">
+                            ${msg.deleted ? 'This message was deleted' : sanitizeHTML(msg.content)}
+                        </div>
+                        ${attachmentHTML}
+                        <div class="message-meta">
+                            ${new Date(msg.timestamp).toLocaleString()}
+                            ${msg.edited ? '<em class="edited-indicator">(edited)</em>' : ''}
+                        </div>
+                    </div>
+                    
+                    ${canModify && !isSent ? `
+                        <div class="relative">
+                            <button class="message-menu-btn" onclick="event.stopPropagation(); toggleMessageMenu('${menuId}')">⋮</button>
+                            <div class="message-menu-dropdown" id="${menuId}">
+                                ${canDelete ? `<button class="message-menu-item" onclick="deleteMessage('${currentChatId}', '${msg.id}', '${viewId}')">Delete</button>` : ''}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }).join('');
+        
+        const manageMembersBtn = (currentUser && currentUser.username === currentClass.teacherUsername && currentChatId === 'group') ? `<button class="btn btn-secondary" style="padding: 0.5rem;" onclick="openManageChatMembersModal()">Manage Members</button>` : '';
+
+        panelEl.innerHTML = `
+            <header class="conversation-header">
+                <div>
+                    <button class="conversation-back-btn" onclick="goBackToChatList('${viewId}')">←</button>
+                    ${conversationTitle}
+                </div>
+                ${manageMembersBtn}
+            </header>
+            <div class="conversation-messages" id="conversationMessages-${viewId}">${messagesHTML}</div>
+            <form class="conversation-input-form" onsubmit="sendMessage(event, '${viewId}')">
+                <button type="button" class="btn btn-secondary attachment-btn" onclick="document.getElementById('messageAttachmentInput').click()">📎</button>
+                <input class="conversation-input" id="messageInput-${viewId}" placeholder="Type a message..." autocomplete="off">
+                <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+        `;
+        
+        const messagesContainer = document.getElementById(`conversationMessages-${viewId}`);
+        if (messagesContainer) {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+    }
+    
+    function selectChat(chatId, viewId) {
+        currentChatId = chatId;
+        document.getElementById(`messagingLayout-${viewId}`)?.classList.add('show-conversation');
+        renderChatList(viewId);
+        renderConversation(viewId);
+    }
+    
+    function goBackToChatList(viewId) {
+        document.getElementById(`messagingLayout-${viewId}`)?.classList.remove('show-conversation');
+    }
+
+    function sendMessage(event, viewId) {
+        event.preventDefault();
+        const input = document.getElementById(`messageInput-${viewId}`);
+        const content = input.value.trim();
+        const attachmentInput = document.getElementById('messageAttachmentInput');
+        const attachment = attachmentInput.files[0];
+        
+        if (!content && !attachment) return;
+
+        if (attachment) {
+             const reader = new FileReader();
+             reader.onload = function(e) {
+                 const fileData = {
+                     name: attachment.name,
+                     type: attachment.type,
+                     dataUrl: e.target.result
+                 };
+                 finalizeSendMessage(content, fileData, viewId);
+             };
+             reader.readAsDataURL(attachment);
+        } else {
+            finalizeSendMessage(content, null, viewId);
+        }
+    }
+    
+    function finalizeSendMessage(content, attachmentData, viewId) {
+        const senderId = currentUser ? currentUser.username : currentStudent.id;
+        const senderName = currentUser ? currentUser.username : currentStudent.name;
+        
+        const message = {
+            id: generateId(),
+            sender: senderId,
+            senderName,
+            content,
+            timestamp: new Date().toISOString(),
+            deleted: false,
+            edited: false,
+            attachment: attachmentData
+        };
+        
+        if (currentChatId === 'group') {
+            if (!messages[currentClassId].group) messages[currentClassId].group = [];
+            messages[currentClassId].group.push(message);
+        } else {
+            if (!messages[currentClassId].direct[currentChatId]) messages[currentClassId].direct[currentChatId] = [];
+            messages[currentClassId].direct[currentChatId].push(message);
+        }
+        
+        saveData();
+        document.getElementById(`messageInput-${viewId}`).value = '';
+        document.getElementById('messageAttachmentInput').value = ''; // Clear file input
+        renderConversation(viewId);
+        renderChatList(viewId);
+    }
+    
+    function handleFileAttachment(event) {
+        const file = event.target.files[0];
+        if (file) {
+            // Could show a preview here if needed
+            showNotification(`Attached: ${file.name}`, 'info');
+        }
+    }
+
+    function deleteMessage(chatId, messageId, viewId) {
+        let messageArray = chatId === 'group' ? messages[currentClassId].group : messages[currentClassId].direct[chatId];
+        const message = messageArray.find(m => m.id === messageId);
+        
+        if (message) {
+            message.deleted = true;
+            message.content = '';
+            message.attachment = null;
+            saveData();
+            renderConversation(viewId);
+            renderChatList(viewId);
+        }
+    }
+    
+    function toggleMessageMenu(menuId) {
+        document.querySelectorAll('.message-menu-dropdown.active').forEach(menu => {
+            if (menu.id !== menuId) menu.classList.remove('active');
+        });
+        document.getElementById(menuId)?.classList.toggle('active');
+    }
+    
+    function startEditMessage(chatId, messageId, viewId) {
+        let messageArray = chatId === 'group' ? messages[currentClassId].group : messages[currentClassId].direct[chatId];
+        const message = messageArray.find(m => m.id === messageId);
+        if (!message) return;
+
+        const bubbleWrapper = document.getElementById(`bubble-${messageId}`);
+        const bubbleContent = bubbleWrapper.querySelector('.message-bubble');
+        
+        bubbleContent.innerHTML = `
+            <form class="message-edit-form" onsubmit="saveEditedMessage(event, '${chatId}', '${messageId}', '${viewId}')">
+                <textarea class="message-edit-textarea">${message.content}</textarea>
+                <div class="message-edit-actions">
+                    <button type="submit" class="btn btn-success" style="padding: 0.25rem 0.5rem;">Save</button>
+                    <button type="button" class="btn btn-secondary" style="padding: 0.25rem 0.5rem;" onclick="renderConversation('${viewId}')">Cancel</button>
+                </div>
+            </form>
+        `;
+        bubbleContent.querySelector('textarea').focus();
+    }
+    
+    function saveEditedMessage(event, chatId, messageId, viewId) {
+        event.preventDefault();
+        const textarea = event.target.querySelector('textarea');
+        const newContent = textarea.value.trim();
+        
+        if (!newContent) {
+            showNotification("Message can't be empty.", "error");
+            return;
+        }
+
+        let messageArray = chatId === 'group' ? messages[currentClassId].group : messages[currentClassId].direct[chatId];
+        const message = messageArray.find(m => m.id === messageId);
+
+        if (message) {
+            message.content = newContent;
+            message.edited = true;
+            saveData();
+            renderConversation(viewId);
+        }
+    }
+
+    function openNewMessageModal() {
+        const select = document.getElementById('recipientSelect');
+        const classStudents = Object.values(students[currentClassId] || {});
+        select.innerHTML = classStudents.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+        openModal('newMessageModal');
+    }
+
+    function startDirectMessage() {
+        const recipientId = document.getElementById('recipientSelect').value;
+        if (!recipientId) return;
+
+        const threadId = [currentUser.username, recipientId].sort().join('_');
+        if (!messages[currentClassId].direct[threadId]) {
+            messages[currentClassId].direct[threadId] = [];
+        }
+        
+        closeModal('newMessageModal');
+        selectChat(threadId, 'messagingView');
+    }
+    
+    function openManageChatMembersModal() {
+        const listEl = document.getElementById('chatMemberList');
+        const currentClass = classes.find(c => c.id === currentClassId);
+        const schoolTeachers = Object.values(users).filter(u => u.school === currentUser.school && u.type === 'teacher' && u.username !== currentUser.username);
+        
+        listEl.innerHTML = schoolTeachers.map(teacher => `
+            <div class="multi-select-option">
+                <input type="checkbox" value="${teacher.username}" id="member-${teacher.username}" ${currentClass.chatMembers.includes(teacher.username) ? 'checked' : ''}>
+                <label for="member-${teacher.username}">${teacher.username}</label>
+            </div>
+        `).join('');
+        openModal('manageChatMembersModal');
+    }
+    
+    function updateChatMembers() {
+        const currentClass = classes.find(c => c.id === currentClassId);
+        const selectedMembers = Array.from(document.querySelectorAll('#chatMemberList input:checked')).map(cb => cb.value);
+        currentClass.chatMembers = [currentClass.teacherUsername, ...selectedMembers];
+        saveData();
+        closeModal('manageChatMembersModal');
+        showNotification("Group chat members updated.", "success");
+    }
   </script>
 </body>
 </html>
