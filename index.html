@@ -803,6 +803,19 @@
       color: var(--primary-color);
       font-weight: 600;
       margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .power-up-badge {
+      background: var(--warning-color); 
+      color: var(--surface); 
+      padding: 0.25rem 0.5rem; 
+      border-radius: 12px; 
+      font-size: 0.75rem;
+      font-weight: bold;
     }
 
     .student-rewards {
@@ -905,6 +918,9 @@
       font-weight: 600;
       color: var(--primary-color);
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     /* Reason Chip Styles */
@@ -1125,6 +1141,56 @@
     }
 
     /* Leaderboard */
+    .podium-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        height: 250px;
+    }
+    .podium-step {
+        width: 30%;
+        max-width: 200px;
+        text-align: center;
+        background: var(--surface);
+        border: 1px solid var(--border-color);
+        border-radius: 12px 12px 0 0;
+        padding: 1rem;
+        box-shadow: var(--shadow);
+    }
+    .podium-2 { height: 80%; background: #e0e0e0; border-color: #c0c0c0;}
+    .podium-1 { height: 100%; background: #fffacd; border-color: var(--warning-color); }
+    .podium-3 { height: 60%; background: #f0e68c; border-color: #f59e0b; }
+    
+    .podium-rank {
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+    .podium-2 .podium-rank { color: #8c8c8c; }
+    .podium-1 .podium-rank { color: var(--warning-color); }
+    .podium-3 .podium-rank { color: #d28c0a; }
+
+    .podium-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin: 0.5rem auto;
+        border: 4px solid var(--surface);
+        background-color: var(--primary-color);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: bold;
+        color: white;
+    }
+     .podium-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .podium-name { font-weight: 600; margin-bottom: 0.25rem; }
+    .podium-points { font-weight: bold; color: var(--primary-dark); }
+    
+    .leaderboard-list { margin-top: 1rem; }
     .leaderboard-item {
       display: flex;
       align-items: center;
@@ -1146,12 +1212,6 @@
       font-weight: 700;
       color: var(--surface);
       font-size: 0.875rem;
-    }
-   
-    .rank-1 { background: var(--warning-color); }
-    .rank-2 { background: #9ca3af; }
-    .rank-3 { background: #f59e0b; }
-    .leaderboard-rank:not(.rank-1):not(.rank-2):not(.rank-3) {
       background: var(--primary-color);
     }
    
@@ -1183,6 +1243,66 @@
     .leaderboard-points {
       font-weight: 700;
       color: var(--primary-color);
+    }
+    
+    /* History Calendar View */
+    .calendar-container {
+        background: var(--surface);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.5rem;
+    }
+    .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    .calendar-header h3 {
+        margin: 0;
+        font-size: 1.25rem;
+    }
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 0.5rem;
+    }
+    .calendar-day-header {
+        text-align: center;
+        font-weight: 600;
+        color: var(--text-secondary);
+        font-size: 0.875rem;
+        padding-bottom: 0.5rem;
+    }
+    .calendar-day {
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        min-height: 80px;
+        padding: 0.5rem;
+        font-weight: 500;
+        transition: background-color 0.2s;
+    }
+    .calendar-day.other-month {
+        color: var(--text-secondary);
+        background-color: var(--surface-secondary);
+    }
+    .calendar-day.has-history {
+        cursor: pointer;
+        background-color: rgb(26 181 244 / 0.1);
+        border-color: rgb(26 181 244 / 0.2);
+    }
+    .calendar-day.has-history:hover {
+        background-color: rgb(26 181 244 / 0.2);
+    }
+    .calendar-day-history-popup {
+        position: absolute;
+        background: var(--surface);
+        box-shadow: var(--shadow-lg);
+        border-radius: 8px;
+        padding: 1rem;
+        z-index: 1001;
+        max-width: 300px;
+        border: 1px solid var(--border-color);
     }
 
     /* Bulk Actions */
@@ -1276,6 +1396,30 @@
       gap: 0.75rem;
       justify-content: flex-end;
       margin-top: 1.5rem;
+    }
+    
+    .modal-tabs {
+        display: flex;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1.5rem;
+    }
+    .modal-tab {
+        padding: 0.75rem 1.5rem;
+        cursor: pointer;
+        border-bottom: 3px solid transparent;
+        margin-bottom: -1px;
+        font-weight: 500;
+        color: var(--text-secondary);
+    }
+    .modal-tab.active {
+        color: var(--primary-color);
+        border-bottom-color: var(--primary-color);
+    }
+    .modal-tab-content {
+        display: none;
+    }
+    .modal-tab-content.active {
+        display: block;
     }
 
     /* File upload styles */
@@ -1452,39 +1596,38 @@
       font-size: 0.875rem;
       margin-top: 0.25rem;
     }
-
-    /* Multi Select Styles */
-    .multi-select-container {
-      position: relative;
-    }
-
-    .multi-select-search {
-      width: 100%;
-      padding: 0.5rem;
-      margin-bottom: 0.5rem;
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-    }
-
-    .multi-select-list {
-      max-height: 200px;
-      overflow-y: auto;
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-    }
-
-    .multi-select-option {
-      padding: 0.5rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .multi-select-option:hover {
-      background: var(--surface-secondary);
-    }
     
+    /* Selectable Student Grid for Modals */
+    .selectable-student-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 1rem;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    .selectable-student-card {
+        padding: 1rem;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .selectable-student-card.selected {
+        border-color: var(--primary-color);
+        background-color: rgb(26 181 244 / 0.1);
+    }
+    .selectable-student-card .student-avatar {
+        width: 48px;
+        height: 48px;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    .selectable-student-card .student-name {
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
     /* Emoji Picker Styles */
     #emojiGrid {
       display: grid;
@@ -1568,358 +1711,16 @@
         display: none;
     }
     
-    /* Messaging Layout */
-    .messaging-layout {
-      display: flex;
-      height: calc(100vh - var(--topbar-height) - 4rem);
-      background: var(--surface);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .chat-list-panel {
-      width: 320px;
-      border-right: 1px solid var(--border-color);
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
-      overflow-x: hidden;
-    }
-
-    .chat-list-header {
-      padding: 1rem;
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .chat-list-title {
-      font-size: 1.125rem;
-      font-weight: 600;
-    }
-
-    .chat-list {
-      flex: 1;
-      overflow-y: auto;
-    }
-
-    .chat-list-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 1rem;
-      cursor: pointer;
-      border-bottom: 1px solid var(--surface-secondary);
-      transition: background-color 0.2s;
-    }
-
-    .chat-list-item:hover {
-      background: var(--surface-secondary);
-    }
-
-    .chat-list-item.active {
-      background: rgb(26 181 244 / 0.1);
-    }
-
-    .chat-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: var(--primary-color);
-      color: var(--surface);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      flex-shrink: 0;
-    }
-
-    .chat-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .chat-info-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.25rem;
-    }
-
-    .chat-name {
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .chat-timestamp {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      white-space: nowrap;
-    }
-
-    .chat-last-message {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
-
-    .conversation-panel {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      background: #f9fafb;
-      overflow-x: hidden;
-    }
-    
-    .conversation-placeholder {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        text-align: center;
-        color: var(--text-secondary);
-        font-size: 1.125rem;
-    }
-    
-    .conversation-placeholder svg {
-        width: 80px;
-        height: 80px;
-        margin-bottom: 1rem;
-        fill: var(--border-color);
-    }
-
-    .conversation-header {
-      padding: 1rem;
-      border-bottom: 1px solid var(--border-color);
-      font-weight: 600;
-      font-size: 1.125rem;
-      background: var(--surface);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .conversation-back-btn {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      margin-right: 0.75rem;
-    }
-
-    .conversation-messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .message-bubble-wrapper {
-      display: flex;
-      margin-bottom: 1rem;
-      position: relative;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .message-bubble-wrapper.sent {
-      justify-content: flex-end;
-    }
-    .message-bubble-wrapper.received {
-      justify-content: flex-start;
-      align-items: flex-end;
-    }
-
-    .message-bubble {
-      max-width: 70%;
-      padding: 0.75rem 1rem;
-      border-radius: 18px;
-      line-height: 1.4;
-      position: relative;
-    }
-
-    .message-bubble.sent {
-      background: var(--primary-color);
-      color: var(--surface);
-      border-bottom-right-radius: 4px;
-    }
-
-    .message-bubble.received {
-      background: var(--surface);
-      border: 1px solid var(--border-color);
-      border-bottom-left-radius: 4px;
-    }
-
-    .message-meta {
-      font-size: 0.75rem;
-      margin-top: 0.25rem;
-      color: var(--text-secondary);
-    }
-    
-    .message-meta .edited-indicator {
-      font-style: italic;
-      margin-left: 0.5rem;
-    }
-
-    .message-bubble.sent .message-meta {
-      color: rgba(255, 255, 255, 0.7);
-      text-align: right;
-    }
-
-    .message-sender {
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-      font-size: 0.875rem;
-      color: var(--primary-dark);
-    }
-    
-    .message-attachment {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.5rem;
-        background: rgba(0,0,0,0.1);
-        border-radius: 8px;
-        margin-top: 0.5rem;
-        cursor: pointer;
-    }
-    .message-bubble.sent .message-attachment {
-        background: rgba(255,255,255,0.2);
-    }
-    .message-attachment-name {
-        word-break: break-all;
-    }
-
-    .message-content.deleted {
-      font-style: italic;
-      color: var(--text-secondary);
-    }
-    
-    /* Message Actions Menu */
-    .message-menu-btn {
-      background: none;
-      border: none;
-      font-size: 1.25rem;
-      cursor: pointer;
-      color: var(--text-secondary);
-      padding: 0.25rem;
-      border-radius: 50%;
-      display: none;
-    }
-    .message-bubble-wrapper:hover .message-menu-btn {
-      display: block;
-    }
-    .message-menu-btn:hover {
-      background: var(--surface-secondary);
-    }
-    
-    .message-menu-dropdown {
-      position: absolute;
-      background: var(--surface);
-      box-shadow: var(--shadow-lg);
-      border-radius: 8px;
-      padding: 0.5rem 0;
-      display: none;
-      z-index: 10;
-      min-width: 120px;
-    }
-    .message-bubble-wrapper.sent .message-menu-dropdown {
-      right: 0;
-      top: 100%;
-    }
-    .message-bubble-wrapper.received .message-menu-dropdown {
-      left: 0;
-      top: 100%;
-    }
-    .message-menu-dropdown.active {
-      display: block;
-    }
-    .message-menu-item {
-      display: block;
-      width: 100%;
-      text-align: left;
-      padding: 0.5rem 1rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 0.875rem;
-    }
-    .message-menu-item:hover {
-      background: var(--surface-secondary);
-    }
-    
-    /* Message Editing Styles */
-    .message-edit-form {
-        width: 100%;
-    }
-    .message-edit-textarea {
-        width: 100%;
-        resize: vertical;
-        padding: 0.5rem;
-        border-radius: 6px;
-        border: 1px solid var(--border-color);
-        font-family: inherit;
-        font-size: inherit;
-        min-height: 50px;
-    }
-    .message-edit-actions {
-        display: flex;
-        gap: 0.5rem;
-        margin-top: 0.5rem;
-    }
-
-    .conversation-input-form {
-      padding: 1rem;
-      border-top: 1px solid var(--border-color);
-      display: flex;
-      gap: 0.75rem;
-      background: var(--surface);
-    }
-    
-    .attachment-btn {
-        padding: 0.75rem;
-        font-size: 1rem;
-    }
-
-    .conversation-input {
-      flex: 1;
-      border: 1px solid var(--border-color);
-      background: var(--surface);
-      padding: 0.75rem 1rem;
-      border-radius: 20px;
-      resize: none;
-      font-family: inherit;
-    }
-    .conversation-input:focus {
-      outline: none;
-      box-shadow: 0 0 0 2px rgb(26 181 244 / 0.2);
-      border-color: var(--primary-color);
-    }
-    
-    /* Student Portal */
-    .student-portal-layout {
+    /* Student & Parent Portal */
+    .portal-layout {
         display: none;
         flex-direction: column;
         min-height: 100vh;
     }
-    .student-portal-layout.active {
+    .portal-layout.active {
         display: flex;
     }
-    .student-portal-header {
+    .portal-header {
         height: var(--topbar-height);
         background: var(--surface);
         border-bottom: 1px solid var(--border-color);
@@ -1929,29 +1730,26 @@
         padding: 0 2rem;
         box-shadow: var(--shadow);
     }
-    .student-portal-info {
+    .portal-info {
         display: flex;
         align-items: center;
         gap: 1.5rem;
     }
-    .student-portal-name {
+    .portal-name {
         font-size: 1.25rem;
         font-weight: 600;
     }
-    .student-portal-points {
+    .portal-points {
         font-size: 1.25rem;
         font-weight: 700;
         color: var(--primary-color);
     }
-    .student-portal-main {
+    .portal-main {
         flex: 1;
         padding: 2rem;
-        display: flex;
     }
-    .student-portal-main .messaging-layout {
-        height: 100%;
-        width: 100%;
-        margin: 0;
+    .portal-main .content-area {
+        padding: 0;
     }
     
     /* Toggle Switch */
@@ -2012,16 +1810,16 @@
         transform: translateX(0);
       }
      
-      .main-content, .student-portal-main {
+      .main-content, .portal-main {
         margin-left: 0;
         width: 100%;
       }
      
-      .topbar, .student-portal-header {
+      .topbar, .portal-header {
         padding: 0 1rem;
       }
      
-      .content-area, .student-portal-main {
+      .content-area, .portal-main {
         padding: 1rem;
       }
      
@@ -2106,51 +1904,16 @@
         width: 100%;
       }
       
-      .student-portal-header {
+      .portal-header {
         height: auto;
         padding: 0.75rem 1rem;
       }
-      .student-portal-name, .student-portal-points {
+      .portal-name, .portal-points {
         font-size: 1rem;
       }
 
       .admin-stats, .class-stats {
         grid-template-columns: 1fr; /* Single column on phones */
-      }
-      
-      .messaging-layout {
-        height: calc(100vh - var(--topbar-height) - 2rem);
-        overflow-x: hidden;
-      }
-      .chat-list-panel, .conversation-panel {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        transition: transform 0.3s ease-in-out;
-        border-right: none;
-      }
-      .chat-list-panel {
-        transform: translateX(0);
-        z-index: 2;
-      }
-      .conversation-panel {
-        transform: translateX(100%);
-        z-index: 1;
-      }
-      .messaging-layout.show-conversation .chat-list-panel {
-        transform: translateX(-100%);
-      }
-      .messaging-layout.show-conversation .conversation-panel {
-        transform: translateX(0);
-        z-index: 3;
-      }
-      .conversation-placeholder {
-        display: none;
-      }
-      .conversation-back-btn {
-        display: block;
       }
       
       /* Responsive Table Styles */
@@ -2240,7 +2003,8 @@
 
       <p class="text-center">Don't have an account? <a href="#" class="auth-switch" onclick="showSignup()">Create one here</a></p>
       <hr style="border: none; border-top: 1px solid var(--border-color); margin: 1.5rem 0;">
-      <p class="text-center">Are you a student? <a href="#" class="auth-switch" onclick="showStudentLogin()">Login with PIN</a></p>
+      <p class="text-center">Are you a student or parent? <br>
+      <a href="#" class="auth-switch" onclick="showStudentLogin()">Student Login</a> | <a href="#" class="auth-switch" onclick="showParentLogin()">Parent Login</a></p>
     </div>
     <a href="#" class="corner-button about-button btn btn-info" onclick="openAboutModal()">About & How to Use</a>
     <a href="#" class="corner-button demo-button btn btn-info" onclick="openModal('demoModal')">Try Demo</a>
@@ -2303,7 +2067,7 @@
   <div class="auth-screen" id="studentLoginScreen" style="display: none;">
     <div class="auth-card">
       <h1 class="auth-title">Student Portal</h1>
-      <p class="auth-subtitle">Enter your secure PIN to access your points and messages</p>
+      <p class="auth-subtitle">Enter your secure PIN to access your points</p>
      
       <div class="error-message" id="studentLoginError"></div>
      
@@ -2314,7 +2078,26 @@
      
       <button class="btn btn-primary btn-full" id="studentLoginBtn">Enter Portal</button>
      
-      <p class="text-center">Not a student? <a href="#" class="auth-switch" onclick="showLogin()">Teacher/Admin Login</a></p>
+      <p class="text-center">Not a student? <a href="#" class="auth-switch" onclick="showLogin()">Go Back</a></p>
+    </div>
+  </div>
+
+  <!-- Parent Login Screen -->
+  <div class="auth-screen" id="parentLoginScreen" style="display: none;">
+    <div class="auth-card">
+      <h1 class="auth-title">Parent Portal</h1>
+      <p class="auth-subtitle">Enter your secure PIN to view your child's progress</p>
+     
+      <div class="error-message" id="parentLoginError"></div>
+     
+      <div class="form-group">
+        <label class="form-label" for="parentPin">Parent PIN</label>
+        <input type="text" class="form-input" id="parentPin" placeholder="e.g., P-XYZ-ABC" maxlength="9"/>
+      </div>
+     
+      <button class="btn btn-primary btn-full" id="parentLoginBtn">Enter Portal</button>
+     
+      <p class="text-center">Not a parent? <a href="#" class="auth-switch" onclick="showLogin()">Go Back</a></p>
     </div>
   </div>
 
@@ -2362,7 +2145,7 @@
         </div>
         <div class="topbar-right">
           <input type="text" class="search-input" id="searchInput" placeholder="Search students..." oninput="onSearchChange()"/>
-          <button class="btn btn-warning" id="switchDemoViewBtn" onclick="switchDemoView()" style="display: none;">Switch View</button>
+          <div id="demoViewSwitcher" style="display: none; gap: 0.5rem;"></div>
           <button class="btn btn-primary" onclick="openNewClassModal()">New Class</button>
         </div>
       </header>
@@ -2372,6 +2155,8 @@
         <!-- Bulk Actions -->
         <div class="bulk-actions" id="bulkActions">
           <span class="selected-count" id="selectedCount">0 selected</span>
+          <button class="btn btn-info" style="padding: 0.5rem 1rem;" onclick="selectAllStudentsForBulk()">Select All</button>
+          <button class="btn btn-info" style="padding: 0.5rem 1rem;" onclick="deselectAllStudentsForBulk()">Deselect All</button>
           <label>Points: <input type="number" class="bulk-point-input" id="bulkPointAmount" value="1" min="1"/></label>
           <button class="btn btn-success" onclick="openBulkPointsModal('add')">Add Points</button>
           <button class="btn btn-warning" onclick="openBulkPointsModal('subtract')">Subtract Points</button>
@@ -2405,7 +2190,7 @@
               </select>
             </div>
             <div class="action-buttons">
-              <button class="btn btn-info" onclick="openManagePinsModal()">Manage PINs</button>
+              <button class="btn btn-info" id="managePinsBtn" onclick="openManagePinsModal()">Manage PINs</button>
               <button class="btn btn-success" onclick="openAddStudentModal()">Add Student</button>
               <button class="btn btn-success" onclick="openAddMultipleModal()">Add Multiple</button>
               <button class="btn btn-secondary" onclick="enterBulkMode()">Bulk Actions</button>
@@ -2413,10 +2198,7 @@
           </div>
          
           <div class="students-grid" id="studentsGrid">
-            <div class="student-card add-student-card" onclick="openAddStudentModal()">
-              <div class="add-student-icon">➕</div>
-              <div>Add New Student</div>
-            </div>
+            <!-- Student cards are rendered here by JS -->
           </div>
 
           <div class="students-list" id="studentsList">
@@ -2438,10 +2220,8 @@
 
         <!-- Leaderboard View -->
         <div id="leaderboardView" class="page-view" style="display:none;">
-          <div class="content-header">
-            <h2 style="margin: 0; font-size: 1.25rem; font-weight: 600;">Class Leaderboard</h2>
-          </div>
-          <div class="leaderboard" id="leaderboard"></div>
+            <div class="podium-container" id="leaderboardPodium"></div>
+            <div class="leaderboard-list" id="leaderboardList"></div>
         </div>
 
         <!-- Rewards View -->
@@ -2458,13 +2238,20 @@
         <!-- History View -->
         <div id="historyView" class="page-view" style="display:none;">
           <div class="content-header">
-            <h2 style="margin: 0; font-size: 1.25rem; font-weight: 600;">Points History</h2>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <h2 style="margin: 0; font-size: 1.25rem; font-weight: 600;">Points History</h2>
+                <div class="view-toggle">
+                    <button class="view-option active" data-view="list" onclick="switchHistoryView(event, 'list')">List</button>
+                    <button class="view-option" data-view="calendar" onclick="switchHistoryView(event, 'calendar')">Calendar</button>
+                </div>
+            </div>
             <div class="action-buttons">
               <button class="btn btn-info" onclick="exportHistory()">Export History</button>
               <button class="btn btn-warning" onclick="clearHistory()">Clear History</button>
             </div>
           </div>
-          <div id="historyList" style="max-height: 70vh; overflow-y: auto;"></div>
+          <div id="historyListContainer"></div>
+          <div id="historyCalendarContainer" style="display: none;"></div>
         </div>
 
         <!-- Settings View -->
@@ -2493,13 +2280,6 @@
                 <span>Current Class:</span>
                 <span id="currentClassName" style="font-weight: 600;"></span>
               </div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                <label for="offlineClassToggle" style="font-weight: 500;">Make available offline</label>
-                <label class="switch">
-                  <input type="checkbox" id="offlineClassToggle">
-                  <span class="slider"></span>
-                </label>
-              </div>
               <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                 <span>Total Students:</span>
                 <span id="totalStudents" style="font-weight: 600;">0</span>
@@ -2517,17 +2297,6 @@
             <div style="background: var(--surface); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
               <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Saved Reasons</h3>
               <div id="savedReasonsList" style="display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
-            </div>
-
-            <div style="background: var(--surface); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
-              <h3 style="margin-bottom: 1rem; color: var(--text-primary);">App Preferences</h3>
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <label for="offlineModeToggle" style="font-weight: 500;">Enable Offline Mode (disables messaging)</label>
-                <label class="switch">
-                  <input type="checkbox" id="offlineModeToggle" onchange="toggleOfflineMode(this.checked)">
-                  <span class="slider"></span>
-                </label>
-              </div>
             </div>
            
             <div style="background: rgb(220 38 38 / 0.1); padding: 2rem; border-radius: 12px; border: 1px solid rgb(220 38 38 / 0.2);">
@@ -2564,26 +2333,43 @@
         <div id="admin-classesView" class="page-view" style="display:none;"></div>
         <div id="admin-usersView" class="page-view" style="display:none;"></div>
         <div id="admin-embedsView" class="page-view" style="display:none;"></div>
-        
-        <!-- Messaging View -->
-        <div id="messagingView" class="page-view" style="display:none;"></div>
       </div>
     </main>
   </div>
   
   <!-- Student Portal Layout -->
-  <div class="student-portal-layout" id="studentPortalLayout">
-    <header class="student-portal-header">
-        <div class="student-portal-info">
-            <span class="student-portal-name" id="studentPortalName">Student Name</span>
-            <span class="student-portal-points" id="studentPortalPoints">0 pts</span>
-        </div>
-        <button class="btn btn-warning" onclick="logoutStudent()">🚪 Sign Out</button>
-    </header>
-    <main class="student-portal-main">
-        <div id="studentMessagingView" style="width: 100%; height: 100%;"></div>
-    </main>
-  </div>
+    <div class="portal-layout" id="studentPortalLayout">
+        <header class="portal-header">
+            <div class="portal-info">
+                <span class="portal-name" id="studentPortalName">Student Name</span>
+                <span class="portal-points" id="studentPortalPoints">0 pts</span>
+            </div>
+            <button class="btn btn-warning" onclick="logout()">🚪 Sign Out</button>
+        </header>
+        <main class="portal-main">
+            <div class="modal-tabs" id="studentPortalTabs">
+                <div class="modal-tab active" data-view="leaderboard" onclick="switchPortalView(event)">🏆 Leaderboard</div>
+                <div class="modal-tab" data-view="history" onclick="switchPortalView(event)">📜 History</div>
+            </div>
+            <div class="content-area" id="studentPortalContent">
+                <!-- Portal content (leaderboard, history) will be rendered here -->
+            </div>
+        </main>
+    </div>
+
+  <!-- Parent Portal Layout -->
+    <div class="portal-layout" id="parentPortalLayout">
+        <header class="portal-header">
+            <div class="portal-info">
+                <span class="portal-name" id="parentPortalName">Parent of [Student Name]</span>
+                <span class="portal-points" id="parentPortalPoints">0 pts</span>
+            </div>
+            <button class="btn btn-warning" onclick="logout()">🚪 Sign Out</button>
+        </header>
+        <main class="portal-main" id="parentPortalContent">
+            <!-- Parent view of history will be rendered here -->
+        </main>
+    </div>
 
   <!-- Datalist for Reasons -->
   <datalist id="reasonsList"></datalist>
@@ -2591,9 +2377,6 @@
   <!-- Notification -->
   <div class="notification" id="notification"></div>
   
-  <!-- Hidden file input for message attachments -->
-  <input type="file" id="messageAttachmentInput" class="hidden" onchange="handleFileAttachment(event)">
-
   <!-- Modals -->
  
   <!-- About & How to Use Modal -->
@@ -2606,7 +2389,7 @@
       <div class="modal-body">
         <h3>About</h3>
         <p>Limud Points is a professional teacher management system designed to help teachers manage classrooms, track student points, rewards, and more.</p>
-        <p>Developed with care for educational excellence. Version 1.2.</p>
+        <p>Developed with care for educational excellence. Version 2.0.</p>
         <h3>How to Use</h3>
         <h4>Getting Started</h4>
         <p>1. Sign up or log in using your credentials.</p>
@@ -2615,16 +2398,16 @@
         <p>- Add students individually or in bulk.</p>
         <p>- Award or subtract points with reasons.</p>
         <p>- Use bulk actions for multiple students.</p>
-        <h4>Student Portal</h4>
-        <p>- Go to Students > Manage PINs to generate unique 5-digit PINs for your students.</p>
-        <p>- Students can log in with their PIN to view points and use the messaging feature.</p>
+        <h4>Student & Parent Portals</h4>
+        <p>- Go to Students > Manage PINs to generate unique PINs for your students and their parents.</p>
+        <p>- Students can log in to view points, the class leaderboard, and their history.</p>
+        <p>- Parents can log in to view their child's points and history.</p>
         <h4>Rewards and Leaderboard</h4>
         <p>- Create rewards (points-based or instant).</p>
-        <p>- View leaderboard for top students.</p>
+        <p>- View leaderboard with a podium for top students.</p>
         <h4>Admin Features (if applicable)</h4>
-        <p>- View classes and teacher accounts.</p>
-        <p>- Create new Admins and Teachers.</p>
-        <p>- Change teacher passwords.</p>
+        <p>- View all classes, teachers, and their detailed dashboards.</p>
+        <p>- Create new Admins and Teachers, with options to disable PINs or preset students.</p>
         <p>- Add/Remove school-wide embedded tools in the "Extras" section.</p>
         <p>For more details, explore the sidebar navigation.</p>
       </div>
@@ -2641,9 +2424,11 @@
         <h2 class="modal-title">Choose Demo Experience</h2>
         <button class="modal-close" onclick="closeModal('demoModal')">&times;</button>
       </div>
-      <div class="modal-body" style="display: flex; flex-direction: column; gap: 1rem;">
-        <button class="btn btn-primary btn-full" onclick="startDemoMode('teacher')">👨‍🏫 Launch Teacher Demo</button>
-        <button class="btn btn-info btn-full" onclick="startDemoMode('admin')">🏫 Launch Admin Demo</button>
+      <div class="modal-body" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <button class="btn btn-primary btn-full" style="grid-column: 1 / -1;" onclick="startDemoMode('teacher')">👨‍🏫 Launch Teacher Demo</button>
+        <button class="btn btn-info btn-full" style="grid-column: 1 / -1;" onclick="startDemoMode('admin')">🏫 Launch Admin Demo</button>
+        <button class="btn btn-success btn-full" onclick="startDemoMode('student')">🎓 Launch Student Demo</button>
+        <button class="btn btn-warning btn-full" onclick="startDemoMode('parent')">👨‍👩‍👧 Launch Parent Demo</button>
       </div>
     </div>
   </div>
@@ -2700,6 +2485,10 @@
           <label class="form-label" for="teacherEmail">Teacher Email</label>
           <input type="email" class="form-input" id="teacherEmail" placeholder="Email for account recovery"/>
         </div>
+        <div class="form-group">
+          <label class="form-label" for="presetStudents">Preset Students (optional, one per line)</label>
+          <textarea class="form-input" id="presetStudents" rows="4" placeholder="Student 1\nStudent 2..."></textarea>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" onclick="closeModal('createClassModal')">Cancel</button>
@@ -2727,6 +2516,15 @@
         <div class="form-group">
           <label class="form-label" for="newTeacherEmail">Teacher Email</label>
           <input type="email" class="form-input" id="newTeacherEmail" placeholder="Email for account recovery"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Permissions</label>
+          <div>
+            <label><input type="checkbox" id="allowStudentPins" checked> Allow Student PIN Generation</label>
+          </div>
+          <div>
+            <label><input type="checkbox" id="allowParentPins" checked> Allow Parent PIN Generation</label>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -3150,7 +2948,7 @@
     </div>
   </div>
 
-  <!-- Class Detail Modal -->
+  <!-- Class Detail Modal (Admin Dashboard) -->
   <div class="modal" id="classDetailModal">
     <div class="modal-content large">
       <div class="modal-header">
@@ -3221,69 +3019,31 @@
       </div>
     </div>
   </div>
-
-  <!-- New Message Modal -->
-  <div class="modal" id="newMessageModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">New Message</h2>
-        <button class="modal-close" onclick="closeModal('newMessageModal')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label class="form-label" for="recipientSelect">Select Recipient</label>
-          <select class="form-input" id="recipientSelect"></select>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" onclick="closeModal('newMessageModal')">Cancel</button>
-        <button class="btn btn-primary" onclick="startDirectMessage()">Start Chat</button>
-      </div>
-    </div>
-  </div>
   
   <!-- Manage Student PINs Modal -->
     <div class="modal" id="managePinsModal">
         <div class="modal-content large">
             <div class="modal-header">
-                <h2 class="modal-title">Manage Student PINs</h2>
+                <h2 class="modal-title">Manage Student & Parent PINs</h2>
                 <button class="modal-close" onclick="closeModal('managePinsModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p class="mb-4">Here are the PINs for your students. Students can use these to log in to their portal.</p>
+                <p class="mb-4">Here are the PINs for your students and their parents.</p>
                 <div id="studentPinList" style="max-height: 400px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem;"></div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-info" onclick="generateStudentPINs()">Generate/Regenerate PINs</button>
+                <button class="btn btn-info" onclick="generatePINs()">Generate/Regenerate PINs</button>
                 <button class="btn btn-success" onclick="copyPinsToClipboard()">Copy All</button>
                 <button class="btn btn-secondary" onclick="closeModal('managePinsModal')">Close</button>
             </div>
         </div>
     </div>
     
-  <!-- Manage Chat Members Modal -->
-    <div class="modal" id="manageChatMembersModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Manage Group Chat Members</h2>
-                <button class="modal-close" onclick="closeModal('manageChatMembersModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Select other teachers from your school to add to this class group chat.</p>
-                <div id="chatMemberList" class="multi-select-list" style="margin-top: 1rem;"></div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('manageChatMembersModal')">Cancel</button>
-                <button class="btn btn-primary" onclick="updateChatMembers()">Save Changes</button>
-            </div>
-        </div>
-    </div>
-
-
   <script>
     const STORAGE_KEY = 'limudPointsData';
     let currentUser = null;
     let currentStudent = null;
+    let currentParent = null;
     let currentClassId = null;
     let classes = [];
     let students = {};
@@ -3293,7 +3053,6 @@
     let reasons = {};
     let embeds = {};
     let users = {};
-    let messages = {};
     let bulkMode = false;
     let selectedStudents = new Set();
     let bulkAction = '';
@@ -3305,7 +3064,7 @@
     let currentUsernameToEdit = '';
     let emojiPickerTarget = null;
     let demoMode = false;
-    let currentChatId = null;
+    let historyCalendarDate = new Date();
 
     let listViewSizeLevel = 0;
     const LIST_VIEW_SIZE_MIN = -2;
@@ -3331,49 +3090,13 @@
         history,
         reasons,
         embeds,
-        messages,
         currentUser: currentUser ? currentUser.username : null,
         currentStudent: currentStudent ? { studentId: currentStudent.id, classId: currentStudent.classId } : null,
+        currentParent: currentParent ? { studentId: currentParent.id, classId: currentParent.classId } : null,
         currentClassId
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      
-      // Sync data for any offline-enabled classes
-      if (currentClassId) {
-        const currentClass = classes.find(c => c.id === currentClassId);
-        if (currentClass && currentClass.offlineEnabled) {
-          syncOfflineClass(currentClassId);
-        }
-      }
     }
-
-    function syncOfflineClass(classId) {
-        const classData = {
-            students: students[classId] || {},
-            rewards: rewards[classId] || [],
-            powerups: powerups[classId] || [],
-            history: history[classId] || [],
-            reasons: reasons[classId] || [],
-        };
-        localStorage.setItem(`offline_${classId}`, JSON.stringify(classData));
-    }
-    
-    function toggleOfflineAccess(classId, isEnabled) {
-        const classIndex = classes.findIndex(c => c.id === classId);
-        if (classIndex === -1) return;
-
-        classes[classIndex].offlineEnabled = isEnabled;
-        if (isEnabled) {
-            syncOfflineClass(classId);
-            showNotification('Class is now available offline!', 'success');
-        } else {
-            localStorage.removeItem(`offline_${classId}`);
-            showNotification('Offline data for this class removed.', 'info');
-        }
-        // Save the change to the `classes` array itself
-        saveData();
-    }
-
 
     function loadData() {
       try {
@@ -3389,24 +3112,8 @@
           history = data.history || {};
           reasons = data.reasons || {};
           embeds = data.embeds || {};
-          messages = data.messages || {};
           currentClassId = data.currentClassId;
           
-          // Restore from offline cache if available
-          classes.forEach(c => {
-            if (c.offlineEnabled) {
-              const offlineDataString = localStorage.getItem(`offline_${c.id}`);
-              if (offlineDataString) {
-                const offlineData = JSON.parse(offlineDataString);
-                students[c.id] = offlineData.students || {};
-                rewards[c.id] = offlineData.rewards || [];
-                powerups[c.id] = offlineData.powerups || [];
-                history[c.id] = offlineData.history || [];
-                reasons[c.id] = offlineData.reasons || [];
-              }
-            }
-          });
-
           if (data.currentUser && users[data.currentUser]) {
             currentUser = users[data.currentUser];
           }
@@ -3414,6 +3121,12 @@
               const { studentId, classId } = data.currentStudent;
               if (students[classId] && students[classId][studentId]) {
                   currentStudent = { ...students[classId][studentId], classId };
+              }
+          }
+           if (data.currentParent) {
+              const { studentId, classId } = data.currentParent;
+              if (students[classId] && students[classId][studentId]) {
+                  currentParent = { ...students[classId][studentId], classId };
               }
           }
         }
@@ -3465,19 +3178,29 @@
     function showLogin() {
       document.getElementById('signupScreen').style.display = 'none';
       document.getElementById('studentLoginScreen').style.display = 'none';
+      document.getElementById('parentLoginScreen').style.display = 'none';
       document.getElementById('loginScreen').style.display = 'flex';
     }
 
     function showSignup() {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('studentLoginScreen').style.display = 'none';
+      document.getElementById('parentLoginScreen').style.display = 'none';
       document.getElementById('signupScreen').style.display = 'flex';
     }
     
     function showStudentLogin() {
         document.getElementById('loginScreen').style.display = 'none';
         document.getElementById('signupScreen').style.display = 'none';
+        document.getElementById('parentLoginScreen').style.display = 'none';
         document.getElementById('studentLoginScreen').style.display = 'flex';
+    }
+
+    function showParentLogin() {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('signupScreen').style.display = 'none';
+        document.getElementById('studentLoginScreen').style.display = 'none';
+        document.getElementById('parentLoginScreen').style.display = 'flex';
     }
 
     function selectAccountType(type) {
@@ -3518,7 +3241,7 @@
         return;
       }
 
-      users[username] = {username, password, type, school, email, createdAt: new Date().toISOString(), settings: { offlineMode: false }};
+      users[username] = {username, password, type, school, email, createdAt: new Date().toISOString(), settings: { allowStudentPins: true, allowParentPins: true }};
       
       if (!embeds[school]) {
         embeds[school] = [
@@ -3547,9 +3270,8 @@
       }
       currentUser = users[username];
       currentStudent = null;
+      currentParent = null;
       document.getElementById('loginScreen').style.display = 'none';
-      document.getElementById('signupScreen').style.display = 'none';
-      document.getElementById('studentLoginScreen').style.display = 'none';
       document.getElementById('appLayout').classList.add('active');
       initializeApp();
       saveData();
@@ -3583,6 +3305,7 @@
         if (foundStudent) {
             currentStudent = { ...foundStudent, classId: foundClassId };
             currentUser = null;
+            currentParent = null;
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('studentLoginScreen').style.display = 'none';
             document.getElementById('appLayout').classList.remove('active');
@@ -3595,40 +3318,68 @@
         }
     }
 
+    function loginWithParentPIN() {
+        const pin = document.getElementById('parentPin').value.trim().toUpperCase();
+        const error = document.getElementById('parentLoginError');
+        error.style.display = 'none';
+
+        if (!/^P-[A-Z0-9]{3}-[A-Z0-9]{3}$/.test(pin)) {
+            error.textContent = 'Please enter a valid PIN in the format P-XXX-XXX.';
+            error.style.display = 'block';
+            return;
+        }
+
+        let foundStudent = null;
+        let foundClassId = null;
+
+        for (const classId in students) {
+            for (const studentId in students[classId]) {
+                if (students[classId][studentId].parentPin === pin) {
+                    foundStudent = students[classId][studentId];
+                    foundClassId = classId;
+                    break;
+                }
+            }
+            if (foundStudent) break;
+        }
+
+        if (foundStudent) {
+            currentParent = { ...foundStudent, classId: foundClassId };
+            currentUser = null;
+            currentStudent = null;
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('parentLoginScreen').style.display = 'none';
+            document.getElementById('appLayout').classList.remove('active');
+            document.getElementById('parentPortalLayout').classList.add('active');
+            initializeAppParent();
+            saveData();
+        } else {
+            error.textContent = 'Invalid PIN. Please try again.';
+            error.style.display = 'block';
+        }
+    }
+
     function logout() {
       currentUser = null;
       currentStudent = null;
+      currentParent = null;
       currentClassId = null;
-      currentChatId = null;
       demoMode = false;
-      document.getElementById('switchDemoViewBtn').style.display = 'none';
+      document.getElementById('demoViewSwitcher').style.display = 'none';
 
       window.location.hash = '';
       document.getElementById('appLayout').classList.remove('active');
       document.getElementById('studentPortalLayout').classList.remove('active');
-      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('parentPortalLayout').classList.remove('active');
+      showLogin();
       
       const persistentData = {
-          users,
-          classes,
-          students,
-          rewards,
-          powerups,
-          history,
-          reasons,
-          embeds,
-          messages,
-          currentUser: null,
-          currentStudent: null,
-          currentClassId: null
+          users, classes, students, rewards, powerups, history, reasons, embeds,
+          currentUser: null, currentStudent: null, currentParent: null, currentClassId: null
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(persistentData));
       // Re-init global vars to be safe
       loadData();
-    }
-    
-    function logoutStudent() {
-        logout();
     }
 
     function initializeApp() {
@@ -3642,13 +3393,36 @@
     function initializeAppStudent() {
         document.getElementById('studentPortalName').textContent = currentStudent.name;
         document.getElementById('studentPortalPoints').textContent = `${currentStudent.points} pts`;
-        
         currentClassId = currentStudent.classId;
-        const mainTeacher = classes.find(c => c.id === currentClassId).teacherUsername;
-        const directChatId = [currentStudent.id, mainTeacher].sort().join('_');
-        
-        currentChatId = 'group'; // Default to group chat
-        renderMessagingView('studentMessagingView');
+        switchPortalView({ currentTarget: document.querySelector('#studentPortalTabs .modal-tab[data-view="leaderboard"]') });
+    }
+
+    function initializeAppParent() {
+        document.getElementById('parentPortalName').textContent = `Parent of ${currentParent.name}`;
+        document.getElementById('parentPortalPoints').textContent = `${currentParent.points} pts`;
+        currentClassId = currentParent.classId;
+        const container = document.getElementById('parentPortalContent');
+        container.innerHTML = '';
+        const historyData = history[currentClassId] || [];
+        const studentHistory = historyData.filter(item => item.studentId === currentParent.id);
+        container.appendChild(renderHistoryView(studentHistory));
+    }
+
+    function switchPortalView(event) {
+        const targetView = event.currentTarget.dataset.view;
+        document.querySelectorAll('#studentPortalTabs .modal-tab').forEach(t => t.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+
+        const contentArea = document.getElementById('studentPortalContent');
+        contentArea.innerHTML = '';
+
+        if (targetView === 'leaderboard') {
+            contentArea.appendChild(renderLeaderboard());
+        } else if (targetView === 'history') {
+            const historyData = history[currentClassId] || [];
+            const studentHistory = historyData.filter(item => item.studentId === currentStudent.id);
+            contentArea.appendChild(renderHistoryView(studentHistory));
+        }
     }
 
     // Router
@@ -3669,11 +3443,6 @@
             updateClassSelector();
         }
         
-        if (currentUser.settings?.offlineMode && hash === 'messaging') {
-            window.location.hash = `/${defaultView}`;
-            return;
-        }
-
         switchView(hash || defaultView);
     }
 
@@ -3686,33 +3455,30 @@
     function updateNavItems() {
       const nav = document.getElementById('sidebarNav');
       nav.innerHTML = '';
-      const showMessaging = !currentUser.settings?.offlineMode;
 
       if (currentUser.type === 'admin') {
         nav.innerHTML = `
           <div class="nav-section">
             <div class="nav-section-title">Admin</div>
-            <a href="#/admin-classes" class="nav-item" data-view="admin-classes" onclick="closeMobileSidebar()"><span class="nav-icon">📚</span>Classes</a>
-            <a href="#/admin-users" class="nav-item" data-view="admin-users" onclick="closeMobileSidebar()"><span class="nav-icon">👩‍🏫</span>Users</a>
-            <a href="#/admin-embeds" class="nav-item" data-view="admin-embeds" onclick="closeMobileSidebar()"><span class="nav-icon">🖥️</span>Embeds</a>
-            ${showMessaging ? `<a href="#/messaging" class="nav-item" data-view="messaging" onclick="closeMobileSidebar()"><span class="nav-icon">💬</span>Messaging</a>` : ''}
+            <a href="#/admin-classes" class="nav-item" data-view="admin-classes" onclick="closeMobileSidebar()">📚 Classes</a>
+            <a href="#/admin-users" class="nav-item" data-view="admin-users" onclick="closeMobileSidebar()">👩‍🏫 Users</a>
+            <a href="#/admin-embeds" class="nav-item" data-view="admin-embeds" onclick="closeMobileSidebar()">🖥️ Embeds</a>
           </div>
         `;
       } else {
         nav.innerHTML = `
           <div class="nav-section">
             <div class="nav-section-title">Class</div>
-            <a href="#/students" class="nav-item" data-view="students" onclick="closeMobileSidebar()"><span class="nav-icon">👥</span>Students</a>
-            <a href="#/leaderboard" class="nav-item" data-view="leaderboard" onclick="closeMobileSidebar()"><span class="nav-icon">🏆</span>Leaderboard</a>
-            <a href="#/rewards" class="nav-item" data-view="rewards" onclick="closeMobileSidebar()"><span class="nav-icon">🎁</span>Rewards</a>
-            <a href="#/powerups" class="nav-item" data-view="powerups" onclick="closeMobileSidebar()"><span class="nav-icon">⚡</span>Power Ups</a>
-            <a href="#/history" class="nav-item" data-view="history" onclick="closeMobileSidebar()"><span class="nav-icon">📜</span>History</a>
+            <a href="#/students" class="nav-item" data-view="students" onclick="closeMobileSidebar()">👥 Students</a>
+            <a href="#/leaderboard" class="nav-item" data-view="leaderboard" onclick="closeMobileSidebar()">🏆 Leaderboard</a>
+            <a href="#/rewards" class="nav-item" data-view="rewards" onclick="closeMobileSidebar()">🎁 Rewards</a>
+            <a href="#/powerups" class="nav-item" data-view="powerups" onclick="closeMobileSidebar()">⚡ Power Ups</a>
+            <a href="#/history" class="nav-item" data-view="history" onclick="closeMobileSidebar()">📜 History</a>
           </div>
           <div class="nav-section">
             <div class="nav-section-title">General</div>
-            ${showMessaging ? `<a href="#/messaging" class="nav-item" data-view="messaging" onclick="closeMobileSidebar()"><span class="nav-icon">💬</span>Messaging</a>` : ''}
-            <a href="#/settings" class="nav-item" data-view="settings" onclick="closeMobileSidebar()"><span class="nav-icon">⚙️</span>Settings</a>
-            <a href="#/extras" class="nav-item" data-view="extras" onclick="closeMobileSidebar()"><span class="nav-icon">⭐</span>Extras</a>
+            <a href="#/settings" class="nav-item" data-view="settings" onclick="closeMobileSidebar()">⚙️ Settings</a>
+            <a href="#/extras" class="nav-item" data-view="extras" onclick="closeMobileSidebar()">⭐ Extras</a>
           </div>
         `;
       }
@@ -3724,28 +3490,29 @@
       if (activeNavItem) activeNavItem.classList.add('active');
 
       document.querySelectorAll('.page-view').forEach(d => d.style.display = 'none');
-      document.getElementById('pageTitle').textContent = view.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+      const title = view.split('?')[0]; // handle query params if any
+      document.getElementById('pageTitle').textContent = title.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
       document.getElementById('searchInput').style.display = 'none';
 
-      const viewId = `${view}View`;
+      const viewId = `${title}View`;
       const viewElement = document.getElementById(viewId);
       if (viewElement) {
         viewElement.style.display = 'block';
       }
       
       if (currentUser.type === 'admin') {
-        if (view === 'admin-classes') renderAdminClassesView();
-        else if (view === 'admin-users') renderAdminUsersView();
-        else if (view === 'admin-embeds') renderAdminEmbedsView();
+        if (title === 'admin-classes') renderAdminClassesView();
+        else if (title === 'admin-users') renderAdminUsersView();
+        else if (title === 'admin-embeds') renderAdminEmbedsView();
       } else {
         if (currentClassId) {
-            renderStudentsView();
-            renderLeaderboard();
-            renderRewardsView();
-            renderHistoryView();
-            renderSettingsView();
-            renderPowerUpsView();
-        } else if (view === 'students') {
+            if(title === 'students') renderStudentsView();
+            else if(title === 'leaderboard') renderLeaderboardView();
+            else if(title === 'rewards') renderRewardsView();
+            else if(title === 'history') renderHistoryView(history[currentClassId] || [], document.getElementById('historyView'));
+            else if(title === 'settings') renderSettingsView();
+            else if(title === 'powerups') renderPowerUpsView();
+        } else if (title === 'students') {
             document.getElementById('studentsGrid').innerHTML = `
                 <div class="student-card add-student-card" onclick="openNewClassModal()">
                     <div class="add-student-icon">➕</div>
@@ -3755,21 +3522,19 @@
             document.getElementById('studentListTable').querySelector('tbody').innerHTML = '';
         }
         
-        if (view === 'extras') renderExtrasView();
+        if (title === 'extras') renderExtrasView();
 
-        if (view === 'students') {
+        if (title === 'students') {
           document.getElementById('searchInput').style.display = 'block';
           document.getElementById('pageTitle').textContent = 'Students';
         }
       }
 
-      if (view === 'messaging') {
-        renderMessagingView('messagingView');
-      }
-
-      if (view === 'leaderboard') {
+      if (title === 'leaderboard' && currentClassId) {
         triggerConfetti();
       }
+      
+      window.location.hash = `/${view}`;
     }
 
     function triggerConfetti() {
@@ -3786,7 +3551,7 @@
         for (let i = 0; i < confettiCount; i++) {
             confetti.push({
                 x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height - canvas.height, // Start above the screen
+                y: Math.random() * canvas.height - canvas.height,
                 radius: Math.random() * 5 + 2,
                 color: colors[Math.floor(Math.random() * colors.length)],
                 rotation: Math.random() * 360,
@@ -3800,12 +3565,11 @@
 
         function drawConfetti() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
             confetti.forEach((piece, index) => {
                 piece.y += piece.speed;
                 piece.x += piece.wind;
                 piece.rotation += piece.speed / 2;
-                piece.opacity -= 0.005; // Fade out
+                piece.opacity -= 0.005;
 
                 if (piece.y > canvas.height || piece.opacity <= 0) {
                     confetti.splice(index, 1);
@@ -3823,22 +3587,16 @@
             if (confetti.length > 0) {
                 animationFrameId = requestAnimationFrame(drawConfetti);
             } else {
-                ctx.clearRect(0, 0, canvas.width, canvas.height); // Final clear
-            }
-        }
-        
-        if (animationFrameId) {
-            cancelAnimationFrame(animationFrameId);
-        }
-        
-        drawConfetti();
-        
-        setTimeout(() => {
-            cancelAnimationFrame(animationFrameId);
-            if (ctx) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
             }
-        }, 5000); // Stop after 5 seconds to be safe
+        }
+        
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        drawConfetti();
+        setTimeout(() => {
+            cancelAnimationFrame(animationFrameId);
+            if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }, 5000);
     }
 
     function updateClassSelector() {
@@ -3851,16 +3609,18 @@
         option.textContent = cls.name;
         selector.appendChild(option);
       });
-      if (currentClassId) {
+      if (userClasses.length > 0) {
+        if (!currentClassId || !userClasses.some(c => c.id === currentClassId)) {
+            currentClassId = userClasses[0].id;
+        }
         selector.value = currentClassId;
-      } else if (userClasses.length > 0) {
-        currentClassId = userClasses[0].id;
-        selector.value = currentClassId;
+      } else {
+        currentClassId = null;
       }
       selector.onchange = () => {
         currentClassId = selector.value;
         saveData();
-        router();
+        switchView('students');
       };
     }
 
@@ -3878,9 +3638,7 @@
       const newClass = {
         id: generateId(),
         name: className,
-        teacherUsername: currentUser.username,
-        chatMembers: [currentUser.username],
-        offlineEnabled: false
+        teacherUsername: currentUser.username
       };
       classes.push(newClass);
       currentClassId = newClass.id;
@@ -3927,10 +3685,10 @@
       listTableBody.innerHTML = '';
       compact.innerHTML = '';
 
-      // Grid & Compact Rendering
+      // Grid & Compact & List Rendering
       classStudents.forEach(student => {
         const powerUpInfo = getPowerUpInfo(student.id);
-        const multiplierBadge = powerUpInfo ? `<span style="background: var(--warning-color); color: var(--surface); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem;">x${powerUpInfo.multiplier}</span>` : '';
+        const powerUpBadge = powerUpInfo ? `<span class="power-up-badge">x${powerUpInfo.multiplier}</span>` : '';
         const selectedClass = selectedStudents.has(student.id) ? 'selected' : '';
         const avatar = student.photo ? `<img src="${student.photo}" alt="${sanitizeHTML(student.name)}"/>` : student.name.charAt(0).toUpperCase();
         const totalRewards = (student.pointsRewards || 0) + (student.instantRewards || 0);
@@ -3942,55 +3700,39 @@
             </div>
             <div class="student-avatar">${avatar}</div>
             <div class="student-name">${sanitizeHTML(student.name)}</div>
-            <div class="student-points">${student.points} pts${multiplierBadge}</div>
+            <div class="student-points">${student.points} pts ${powerUpBadge}</div>
             <div class="student-rewards">${totalRewards} rewards claimed</div>
           </div>
         `;
+        grid.insertAdjacentHTML('afterbegin', gridItem);
+
         const compactItem = `
           <div class="compact-student-item ${selectedClass}" onclick="${bulkMode ? `toggleStudentSelection('${student.id}')` : `openStudentPointsModal('${student.id}')`}">
             <div class="compact-avatar">${avatar}</div>
-            <div class="compact-info">
-              <div class="compact-name">${sanitizeHTML(student.name)}</div>
-            </div>
-            <div class="compact-points">${student.points} pts${multiplierBadge}</div>
+            <div class="compact-info"><div class="compact-name">${sanitizeHTML(student.name)}</div></div>
+            <div class="compact-points">${student.points} pts ${powerUpBadge}</div>
           </div>
         `;
-        grid.insertAdjacentHTML('afterbegin', gridItem);
         compact.insertAdjacentHTML('beforeend', compactItem);
+
+        const listItem = `
+          <tr class="${selectedClass}" onclick="${bulkMode ? `toggleStudentSelection('${student.id}')` : `openStudentPointsModal('${student.id}')`}">
+              <td data-label="Student"><div class="student-list-avatar-cell"><div class="student-list-avatar">${avatar}</div><span class="student-list-name">${sanitizeHTML(student.name)}</span></div></td>
+              <td data-label="Points" class="student-list-points">${student.points} pts ${powerUpBadge}</td>
+              <td data-label="Rewards" class="student-list-rewards">${totalRewards}</td>
+              <td data-label="Actions"><div class="student-list-actions"><button class="btn btn-secondary" style="padding: 0.5rem;" onclick="event.stopPropagation(); openEditStudentModal('${student.id}')">Edit</button><button class="btn btn-success" style="padding: 0.5rem;" onclick="event.stopPropagation(); openStudentPointsModal('${student.id}')">+/-</button></div></td>
+          </tr>
+        `;
+        listTableBody.innerHTML += listItem;
       });
 
-      // List View (Spreadsheet) Rendering
-      if (classStudents.length > 0) {
-          classStudents.forEach(student => {
-              const powerUpInfo = getPowerUpInfo(student.id);
-              const multiplierBadge = powerUpInfo ? `<span style="background: var(--warning-color); color: var(--surface); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem;">x${powerUpInfo.multiplier}</span>` : '';
-              const selectedClass = selectedStudents.has(student.id) ? 'selected' : '';
-              const avatar = student.photo ? `<img src="${student.photo}" alt="${sanitizeHTML(student.name)}"/>` : student.name.charAt(0).toUpperCase();
-              const totalRewards = (student.pointsRewards || 0) + (student.instantRewards || 0);
-              
-              const listItem = `
-                  <tr class="${selectedClass}" onclick="${bulkMode ? `toggleStudentSelection('${student.id}')` : `openStudentPointsModal('${student.id}')`}">
-                      <td data-label="Student">
-                          <div class="student-list-avatar-cell">
-                              <div class="student-list-avatar">${avatar}</div>
-                              <span class="student-list-name">${sanitizeHTML(student.name)}</span>
-                          </div>
-                      </td>
-                      <td data-label="Points" class="student-list-points">${student.points} pts ${multiplierBadge}</td>
-                      <td data-label="Rewards" class="student-list-rewards">${totalRewards}</td>
-                      <td data-label="Actions">
-                          <div class="student-list-actions">
-                              <button class="btn btn-secondary" style="padding: 0.5rem;" onclick="event.stopPropagation(); openEditStudentModal('${student.id}')">Edit</button>
-                              <button class="btn btn-success" style="padding: 0.5rem;" onclick="event.stopPropagation(); openStudentPointsModal('${student.id}')">+/-</button>
-                          </div>
-                      </td>
-                  </tr>
-              `;
-              listTableBody.innerHTML += listItem;
-          });
-      } else {
+      if (classStudents.length === 0) {
            listTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 2rem;">No students in this class yet.</td></tr>';
       }
+      
+      const teacherSettings = users[currentUser.username]?.settings;
+      document.getElementById('managePinsBtn').style.display = (teacherSettings?.allowStudentPins || teacherSettings?.allowParentPins) ? 'inline-flex' : 'none';
+
       onSearchChange();
     }
 
@@ -4007,12 +3749,8 @@
       listControls.style.display = view === 'list' ? 'flex' : 'none';
       gridControls.style.display = view === 'grid' ? 'flex' : 'none';
 
-      if (view === 'list') {
-        updateListViewSize();
-      }
-      
+      if (view === 'list') updateListViewSize();
       currentView = view;
-      renderStudentsView();
     }
     
     function updateListViewSize() {
@@ -4117,11 +3855,7 @@
     function addMultipleStudents() {
       const names = document.getElementById('multipleNames').value.trim().split('\n').map(n => n.trim()).filter(n => n);
       names.forEach(name => {
-        const student = {
-          id: generateId(),
-          name,
-          points: 0
-        };
+        const student = { id: generateId(), name, points: 0 };
         students[currentClassId][student.id] = student;
       });
       saveData();
@@ -4162,7 +3896,6 @@
             showNotification('All student names copied to clipboard!', 'success');
         }, (err) => {
             showNotification('Failed to copy names.', 'error');
-            console.error('Clipboard copy failed: ', err);
         });
     }
 
@@ -4192,6 +3925,19 @@
       document.getElementById('selectedCount').textContent = `${selectedStudents.size} selected`;
       renderStudentsView();
     }
+    
+    function selectAllStudentsForBulk() {
+        const classStudents = Object.values(students[currentClassId] || {});
+        classStudents.forEach(s => selectedStudents.add(s.id));
+        document.getElementById('selectedCount').textContent = `${selectedStudents.size} selected`;
+        renderStudentsView();
+    }
+
+    function deselectAllStudentsForBulk() {
+        selectedStudents.clear();
+        document.getElementById('selectedCount').textContent = `0 selected`;
+        renderStudentsView();
+    }
 
     function openBulkPointsModal(action) {
       bulkAction = action;
@@ -4218,13 +3964,7 @@
           const powerUpInfo = getPowerUpInfo(student.id);
           const pointsToAdd = powerUpInfo ? Math.round(finalAmount * powerUpInfo.multiplier) : finalAmount;
           student.points += pointsToAdd;
-          history[currentClassId].push({
-            studentId,
-            studentName: student.name,
-            points: pointsToAdd,
-            reason: reason || 'Bulk action',
-            timestamp: new Date().toISOString()
-          });
+          history[currentClassId].push({ studentId, studentName: student.name, points: pointsToAdd, reason: reason || 'Bulk action', timestamp: new Date().toISOString() });
         }
       });
       if (reason) saveReason(reason);
@@ -4256,13 +3996,7 @@
       const powerUpInfo = getPowerUpInfo(currentStudentId);
       const pointsToAdd = powerUpInfo ? Math.round(change * powerUpInfo.multiplier) : change;
       student.points += pointsToAdd;
-      history[currentClassId].push({
-        studentId: currentStudentId,
-        studentName: student.name,
-        points: pointsToAdd,
-        reason: reason || 'No reason',
-        timestamp: new Date().toISOString()
-      });
+      history[currentClassId].push({ studentId: currentStudentId, studentName: student.name, points: pointsToAdd, reason: reason || 'No reason', timestamp: new Date().toISOString() });
       if (reason) saveReason(reason);
       saveData();
       renderStudentsView();
@@ -4326,41 +4060,76 @@
     }
 
     // Leaderboard Logic
-    function renderLeaderboard() {
-      if (!currentClassId) return;
-      const classStudents = Object.values(students[currentClassId] || {});
+    function renderLeaderboardView() {
+        document.getElementById('leaderboardView').innerHTML = `
+            <div class="podium-container" id="leaderboardPodium"></div>
+            <div class="leaderboard-list" id="leaderboardList"></div>
+        `;
+        renderLeaderboard(document.getElementById('leaderboardView'));
+    }
+
+    function renderLeaderboard(container) {
+      if (!currentClassId && !currentStudent) return container || document.createElement('div');
+      
+      const aClassId = currentClassId || currentStudent.classId;
+      if (!container) container = document.createElement('div');
+      
+      const classStudents = Object.values(students[aClassId] || {});
       const sortedStudents = classStudents.sort((a, b) => b.points - a.points);
-      const leaderboard = document.getElementById('leaderboard');
-      leaderboard.innerHTML = '';
+      
+      const podiumContainer = container.querySelector('#leaderboardPodium') || document.createElement('div');
+      const listContainer = container.querySelector('#leaderboardList') || document.createElement('div');
+      podiumContainer.className = 'podium-container';
+      listContainer.className = 'leaderboard-list';
+      podiumContainer.innerHTML = '';
+      listContainer.innerHTML = '';
+
       if (sortedStudents.length === 0) {
-        leaderboard.innerHTML = '<p>No students in this class yet.</p>';
-        return;
+        container.innerHTML = '<p>No students in this class yet.</p>';
+        return container;
       }
-      sortedStudents.forEach((student, index) => {
-        const rank = index + 1;
-        const rankClass = rank <= 3 ? `rank-${rank}` : '';
+      
+      const podium = [sortedStudents[1], sortedStudents[0], sortedStudents[2]].filter(Boolean);
+      const ranks = { [sortedStudents[0]?.id]: 1, [sortedStudents[1]?.id]: 2, [sortedStudents[2]?.id]: 3 };
+
+      podium.forEach(student => {
+          const rank = ranks[student.id];
+          const avatar = student.photo ? `<img src="${student.photo}" alt="${sanitizeHTML(student.name)}"/>` : student.name.charAt(0).toUpperCase();
+          podiumContainer.innerHTML += `
+              <div class="podium-step podium-${rank}">
+                  <div class="podium-avatar">${avatar}</div>
+                  <div class="podium-name">${sanitizeHTML(student.name)}</div>
+                  <div class="podium-points">${student.points} pts</div>
+                  <div class="podium-rank">${rank}</div>
+              </div>
+          `;
+      });
+
+      sortedStudents.slice(3).forEach((student, index) => {
+        const rank = index + 4;
         const avatar = student.photo ? `<img src="${student.photo}" alt="${sanitizeHTML(student.name)}"/>` : student.name.charAt(0).toUpperCase();
-        leaderboard.innerHTML += `
+        listContainer.innerHTML += `
           <div class="leaderboard-item">
-            <div class="leaderboard-rank ${rankClass}">${rank}</div>
+            <div class="leaderboard-rank">${rank}</div>
             <div class="leaderboard-avatar">${avatar}</div>
             <div class="leaderboard-name">${sanitizeHTML(student.name)}</div>
             <div class="leaderboard-points">${student.points} pts</div>
           </div>
         `;
       });
+      return container;
     }
 
     // Rewards Logic
-    function renderRewardsView() {
+    function renderRewardsView(targetContainer) {
       if (!currentClassId) return;
       if (!rewards[currentClassId]) rewards[currentClassId] = [];
       const classRewards = rewards[currentClassId];
-      const grid = document.getElementById('rewardsGrid');
+      const grid = targetContainer || document.getElementById('rewardsGrid');
       grid.innerHTML = '';
       if (classRewards.length === 0) {
         grid.innerHTML = '<p>No rewards created for this class yet.</p>';
-        return;
+        return grid;
       }
       classRewards.forEach(reward => {
         const typeClass = reward.type === 'deduct' ? 'deduct-reward' : 'require-reward';
@@ -4371,19 +4140,16 @@
           <div class="reward-card ${typeClass}">
             <span class="reward-type-badge ${badgeClass}">${reward.type}</span>
             <div class="reward-header">
-                <div>
-                    <h3 class="reward-title">${icon} ${sanitizeHTML(reward.title)}</h3>
-                    <p class="reward-points">${reward.points} pts</p>
-                </div>
+                <div><h3 class="reward-title">${icon} ${sanitizeHTML(reward.title)}</h3><p class="reward-points">${reward.points} pts</p></div>
             </div>
             <p class="reward-description">${sanitizeHTML(reward.description)}</p>
             <div class="reward-actions">
-              <button class="btn btn-success" onclick="openClaimRewardModal('${reward.id}')">Claim</button>
-              <button class="btn btn-secondary" onclick="openEditRewardModal('${reward.id}')">Edit</button>
+              ${ currentUser && currentUser.type === 'teacher' ? `<button class="btn btn-success" onclick="openClaimRewardModal('${reward.id}')">Claim</button><button class="btn btn-secondary" onclick="openEditRewardModal('${reward.id}')">Edit</button>` : ''}
             </div>
           </div>
         `;
       });
+       return grid;
     }
 
     function openCreateRewardModal() {
@@ -4464,39 +4230,40 @@
       if (classStudents.length === 0) {
         content.innerHTML = `<p>No students have enough points (${reward.points}) to claim "${sanitizeHTML(reward.title)}".</p>`;
       } else {
-        let optionsHTML = classStudents.map(s => `<option value="${s.id}">${s.name} (${s.points} pts)</option>`).join('');
         content.innerHTML = `
           <p>Claiming: <strong>${sanitizeHTML(reward.title)}</strong> (${reward.points} pts)</p>
-          <div class="form-group">
-            <label class="form-label">Select Student(s)</label>
-            <div class="multi-select-container">
-              <input type="text" class="multi-select-search" onkeyup="filterMultiSelect(this)" placeholder="Search students...">
-              <div class="multi-select-list">
-                ${classStudents.map(s => `
-                  <div class="multi-select-option">
-                    <input type="checkbox" value="${s.id}" id="student-claim-${s.id}">
-                    <label for="student-claim-${s.id}">${s.name} (${s.points} pts)</label>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
+          <div class="action-buttons mb-4">
+              <button class="btn btn-info" onclick="toggleSelectAllStudents(true)">Select All</button>
+              <button class="btn btn-secondary" onclick="toggleSelectAllStudents(false)">Deselect All</button>
+          </div>
+          <div class="selectable-student-grid">
+            ${classStudents.map(s => {
+                const avatar = s.photo ? `<img src="${s.photo}" alt="${sanitizeHTML(s.name)}"/>` : s.name.charAt(0).toUpperCase();
+                return `
+                <div class="selectable-student-card" data-student-id="${s.id}" onclick="toggleStudentSelectionInModal(this)">
+                    <div class="student-avatar">${avatar}</div>
+                    <div class="student-name">${sanitizeHTML(s.name)}<br>(${s.points} pts)</div>
+                </div>
+            `}).join('')}
           </div>
         `;
       }
       openModal('claimRewardModal');
     }
 
-    function filterMultiSelect(input) {
-      const filter = input.value.toLowerCase();
-      const options = input.parentElement.querySelectorAll('.multi-select-option');
-      options.forEach(opt => {
-        const label = opt.querySelector('label').textContent.toLowerCase();
-        opt.style.display = label.includes(filter) ? '' : 'none';
-      });
+    function toggleStudentSelectionInModal(element) {
+        element.classList.toggle('selected');
+    }
+
+    function toggleSelectAllStudents(select) {
+        document.querySelectorAll('.selectable-student-card').forEach(card => {
+            if(select) card.classList.add('selected');
+            else card.classList.remove('selected');
+        });
     }
 
     function confirmClaimReward() {
-      const selectedStudentIds = Array.from(document.querySelectorAll('#claimRewardContent input[type="checkbox"]:checked')).map(cb => cb.value);
+      const selectedStudentIds = Array.from(document.querySelectorAll('#claimRewardContent .selectable-student-card.selected')).map(el => el.dataset.studentId);
       const reward = rewards[currentClassId].find(r => r.id === currentRewardId);
 
       if (selectedStudentIds.length === 0) {
@@ -4506,17 +4273,9 @@
       
       selectedStudentIds.forEach(id => {
         const student = students[currentClassId][id];
-        if (reward.type === 'deduct') {
-            student.points -= reward.points;
-        }
+        if (reward.type === 'deduct') student.points -= reward.points;
         student.pointsRewards = (student.pointsRewards || 0) + 1;
-        history[currentClassId].push({
-          studentId: id,
-          studentName: student.name,
-          points: reward.type === 'deduct' ? -reward.points : 0,
-          reason: `Claimed reward: ${reward.title}`,
-          timestamp: new Date().toISOString()
-        });
+        history[currentClassId].push({ studentId: id, studentName: student.name, points: reward.type === 'deduct' ? -reward.points : 0, reason: `Claimed reward: ${reward.title}`, timestamp: new Date().toISOString() });
       });
       saveData();
       renderStudentsView();
@@ -4525,34 +4284,29 @@
     }
 
     // Power Ups Logic
-    function renderPowerUpsView() {
+    function renderPowerUpsView(targetContainer) {
       if (!currentClassId) return;
       if (!powerups[currentClassId]) powerups[currentClassId] = [];
       const classPowerups = powerups[currentClassId];
-      const grid = document.getElementById('powerupsGrid');
+      const grid = targetContainer || document.getElementById('powerupsGrid');
       grid.innerHTML = '';
       if (classPowerups.length === 0) {
         grid.innerHTML = '<p>No power ups created for this class yet.</p>';
-        return;
+        return grid;
       }
       classPowerups.forEach(powerup => {
         grid.innerHTML += `
           <div class="reward-card instant-reward">
             <span class="reward-type-badge instant-badge">POWER UP</span>
-            <div class="reward-header">
-                <div>
-                    <h3 class="reward-title">⚡ ${sanitizeHTML(powerup.title)}</h3>
-                    <p class="reward-points">${powerup.multiplier}x for ${powerup.duration} days</p>
-                </div>
-            </div>
+            <div class="reward-header"><div><h3 class="reward-title">⚡ ${sanitizeHTML(powerup.title)}</h3><p class="reward-points">${powerup.multiplier}x for ${powerup.duration} days</p></div></div>
             <p class="reward-description">${sanitizeHTML(powerup.description)}</p>
             <div class="reward-actions">
-              <button class="btn btn-success" onclick="assignPowerUp('${powerup.id}')">Assign</button>
-              <button class="btn btn-secondary" onclick="openEditPowerUpModal('${powerup.id}')">Edit</button>
+              ${ currentUser && currentUser.type === 'teacher' ? `<button class="btn btn-success" onclick="assignPowerUp('${powerup.id}')">Assign</button><button class="btn btn-secondary" onclick="openEditPowerUpModal('${powerup.id}')">Edit</button>` : ''}
             </div>
           </div>
         `;
       });
+      return grid;
     }
 
     function openCreatePowerUpModal() {
@@ -4627,22 +4381,22 @@
       const classStudents = Object.values(students[currentClassId] || {});
 
       content.innerHTML = `
-          <p>Assigning Power Up: <strong>${sanitizeHTML(powerup.title)}</strong> (${powerup.multiplier}x for ${powerup.duration} days)</p>
-          <div class="form-group">
-            <label class="form-label">Select Student(s)</label>
-            <div class="multi-select-container">
-              <input type="text" class="multi-select-search" onkeyup="filterMultiSelect(this)" placeholder="Search students...">
-              <div class="multi-select-list">
-                ${classStudents.map(s => `
-                  <div class="multi-select-option">
-                    <input type="checkbox" value="${s.id}" id="student-assign-${s.id}">
-                    <label for="student-assign-${s.id}">${s.name}</label>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          </div>
-        `;
+        <p>Assigning Power Up: <strong>${sanitizeHTML(powerup.title)}</strong> (${powerup.multiplier}x for ${powerup.duration} days)</p>
+        <div class="action-buttons mb-4">
+              <button class="btn btn-info" onclick="toggleSelectAllStudents(true)">Select All</button>
+              <button class="btn btn-secondary" onclick="toggleSelectAllStudents(false)">Deselect All</button>
+        </div>
+        <div class="selectable-student-grid">
+            ${classStudents.map(s => {
+                const avatar = s.photo ? `<img src="${s.photo}" alt="${sanitizeHTML(s.name)}"/>` : s.name.charAt(0).toUpperCase();
+                return `
+                <div class="selectable-student-card" data-student-id="${s.id}" onclick="toggleStudentSelectionInModal(this)">
+                    <div class="student-avatar">${avatar}</div>
+                    <div class="student-name">${sanitizeHTML(s.name)}</div>
+                </div>
+            `}).join('')}
+        </div>
+      `;
 
       const modal = document.getElementById('claimRewardModal');
       modal.querySelector('.modal-title').textContent = 'Assign Power Up';
@@ -4652,18 +4406,14 @@
     }
 
     function confirmAssignPowerUp() {
-      const selectedStudentIds = Array.from(document.querySelectorAll('#claimRewardContent input[type="checkbox"]:checked')).map(cb => cb.value);
+      const selectedStudentIds = Array.from(document.querySelectorAll('#claimRewardContent .selectable-student-card.selected')).map(el => el.dataset.studentId);
       const powerup = powerups[currentClassId].find(p => p.id === currentPowerUpId);
       
       selectedStudentIds.forEach(id => {
         const student = students[currentClassId][id];
         const endDate = new Date();
         endDate.setDate(endDate.getDate() + powerup.duration);
-        student.powerUp = {
-            id: powerup.id,
-            multiplier: powerup.multiplier,
-            endDate: endDate.toISOString()
-        };
+        student.powerUp = { id: powerup.id, multiplier: powerup.multiplier, endDate: endDate.toISOString() };
       });
       saveData();
       renderStudentsView();
@@ -4672,23 +4422,128 @@
     }
 
     // History Logic
-    function renderHistoryView() {
-      if (!currentClassId) return;
-      const classHistory = history[currentClassId] || [];
-      const list = document.getElementById('historyList');
-      list.innerHTML = '';
-      if (classHistory.length === 0) {
-        list.innerHTML = '<p>No point history for this class yet.</p>';
-        return;
+    function switchHistoryView(event, view) {
+        event.currentTarget.parentElement.querySelector('.active').classList.remove('active');
+        event.currentTarget.classList.add('active');
+        const parent = event.currentTarget.closest('.page-view, .portal-main, .modal-tab-content');
+        if (view === 'list') {
+            parent.querySelector('#historyListContainer').style.display = 'block';
+            parent.querySelector('#historyCalendarContainer').style.display = 'none';
+        } else {
+            parent.querySelector('#historyListContainer').style.display = 'none';
+            parent.querySelector('#historyCalendarContainer').style.display = 'block';
+        }
+    }
+    
+    function renderHistoryView(historyData, container) {
+      container.innerHTML = `
+        <div class="content-header" style="justify-content: space-between;">
+            <div class="view-toggle">
+                <button class="view-option active" data-view="list" onclick="switchHistoryView(event, 'list')">List</button>
+                <button class="view-option" data-view="calendar" onclick="switchHistoryView(event, 'calendar')">Calendar</button>
+            </div>
+            ${currentUser ? `<div class="action-buttons">
+              <button class="btn btn-info" onclick="exportHistory()">Export History</button>
+              <button class="btn btn-warning" onclick="clearHistory()">Clear History</button>
+            </div>` : ''}
+        </div>
+        <div id="historyListContainer"></div>
+        <div id="historyCalendarContainer" style="display: none;"></div>
+      `;
+
+      // Render List
+      const listContainer = container.querySelector('#historyListContainer');
+      listContainer.innerHTML = '';
+      if (historyData.length === 0) {
+        listContainer.innerHTML = '<p>No point history yet.</p>';
+      } else {
+        [...historyData].reverse().forEach(item => {
+          listContainer.innerHTML += `
+            <div style="display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid var(--border-color);">
+              <span><strong>${sanitizeHTML(item.studentName)}:</strong> ${item.points > 0 ? '+' : ''}${item.points} pts for "${sanitizeHTML(item.reason)}"</span>
+              <span style="color: var(--text-secondary); font-size: 0.875rem;">${new Date(item.timestamp).toLocaleString()}</span>
+            </div>
+          `;
+        });
       }
-      [...classHistory].reverse().forEach(item => {
-        list.innerHTML += `
-          <div style="display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid var(--border-color);">
-            <span><strong>${sanitizeHTML(item.studentName)}:</strong> ${item.points > 0 ? '+' : ''}${item.points} pts for "${sanitizeHTML(item.reason)}"</span>
-            <span style="color: var(--text-secondary); font-size: 0.875rem;">${new Date(item.timestamp).toLocaleString()}</span>
-          </div>
+
+      // Render Calendar
+      container.querySelector('#historyCalendarContainer').appendChild(renderCalendar(historyData));
+      
+      return container;
+    }
+
+    function renderCalendar(historyData) {
+        const container = document.createElement('div');
+        container.className = 'calendar-container';
+        
+        const date = historyCalendarDate;
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        const historyByDay = {};
+        historyData.forEach(item => {
+            const d = new Date(item.timestamp).toDateString();
+            if (!historyByDay[d]) historyByDay[d] = [];
+            historyByDay[d].push(item);
+        });
+        
+        container.innerHTML = `
+            <div class="calendar-header">
+                <button class="btn btn-secondary" id="prev-month">◄</button>
+                <h3>${date.toLocaleString('default', { month: 'long', year: 'numeric' })}</h3>
+                <button class="btn btn-secondary" id="next-month">►</button>
+            </div>
+            <div class="calendar-grid">
+                ${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => `<div class="calendar-day-header">${day}</div>`).join('')}
+            </div>
         `;
-      });
+        
+        const grid = container.querySelector('.calendar-grid');
+        for (let i = 0; i < firstDay; i++) {
+            grid.innerHTML += `<div class="calendar-day other-month"></div>`;
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const fullDate = new Date(year, month, day);
+            const dateString = fullDate.toDateString();
+            const hasHistory = historyByDay[dateString];
+            const dayEl = document.createElement('div');
+            dayEl.className = `calendar-day ${hasHistory ? 'has-history' : ''}`;
+            dayEl.textContent = day;
+            if (hasHistory) {
+                dayEl.onclick = (e) => showDayHistoryPopup(e, historyByDay[dateString]);
+            }
+            grid.appendChild(dayEl);
+        }
+
+        container.querySelector('#prev-month').onclick = () => { historyCalendarDate.setMonth(month - 1); container.replaceWith(renderCalendar(historyData)); };
+        container.querySelector('#next-month').onclick = () => { historyCalendarDate.setMonth(month + 1); container.replaceWith(renderCalendar(historyData)); };
+
+        return container;
+    }
+
+    function showDayHistoryPopup(event, dayHistory) {
+        document.querySelector('.calendar-day-history-popup')?.remove();
+        const popup = document.createElement('div');
+        popup.className = 'calendar-day-history-popup';
+        popup.style.top = `${event.pageY + 10}px`;
+        popup.style.left = `${event.pageX + 10}px`;
+        popup.innerHTML = `
+            <h4>History for ${new Date(dayHistory[0].timestamp).toLocaleDateString()}</h4>
+            <div style="max-height: 200px; overflow-y: auto; font-size: 0.875rem;">
+                ${dayHistory.map(item => `
+                    <div style="border-bottom: 1px solid var(--border-color); padding: 0.25rem 0;">
+                        <strong>${sanitizeHTML(item.studentName)}:</strong> ${item.points > 0 ? '+' : ''}${item.points} for "${sanitizeHTML(item.reason)}"
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        document.body.appendChild(popup);
+        document.body.addEventListener('click', () => popup.remove(), { once: true });
+        event.stopPropagation();
     }
 
     function exportHistory() {
@@ -4698,12 +4553,7 @@
       }
       let csvContent = "data:text/csv;charset=utf-8,Timestamp,Student,Points,Reason\n";
       history[currentClassId].forEach(item => {
-        const row = [
-          new Date(item.timestamp).toISOString(),
-          item.studentName,
-          item.points,
-          `"${item.reason.replace(/"/g, '""')}"`
-        ].join(',');
+        const row = [ new Date(item.timestamp).toISOString(), item.studentName, item.points, `"${item.reason.replace(/"/g, '""')}"` ].join(',');
         csvContent += row + "\r\n";
       });
       const encodedUri = encodeURI(csvContent);
@@ -4720,7 +4570,7 @@
       if (confirm('Are you sure you want to clear all point history for this class? This cannot be undone.')) {
         history[currentClassId] = [];
         saveData();
-        renderHistoryView();
+        renderHistoryView(history[currentClassId], document.getElementById('historyView'));
         showNotification('History cleared', 'warning');
       }
     }
@@ -4737,32 +4587,9 @@
           const classStudents = Object.values(students[currentClassId] || {});
           document.getElementById('totalStudents').textContent = classStudents.length;
           document.getElementById('totalPoints').textContent = classStudents.reduce((sum, s) => sum + s.points, 0);
-
-          const offlineClassToggle = document.getElementById('offlineClassToggle');
-          offlineClassToggle.checked = currentClass.offlineEnabled || false;
-          offlineClassToggle.onchange = (e) => toggleOfflineAccess(currentClassId, e.target.checked);
-
         }
       }
-      
-      const offlineToggle = document.getElementById('offlineModeToggle');
-      if (offlineToggle) {
-          offlineToggle.checked = currentUser.settings?.offlineMode || false;
-      }
-
       renderSavedReasonsList();
-    }
-    
-    function toggleOfflineMode(isEnabled) {
-      if (!currentUser.settings) {
-          currentUser.settings = {};
-      }
-      currentUser.settings.offlineMode = isEnabled;
-      users[currentUser.username].settings = currentUser.settings;
-      saveData();
-      showNotification(`Offline mode ${isEnabled ? 'enabled' : 'disabled'}.`, 'success');
-      updateNavItems();
-      router();
     }
 
     function openChangePasswordModal() {
@@ -4777,18 +4604,9 @@
         const newPass = document.getElementById('newPassword').value;
         const confirmPass = document.getElementById('confirmNewPassword').value;
 
-        if (currentUser.password !== currentPass) {
-            showNotification('Current password is incorrect.', 'error');
-            return;
-        }
-        if (newPass !== confirmPass) {
-            showNotification('New passwords do not match.', 'error');
-            return;
-        }
-        if (!newPass) {
-            showNotification('New password cannot be empty.', 'error');
-            return;
-        }
+        if (currentUser.password !== currentPass) { showNotification('Current password is incorrect.', 'error'); return; }
+        if (newPass !== confirmPass) { showNotification('New passwords do not match.', 'error'); return; }
+        if (!newPass) { showNotification('New password cannot be empty.', 'error'); return; }
 
         currentUser.password = newPass;
         users[currentUser.username].password = newPass;
@@ -4812,10 +4630,8 @@
         delete rewards[currentClassId];
         delete history[currentClassId];
         delete reasons[currentClassId];
-        delete messages[currentClassId];
-        localStorage.removeItem(`offline_${currentClassId}`);
         classes = classes.filter(c => c.id !== currentClassId);
-        currentClassId = classes.filter(c => c.teacherUsername === currentUser.username).length > 0 ? classes.filter(c => c.teacherUsername === currentUser.username)[0].id : null;
+        currentClassId = (classes.filter(c => c.teacherUsername === currentUser.username)[0] || {}).id || null;
         saveData();
         updateClassSelector();
         router();
@@ -4827,12 +4643,7 @@
         if (!currentClassId) return;
         const currentClass = classes.find(c => c.id === currentClassId);
         const backupData = {
-            classInfo: currentClass,
-            students: students[currentClassId] || {},
-            rewards: rewards[currentClassId] || [],
-            powerups: powerups[currentClassId] || [],
-            history: history[currentClassId] || [],
-            reasons: reasons[currentClassId] || [],
+            classInfo: currentClass, students: students[currentClassId] || {}, rewards: rewards[currentClassId] || [], powerups: powerups[currentClassId] || [], history: history[currentClassId] || [], reasons: reasons[currentClassId] || [],
         };
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
         const downloadAnchorNode = document.createElement('a');
@@ -4869,9 +4680,7 @@
             const chip = document.createElement('button');
             chip.className = 'reason-select-chip';
             chip.textContent = reason;
-            chip.onclick = () => {
-                document.getElementById(inputId).value = reason;
-            };
+            chip.onclick = () => { document.getElementById(inputId).value = reason; };
             container.appendChild(chip);
         });
     }
@@ -4880,12 +4689,7 @@
       const list = document.getElementById('savedReasonsList');
       list.innerHTML = '';
       (reasons[currentClassId] || []).forEach((reason, index) => {
-        list.innerHTML += `
-          <div class="reason-chip">
-            <span>${sanitizeHTML(reason)}</span>
-            <button onclick="openEditReasonModal(${index})">✏️</button>
-          </div>
-        `;
+        list.innerHTML += `<div class="reason-chip"><span>${sanitizeHTML(reason)}</span><button onclick="openEditReasonModal(${index})">✏️</button></div>`;
       });
     }
 
@@ -4934,19 +4738,12 @@
         try {
           const domain = new URL(embed.url).hostname;
           const logoUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
-          
-          const card = document.createElement('a');
-          card.href = '#';
-          card.className = 'tool-card';
-          card.onclick = (e) => {
-              e.preventDefault();
-              showExtraTool(embed.id);
-          };
-          card.innerHTML = `
-            <img src="${logoUrl}" alt="${sanitizeHTML(embed.name)} logo" class="tool-card-logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%2364748b%22%3E%3Cpath d=%22M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z%22/%3E%3C/svg%3E'; this.onerror=null;">
-            <div class="tool-card-title">${sanitizeHTML(embed.name)}</div>
+          gridView.innerHTML += `
+            <a href="#" class="tool-card" onclick="event.preventDefault(); showExtraTool('${embed.id}')">
+                <img src="${logoUrl}" alt="${sanitizeHTML(embed.name)} logo" class="tool-card-logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%2364748b%22%3E%3Cpath d=%22M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z%22/%3E%3C/svg%3E'; this.onerror=null;">
+                <div class="tool-card-title">${sanitizeHTML(embed.name)}</div>
+            </a>
           `;
-          gridView.appendChild(card);
         } catch (e) {
           console.error(`Invalid URL for embed "${embed.name}": ${embed.url}`);
         }
@@ -4967,13 +4764,8 @@
         embedView.innerHTML = `
             <div class="embed-container" style="height: calc(100vh - var(--topbar-height) - 4rem); margin: 0;">
                 <div class="embed-header" style="display: flex; justify-content: space-between; align-items: center;">
-                    <div class="embed-header-content">
-                        <h3 class="embed-title">${sanitizeHTML(embed.name)}</h3>
-                    </div>
-                    <div>
-                        <button class="btn btn-secondary" onclick="switchView('extras')">Back to Tools</button>
-                        <button class="btn btn-info" onclick="window.open('${embed.url}', '_blank')">Open in New Tab</button>
-                    </div>
+                    <div class="embed-header-content"><h3 class="embed-title">${sanitizeHTML(embed.name)}</h3></div>
+                    <div><button class="btn btn-secondary" onclick="switchView('extras')">Back to Tools</button><button class="btn btn-info" onclick="window.open('${embed.url}', '_blank')">Open in New Tab</button></div>
                 </div>
                 <iframe src="${embed.url}" title="${sanitizeHTML(embed.name)}" style="height: calc(100% - 60px);"></iframe>
             </div>
@@ -4989,70 +4781,33 @@
 
     function renderEmojiPicker() {
       const grid = document.getElementById('emojiGrid');
-      const query = document.getElementById('emojiSearch').value;
-      grid.innerHTML = '';
-      const filteredEmojis = EMOJI_LIST;
-      filteredEmojis.forEach(emoji => {
-        const item = document.createElement('div');
-        item.className = 'emoji-item';
-        item.textContent = emoji;
-        item.onclick = () => selectEmoji(emoji);
-        grid.appendChild(item);
-      });
+      grid.innerHTML = EMOJI_LIST.map(emoji => `<div class="emoji-item" onclick="selectEmoji('${emoji}')">${emoji}</div>`).join('');
     }
 
     function selectEmoji(emoji) {
-      if (emojiPickerTarget) {
-        emojiPickerTarget.value = emoji;
-      }
+      if (emojiPickerTarget) emojiPickerTarget.value = emoji;
       closeModal('emojiPickerModal');
     }
     
     // Recovery Modals
-    function openForgotPasswordModal() {
-        closeModal('loginScreen');
-        document.getElementById('forgotPasswordError').style.display = 'none';
-        document.getElementById('forgotPasswordUsername').value = '';
-        openModal('forgotPasswordModal');
-    }
-    
-    function openForgotUsernameModal() {
-        closeModal('loginScreen');
-        document.getElementById('forgotUsernameError').style.display = 'none';
-        document.getElementById('forgotUsernameEmail').value = '';
-        openModal('forgotUsernameModal');
-    }
+    function openForgotPasswordModal() { openModal('forgotPasswordModal'); }
+    function openForgotUsernameModal() { openModal('forgotUsernameModal'); }
     
     function resetPassword() {
         const username = document.getElementById('forgotPasswordUsername').value.trim();
-        const errorDiv = document.getElementById('forgotPasswordError');
         const user = users[username];
-        
-        if (!user) {
-            errorDiv.textContent = 'Username not found.';
-            errorDiv.style.display = 'block';
-            return;
-        }
-        
+        if (!user) { showNotification('Username not found.', 'error'); return; }
         const newPassword = Math.random().toString(36).slice(-8);
         user.password = newPassword;
         saveData();
-        
         closeModal('forgotPasswordModal');
         showNotification(`Password for ${username} reset to: ${newPassword}. Please change it immediately.`, 'success');
     }
 
     function recoverUsername() {
         const email = document.getElementById('forgotUsernameEmail').value.trim().toLowerCase();
-        const errorDiv = document.getElementById('forgotUsernameError');
         const foundUser = Object.values(users).find(u => u.email === email);
-        
-        if (!foundUser) {
-            errorDiv.textContent = 'Email address not found.';
-            errorDiv.style.display = 'block';
-            return;
-        }
-        
+        if (!foundUser) { showNotification('Email address not found.', 'error'); return; }
         closeModal('forgotUsernameModal');
         showNotification(`Username for this email is: ${foundUser.username}`, 'success');
     }
@@ -5063,21 +4818,21 @@
       document.getElementById('loginBtn').onclick = login;
       document.getElementById('signupBtn').onclick = signup;
       document.getElementById('studentLoginBtn').onclick = loginWithPIN;
+      document.getElementById('parentLoginBtn').onclick = loginWithParentPIN;
       document.getElementById('increaseListSizeBtn').onclick = increaseListViewSize;
       document.getElementById('decreaseListSizeBtn').onclick = decreaseListViewSize;
-      if (currentUser) {
-        initializeApp();
-      } else if (currentStudent) {
-        initializeAppStudent();
+      
+      const loggedInUser = currentUser || currentStudent || currentParent;
+      if (loggedInUser) {
+        if (currentUser) initializeApp();
+        else if (currentStudent) initializeAppStudent();
+        else if (currentParent) initializeAppParent();
+      } else {
+        showLogin();
       }
+      
       window.addEventListener('hashchange', router);
       updateListViewSize();
-      // Global click listener to close message menus
-      document.body.addEventListener('click', (e) => {
-          if (!e.target.closest('.message-menu-btn')) {
-              document.querySelectorAll('.message-menu-dropdown.active').forEach(menu => menu.classList.remove('active'));
-          }
-      });
     };
 
     // Include all admin-specific functions here
@@ -5087,43 +4842,19 @@
       const schoolClasses = classes.filter(c => c.teacherUsername in users && users[c.teacherUsername].school === currentUser.school);
 
       view.innerHTML = `
-        <div class="admin-header">
-            <h2 class="admin-title">📚 Manage Classes</h2>
-            <p>View all classes in ${sanitizeHTML(currentUser.school)}. You can see details for each class, including student count and total points.</p>
-            <div class="admin-controls">
-                <button class="btn btn-primary" onclick="openCreateClassModal()">Create New Class</button>
-            </div>
-        </div>
-        <div class="admin-content">
-            <table class="students-table responsive-table">
-                <thead><tr><th>Class Name</th><th>Teacher</th><th>Students</th><th>Total Points</th><th>Actions</th></tr></thead>
-                <tbody>
-                    ${schoolClasses.map(c => {
-                        const classStudents = Object.values(students[c.id] || {});
-                        const totalPoints = classStudents.reduce((sum, s) => sum + s.points, 0);
-                        return `
-                        <tr>
-                            <td data-label="Class">${sanitizeHTML(c.name)}</td>
-                            <td data-label="Teacher">${sanitizeHTML(c.teacherUsername)}</td>
-                            <td data-label="Students">${classStudents.length}</td>
-                            <td data-label="Points">${totalPoints}</td>
-                            <td data-label="Actions">
-                                <button class="btn btn-info" onclick="openClassDetailModal('${c.id}')">View Details</button>
-                            </td>
-                        </tr>
-                        `;
-                    }).join('')}
-                </tbody>
-            </table>
-        </div>
-      `;
+        <div class="admin-header"><h2 class="admin-title">📚 Manage Classes</h2><p>View all classes in ${sanitizeHTML(currentUser.school)}.</p><div class="admin-controls"><button class="btn btn-primary" onclick="openCreateClassModal()">Create New Class</button></div></div>
+        <div class="admin-content"><table class="students-table responsive-table"><thead><tr><th>Class Name</th><th>Teacher</th><th>Students</th><th>Total Points</th><th>Actions</th></tr></thead>
+            <tbody>
+                ${schoolClasses.map(c => {
+                    const classStudents = Object.values(students[c.id] || {});
+                    const totalPoints = classStudents.reduce((sum, s) => sum + s.points, 0);
+                    return `<tr><td data-label="Class">${sanitizeHTML(c.name)}</td><td data-label="Teacher">${sanitizeHTML(c.teacherUsername)}</td><td data-label="Students">${classStudents.length}</td><td data-label="Points">${totalPoints}</td><td data-label="Actions"><button class="btn btn-info" onclick="openClassDetailModal('${c.id}')">View Dashboard</button></td></tr>`;
+                }).join('')}
+            </tbody></table></div>`;
     }
 
     function openCreateClassModal() {
-        document.getElementById('adminClassName').value = '';
-        document.getElementById('teacherUsername').value = '';
-        document.getElementById('teacherPassword').value = '';
-        document.getElementById('teacherEmail').value = '';
+        ['adminClassName', 'teacherUsername', 'teacherPassword', 'teacherEmail', 'presetStudents'].forEach(id => document.getElementById(id).value = '');
         openModal('createClassModal');
     }
     
@@ -5132,34 +4863,24 @@
         const teacherUsername = document.getElementById('teacherUsername').value.trim();
         const teacherPassword = document.getElementById('teacherPassword').value.trim();
         const teacherEmail = document.getElementById('teacherEmail').value.trim().toLowerCase();
+        const studentNames = document.getElementById('presetStudents').value.trim().split('\n').map(n => n.trim()).filter(n => n);
 
-        if (!className || !teacherUsername || !teacherPassword || !teacherEmail) {
-            showNotification('All fields are required.', 'error');
-            return;
-        }
+        if (!className || !teacherUsername || !teacherPassword || !teacherEmail) { showNotification('All fields are required.', 'error'); return; }
+        if (users[teacherUsername]) { showNotification('Teacher username already exists.', 'error'); return; }
 
-        if (users[teacherUsername]) {
-            showNotification('Teacher username already exists.', 'error');
-            return;
-        }
+        users[teacherUsername] = { username: teacherUsername, password: teacherPassword, type: 'teacher', school: currentUser.school, email: teacherEmail, createdAt: new Date().toISOString(), settings: { allowStudentPins: true, allowParentPins: true } };
 
-        users[teacherUsername] = {
-            username: teacherUsername,
-            password: teacherPassword,
-            type: 'teacher',
-            school: currentUser.school,
-            email: teacherEmail,
-            createdAt: new Date().toISOString(),
-            settings: { offlineMode: false }
-        };
-
-        const newClass = {
-            id: generateId(),
-            name: className,
-            teacherUsername: teacherUsername,
-            chatMembers: [teacherUsername]
-        };
+        const newClass = { id: generateId(), name: className, teacherUsername: teacherUsername };
         classes.push(newClass);
+
+        if (studentNames.length > 0) {
+            students[newClass.id] = {};
+            studentNames.forEach(name => {
+                const student = { id: generateId(), name, points: 0 };
+                students[newClass.id][student.id] = student;
+            });
+        }
+        
         saveData();
         renderAdminClassesView();
         closeModal('createClassModal');
@@ -5168,42 +4889,50 @@
     
     function openClassDetailModal(classId) {
         const classInfo = classes.find(c => c.id === classId);
-        const classStudents = Object.values(students[classId] || {});
-        const totalPoints = classStudents.reduce((sum, s) => sum + s.points, 0);
-        const topStudent = classStudents.length > 0 ? classStudents.sort((a,b) => b.points - a.points)[0] : null;
-
-        document.getElementById('classDetailTitle').textContent = `Details for ${sanitizeHTML(classInfo.name)}`;
+        document.getElementById('classDetailTitle').textContent = `Dashboard for ${sanitizeHTML(classInfo.name)}`;
         const content = document.getElementById('classDetailContent');
+        
         content.innerHTML = `
-            <div class="class-detail-card">
-                <div class="class-detail-header">
-                    <div>
-                        <h3 class="class-detail-title">${sanitizeHTML(classInfo.name)}</h3>
-                        <p class="class-detail-teacher">Teacher: ${sanitizeHTML(classInfo.teacherUsername)}</p>
-                    </div>
-                </div>
-                <div class="class-stats">
-                    <div class="class-stat"><div class="class-stat-value">${classStudents.length}</div><div class="class-stat-label">Students</div></div>
-                    <div class="class-stat"><div class="class-stat-value">${totalPoints}</div><div class="class-stat-label">Total Points</div></div>
-                    <div class="class-stat"><div class="class-stat-value">${topStudent ? sanitizeHTML(topStudent.name) : 'N/A'}</div><div class="class-stat-label">Top Student</div></div>
-                    <div class="class-stat"><div class="class-stat-value">${topStudent ? topStudent.points : '0'}</div><div class="class-stat-label">Top Score</div></div>
-                </div>
-                <h4>Student Roster</h4>
-                <table class="students-table responsive-table">
-                    <thead><tr><th>Name</th><th>Points</th><th>Rewards Claimed</th></tr></thead>
-                    <tbody>
-                        ${classStudents.map(s => `
-                            <tr>
-                                <td data-label="Name">${sanitizeHTML(s.name)}</td>
-                                <td data-label="Points">${s.points}</td>
-                                <td data-label="Rewards">${(s.pointsRewards || 0) + (s.instantRewards || 0)}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
+            <div class="modal-tabs">
+                <div class="modal-tab active" onclick="switchAdminClassDetailTab(event, '${classId}', 'roster')">Roster</div>
+                <div class="modal-tab" onclick="switchAdminClassDetailTab(event, '${classId}', 'leaderboard')">Leaderboard</div>
+                <div class="modal-tab" onclick="switchAdminClassDetailTab(event, '${classId}', 'rewards')">Rewards</div>
+                <div class="modal-tab" onclick="switchAdminClassDetailTab(event, '${classId}', 'powerups')">Power Ups</div>
+                <div class="modal-tab" onclick="switchAdminClassDetailTab(event, '${classId}', 'history')">History</div>
             </div>
+            <div id="adminClassDetailTabContent"></div>
         `;
+        
+        renderAdminClassRoster(classId);
         openModal('classDetailModal');
+    }
+
+    function switchAdminClassDetailTab(event, classId, tab) {
+        document.querySelectorAll('#classDetailContent .modal-tab').forEach(t => t.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        const container = document.getElementById('adminClassDetailTabContent');
+        container.innerHTML = '';
+
+        const tempOldClassId = currentClassId; // Temporarily switch context
+        currentClassId = classId;
+
+        if (tab === 'roster') renderAdminClassRoster(classId);
+        else if (tab === 'leaderboard') container.appendChild(renderLeaderboard());
+        else if (tab === 'rewards') container.appendChild(renderRewardsView());
+        else if (tab === 'powerups') container.appendChild(renderPowerUpsView());
+        else if (tab === 'history') container.appendChild(renderHistoryView(history[classId] || []));
+        
+        currentClassId = tempOldClassId; // Switch back
+    }
+    
+    function renderAdminClassRoster(classId) {
+        const container = document.getElementById('adminClassDetailTabContent');
+        const classStudents = Object.values(students[classId] || {});
+        container.innerHTML = `
+             <table class="students-table responsive-table"><thead><tr><th>Name</th><th>Points</th><th>Rewards Claimed</th></tr></thead>
+                <tbody>${classStudents.map(s => `<tr><td data-label="Name">${sanitizeHTML(s.name)}</td><td data-label="Points">${s.points}</td><td data-label="Rewards">${(s.pointsRewards || 0) + (s.instantRewards || 0)}</td></tr>`).join('')}</tbody>
+            </table>
+        `;
     }
 
     function renderAdminUsersView() {
@@ -5211,60 +4940,23 @@
       const schoolUsers = Object.values(users).filter(u => u.school === currentUser.school);
 
       view.innerHTML = `
-        <div class="admin-header">
-            <h2 class="admin-title">👩‍🏫 Manage Users</h2>
-            <p>Manage all teacher and admin accounts for ${sanitizeHTML(currentUser.school)}.</p>
-            <div class="admin-controls">
-                <button class="btn btn-success" onclick="openModal('createTeacherModal')">Create Teacher</button>
-                <button class="btn btn-primary" onclick="openModal('createAdminModal')">Create Admin</button>
-            </div>
-        </div>
-        <div class="admin-content">
-            <table class="students-table responsive-table">
-                <thead><tr><th>Username</th><th>Type</th><th>Email</th><th>Created On</th><th>Actions</th></tr></thead>
-                <tbody>
-                    ${schoolUsers.map(u => `
-                        <tr>
-                            <td data-label="Username">${sanitizeHTML(u.username)}</td>
-                            <td data-label="Type">${u.type}</td>
-                            <td data-label="Email">${u.email || 'N/A'}</td>
-                            <td data-label="Created">${new Date(u.createdAt).toLocaleDateString()}</td>
-                            <td data-label="Actions">
-                                ${u.username !== currentUser.username ? `
-                                    <button class="btn btn-warning" onclick="openChangeTeacherPasswordModal('${u.username}')">Change Password</button>
-                                    <button class="btn btn-danger" onclick="deleteUser('${u.username}')">Delete</button>
-                                ` : 'Your Account'}
-                            </td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>
-        </div>
-      `;
+        <div class="admin-header"><h2 class="admin-title">👩‍🏫 Manage Users</h2><p>Manage all accounts for ${sanitizeHTML(currentUser.school)}.</p><div class="admin-controls"><button class="btn btn-success" onclick="openModal('createTeacherModal')">Create Teacher</button><button class="btn btn-primary" onclick="openModal('createAdminModal')">Create Admin</button></div></div>
+        <div class="admin-content"><table class="students-table responsive-table"><thead><tr><th>Username</th><th>Type</th><th>Email</th><th>Created On</th><th>Actions</th></tr></thead>
+            <tbody>${schoolUsers.map(u => `<tr><td data-label="Username">${sanitizeHTML(u.username)}</td><td data-label="Type">${u.type}</td><td data-label="Email">${u.email || 'N/A'}</td><td data-label="Created">${new Date(u.createdAt).toLocaleDateString()}</td><td data-label="Actions">${u.username !== currentUser.username ? `<button class="btn btn-warning" onclick="openChangeTeacherPasswordModal('${u.username}')">Change Password</button><button class="btn btn-danger" onclick="deleteUser('${u.username}')">Delete</button>` : 'Your Account'}</td></tr>`).join('')}</tbody>
+        </table></div>`;
     }
 
     function createTeacher() {
         const username = document.getElementById('newTeacherUsername').value.trim();
         const password = document.getElementById('newTeacherPassword').value.trim();
         const email = document.getElementById('newTeacherEmail').value.trim().toLowerCase();
+        const allowStudentPins = document.getElementById('allowStudentPins').checked;
+        const allowParentPins = document.getElementById('allowParentPins').checked;
 
-        if (!username || !password || !email) {
-            showNotification('All fields are required.', 'error');
-            return;
-        }
+        if (!username || !password || !email) { showNotification('All fields are required.', 'error'); return; }
+        if (users[username]) { showNotification('Username already exists.', 'error'); return; }
 
-        if (users[username]) {
-            showNotification('Username already exists.', 'error');
-            return;
-        }
-
-        users[username] = {
-            username, password, email,
-            type: 'teacher',
-            school: currentUser.school,
-            createdAt: new Date().toISOString(),
-            settings: { offlineMode: false }
-        };
+        users[username] = { username, password, email, type: 'teacher', school: currentUser.school, createdAt: new Date().toISOString(), settings: { allowStudentPins, allowParentPins } };
         saveData();
         renderAdminUsersView();
         closeModal('createTeacherModal');
@@ -5275,24 +4967,9 @@
         const username = document.getElementById('newAdminUsername').value.trim();
         const password = document.getElementById('newAdminPassword').value.trim();
         const email = document.getElementById('newAdminEmail').value.trim().toLowerCase();
-
-        if (!username || !password || !email) {
-            showNotification('All fields are required.', 'error');
-            return;
-        }
-
-        if (users[username]) {
-            showNotification('Username already exists.', 'error');
-            return;
-        }
-
-        users[username] = {
-            username, password, email,
-            type: 'admin',
-            school: currentUser.school,
-            createdAt: new Date().toISOString(),
-            settings: { offlineMode: false }
-        };
+        if (!username || !password || !email) { showNotification('All fields are required.', 'error'); return; }
+        if (users[username]) { showNotification('Username already exists.', 'error'); return; }
+        users[username] = { username, password, email, type: 'admin', school: currentUser.school, createdAt: new Date().toISOString(), settings: {} };
         saveData();
         renderAdminUsersView();
         closeModal('createAdminModal');
@@ -5308,10 +4985,7 @@
 
     function changeTeacherPassword() {
         const newPassword = document.getElementById('newTeacherPass').value.trim();
-        if (!newPassword) {
-            showNotification('Password cannot be empty.', 'error');
-            return;
-        }
+        if (!newPassword) { showNotification('Password cannot be empty.', 'error'); return; }
         users[currentUsernameToEdit].password = newPassword;
         saveData();
         closeModal('changeTeacherPasswordModal');
@@ -5319,20 +4993,13 @@
     }
 
     function deleteUser(username) {
-        if (confirm(`Are you sure you want to delete the user "${username}"? This will also delete all their classes and associated data. THIS CANNOT BE UNDONE.`)) {
+        if (confirm(`Are you sure you want to delete user "${username}" and all their classes/data? THIS CANNOT BE UNDONE.`)) {
             const userClasses = classes.filter(c => c.teacherUsername === username);
             userClasses.forEach(c => {
-                delete students[c.id];
-                delete rewards[c.id];
-                delete history[c.id];
-                delete reasons[c.id];
-                delete messages[c.id];
-                localStorage.removeItem(`offline_${c.id}`);
+                delete students[c.id]; delete rewards[c.id]; delete history[c.id]; delete reasons[c.id];
             });
             classes = classes.filter(c => c.teacherUsername !== username);
-            
             delete users[username];
-            
             saveData();
             renderAdminUsersView();
             showNotification(`User ${username} and all their data have been deleted.`, 'danger');
@@ -5343,45 +5010,17 @@
       const view = document.getElementById('admin-embedsView');
       const schoolEmbeds = embeds[currentUser.school] || [];
       view.innerHTML = `
-        <div class="admin-header">
-            <h2 class="admin-title">🖥️ Manage Embeds</h2>
-            <p>Add or remove tools for the "Extras" page for all teachers in ${sanitizeHTML(currentUser.school)}.</p>
-            <div class="admin-controls">
-                <button class="btn btn-primary" onclick="openModal('addEmbedModal')">Add New Embed</button>
-            </div>
-        </div>
-        <div class="admin-content">
-            <table class="students-table responsive-table">
-                <thead><tr><th>Name</th><th>URL</th><th>Actions</th></tr></thead>
-                <tbody>
-                    ${schoolEmbeds.map(e => `
-                        <tr>
-                            <td data-label="Name">${sanitizeHTML(e.name)}</td>
-                            <td data-label="URL">${sanitizeHTML(e.url)}</td>
-                            <td data-label="Actions">
-                                <button class="btn btn-danger" onclick="removeEmbed('${e.id}')">Remove</button>
-                            </td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>
-        </div>
-      `;
+        <div class="admin-header"><h2 class="admin-title">🖥️ Manage Embeds</h2><p>Add/remove tools from the "Extras" page for all teachers in ${sanitizeHTML(currentUser.school)}.</p><div class="admin-controls"><button class="btn btn-primary" onclick="openModal('addEmbedModal')">Add New Embed</button></div></div>
+        <div class="admin-content"><table class="students-table responsive-table"><thead><tr><th>Name</th><th>URL</th><th>Actions</th></tr></thead>
+            <tbody>${schoolEmbeds.map(e => `<tr><td data-label="Name">${sanitizeHTML(e.name)}</td><td data-label="URL">${sanitizeHTML(e.url)}</td><td data-label="Actions"><button class="btn btn-danger" onclick="removeEmbed('${e.id}')">Remove</button></td></tr>`).join('')}</tbody>
+        </table></div>`;
     }
 
     function addEmbed() {
         const name = document.getElementById('embedName').value.trim();
         const url = document.getElementById('embedUrl').value.trim();
-        if (!name || !url) {
-            showNotification('Name and URL are required.', 'error');
-            return;
-        }
-        try {
-            new URL(url);
-        } catch (_) {
-            showNotification('Please enter a valid URL.', 'error');
-            return;
-        }
+        if (!name || !url) { showNotification('Name and URL are required.', 'error'); return; }
+        try { new URL(url); } catch (_) { showNotification('Please enter a valid URL.', 'error'); return; }
         if (!embeds[currentUser.school]) embeds[currentUser.school] = [];
         embeds[currentUser.school].push({ id: generateId(), name, url });
         saveData();
@@ -5402,77 +5041,70 @@
     // DEMO MODE
     function startDemoMode(type) {
         demoMode = true;
-        
-        // Reset all data for a clean demo
-        users = {}; classes = []; students = {}; rewards = {}; powerups = {}; history = {}; reasons = {}; embeds = {}; messages = {};
-
+        users = {}; classes = []; students = {}; rewards = {}; powerups = {}; history = {}; reasons = {}; embeds = {};
         const demoSchool = "Demo Academy";
-        
-        embeds[demoSchool] = [
-            { id: 'demo1', name: 'Wheel of Names', url: 'https://wheelofnames.com/' },
-            { id: 'demo2', name: 'Online Notepad', url: 'https://www.onlinenotepad.io/' }
-        ];
-
-        users['demoAdmin'] = { username: 'demoAdmin', password: '123', type: 'admin', school: demoSchool, email: 'admin@demo.com', createdAt: new Date().toISOString(), settings: { offlineMode: false } };
-        const demoTeacherUser = 'demoTeacher';
-        users[demoTeacherUser] = { username: demoTeacherUser, password: '123', type: 'teacher', school: demoSchool, email: 'teacher@demo.com', createdAt: new Date().toISOString(), settings: { offlineMode: false } };
-        
+        embeds[demoSchool] = [{ id: 'd1', name: 'Wheel of Names', url: 'https://wheelofnames.com/' }, { id: 'd2', name: 'Gynzy Tools', url: 'https://teacher.gynzy.com/' }];
+        users['demoAdmin'] = { username: 'demoAdmin', password: '123', type: 'admin', school: demoSchool, email: 'a@d.com', createdAt: new Date().toISOString(), settings: {} };
+        users['demoTeacher'] = { username: 'demoTeacher', password: '123', type: 'teacher', school: demoSchool, email: 't@d.com', createdAt: new Date().toISOString(), settings: { allowStudentPins: true, allowParentPins: true } };
         const demoClassId = 'demoClass1';
-        classes.push({ id: demoClassId, name: 'Grade 5 Heroes', teacherUsername: demoTeacherUser, chatMembers: [demoTeacherUser] });
-
+        classes.push({ id: demoClassId, name: 'Grade 5 Heroes', teacherUsername: 'demoTeacher' });
         students[demoClassId] = {};
-        const demoStudents = ['Chaim', 'Dob', 'Moshe', 'Doniel', 'Avi', 'Mendy', 'Yitsi', 'Yehudah'];
+        const demoStudents = ['Chaim', 'Dob', 'Moshe', 'Doniel', 'Avi', 'Mendy'];
         demoStudents.forEach((name, i) => {
             const id = `s${i}`;
-            students[demoClassId][id] = { id, name, pin: (10000 + i).toString(), points: Math.floor(Math.random() * 50) + 10 };
+            students[demoClassId][id] = { id, name, pin: `ABC-D${i+1}${i+1}`, parentPin: `P-XYZ-A${i+1}${i+1}`, points: Math.floor(Math.random() * 50) + 10 };
         });
-        
         rewards[demoClassId] = [{ id: 'r1', title: 'Homework Pass', points: 25, type: 'deduct', icon: '🎟️' }];
-        powerups[demoClassId] = [{ id: 'p1', title: 'Weekend Warrior', multiplier: 2, duration: 1 }];
+        powerups[demoClassId] = [{ id: 'p1', title: 'Weekend Warrior', multiplier: 2, duration: 2 }];
         history[demoClassId] = [{ studentName: 'Mendy', points: 5, reason: 'Great answer', timestamp: new Date().toISOString() }];
         reasons[demoClassId] = ['Helping others', 'Good listening', 'On task'];
-        
-        messages[demoClassId] = {
-            group: [
-                { id: generateId(), sender: 'demoTeacher', content: 'Welcome to the class chat!', timestamp: new Date(Date.now() - 86400000).toISOString() },
-                { id: generateId(), sender: 's0', content: 'Hello!', timestamp: new Date().toISOString() }
-            ],
-            direct: {}
-        };
-
-        currentUser = users[type === 'admin' ? 'demoAdmin' : 'demoTeacher'];
-        currentClassId = type === 'teacher' ? demoClassId : null;
-        currentChatId = type === 'teacher' ? 'group' : null;
-
         closeModal('demoModal');
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('studentLoginScreen').style.display = 'none';
-        document.getElementById('appLayout').classList.add('active');
-        document.getElementById('studentPortalLayout').classList.remove('active');
-        document.getElementById('switchDemoViewBtn').style.display = 'block';
-        initializeApp();
+        document.getElementById('demoViewSwitcher').style.display = 'flex';
+        
+        switchDemoView(type);
     }
 
-    function switchDemoView() {
+    function switchDemoView(type) {
         if (!demoMode) return;
-        if (currentUser.type === 'teacher') {
-            currentUser = users['demoAdmin'];
-            currentClassId = null;
-            currentChatId = null;
-        } else {
-            currentUser = users['demoTeacher'];
-            currentClassId = 'demoClass1';
-            currentChatId = 'group';
+        const switcher = document.getElementById('demoViewSwitcher');
+        switcher.innerHTML = `
+            <span style="font-weight: bold;">Demo:</span>
+            <button class="btn btn-secondary" onclick="switchDemoView('admin')">Admin</button>
+            <button class="btn btn-secondary" onclick="switchDemoView('teacher')">Teacher</button>
+            <button class="btn btn-secondary" onclick="switchDemoView('student')">Student</button>
+            <button class="btn btn-secondary" onclick="switchDemoView('parent')">Parent</button>
+        `;
+
+        // Hide all layouts first
+        document.getElementById('appLayout').classList.remove('active');
+        document.getElementById('studentPortalLayout').classList.remove('active');
+        document.getElementById('parentPortalLayout').classList.remove('active');
+
+        if (type === 'admin' || type === 'teacher') {
+            currentUser = users[type === 'admin' ? 'demoAdmin' : 'demoTeacher'];
+            currentClassId = type === 'teacher' ? 'demoClass1' : null;
+            currentStudent = null;
+            currentParent = null;
+            document.getElementById('appLayout').classList.add('active');
+            initializeApp();
+        } else if (type === 'student') {
+            currentStudent = { ...students['demoClass1']['s0'], classId: 'demoClass1'};
+            currentUser = null;
+            currentParent = null;
+            document.getElementById('studentPortalLayout').classList.add('active');
+            initializeAppStudent();
+        } else if (type === 'parent') {
+            currentParent = { ...students['demoClass1']['s0'], classId: 'demoClass1'};
+            currentUser = null;
+            currentStudent = null;
+            document.getElementById('parentPortalLayout').classList.add('active');
+            initializeAppParent();
         }
-        initializeApp();
     }
     
-    // Student PIN Management
+    // Student & Parent PIN Management
     function openManagePinsModal() {
-        if (!currentClassId) {
-            showNotification("Please select a class first.", "error");
-            return;
-        }
+        if (!currentClassId) { showNotification("Please select a class first.", "error"); return; }
         renderStudentPinList();
         openModal('managePinsModal');
     }
@@ -5480,51 +5112,41 @@
     function renderStudentPinList() {
         const pinListContainer = document.getElementById('studentPinList');
         const classStudents = Object.values(students[currentClassId] || {});
-        if (classStudents.length === 0) {
-            pinListContainer.innerHTML = "<p>No students in this class to assign PINs to.</p>";
-            return;
-        }
+        const teacherSettings = users[currentUser.username]?.settings;
+        if (classStudents.length === 0) { pinListContainer.innerHTML = "<p>No students in this class.</p>"; return; }
         
         pinListContainer.innerHTML = `
-            <table class="students-table">
-                <thead><tr><th>Student Name</th><th>PIN</th></tr></thead>
-                <tbody>
-                    ${classStudents.map(s => `
-                        <tr>
-                            <td>${sanitizeHTML(s.name)}</td>
-                            <td><strong>${s.pin || 'Not Generated'}</strong></td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>
-        `;
+            <table class="students-table"><thead><tr><th>Student Name</th>${teacherSettings.allowStudentPins ? `<th>Student PIN</th>` : ''}${teacherSettings.allowParentPins ? `<th>Parent PIN</th>` : ''}</tr></thead>
+            <tbody>${classStudents.map(s => `<tr><td>${sanitizeHTML(s.name)}</td>${teacherSettings.allowStudentPins ? `<td><strong>${s.pin || 'N/A'}</strong></td>` : ''}${teacherSettings.allowParentPins ? `<td><strong>${s.parentPin || 'N/A'}</strong></td>` : ''}</tr>`).join('')}</tbody>
+            </table>`;
     }
 
-    function generateComplexPin() {
-      const chars = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789'; // Omitted O and 0 for clarity
-      let part1 = '';
-      let part2 = '';
+    function generateComplexPin(prefix = '') {
+      const chars = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
+      let part1 = '', part2 = '';
       for (let i = 0; i < 3; i++) {
         part1 += chars.charAt(Math.floor(Math.random() * chars.length));
         part2 += chars.charAt(Math.floor(Math.random() * chars.length));
       }
-      return `${part1}-${part2}`;
+      return `${prefix}${part1}-${part2}`;
     }
 
-    function generateStudentPINs() {
-        if (!currentClassId) return;
-        if (!confirm("This will generate new PINs for students who don't have one, and regenerate PINs for all existing students. Are you sure?")) return;
+    function generatePINs() {
+        if (!currentClassId || !confirm("This will generate/regenerate PINs for all students. Are you sure?")) return;
         
         const classStudents = Object.values(students[currentClassId] || {});
-        const allPins = new Set(Object.values(students).flatMap(classObj => Object.values(classObj).map(s => s.pin)).filter(Boolean));
+        const allPins = new Set(Object.values(students).flatMap(c => Object.values(c).flatMap(s => [s.pin, s.parentPin])).filter(Boolean));
 
         classStudents.forEach(student => {
             let newPin;
-            do {
-                newPin = generateComplexPin();
-            } while (allPins.has(newPin));
+            do { newPin = generateComplexPin(); } while (allPins.has(newPin));
             allPins.add(newPin);
-            students[currentClassId][student.id].pin = newPin;
+            student.pin = newPin;
+
+            let newParentPin;
+            do { newParentPin = generateComplexPin('P-'); } while (allPins.has(newParentPin));
+            allPins.add(newParentPin);
+            student.parentPin = newParentPin;
         });
         
         saveData();
@@ -5535,412 +5157,10 @@
     function copyPinsToClipboard() {
         if (!currentClassId) return;
         const classStudents = Object.values(students[currentClassId] || {});
-        const pinText = classStudents.map(s => `${s.name}: ${s.pin || 'N/A'}`).join('\n');
+        const pinText = classStudents.map(s => `${s.name}:\n  Student: ${s.pin || 'N/A'}\n  Parent: ${s.parentPin || 'N/A'}`).join('\n\n');
         navigator.clipboard.writeText(pinText).then(() => {
             showNotification('PIN list copied to clipboard!', 'success');
-        }, () => {
-            showNotification('Failed to copy PINs.', 'error');
-        });
-    }
-    
-    // Messaging Functions
-    function renderMessagingView(viewId) {
-        const view = document.getElementById(viewId);
-        if (!currentClassId) {
-            view.innerHTML = `<p class="text-center">Please select a class to view messages.</p>`;
-            return;
-        }
-        if (!messages[currentClassId]) {
-            messages[currentClassId] = { group: [], direct: {} };
-        }
-
-        view.innerHTML = `
-            <div class="messaging-layout" id="messagingLayout-${viewId}">
-                <aside class="chat-list-panel">
-                    <div class="chat-list-header">
-                        <h3 class="chat-list-title">Chats</h3>
-                        ${currentUser && currentUser.type !== 'admin' ? `<button class="btn btn-primary" style="padding: 0.5rem;" onclick="openNewMessageModal()">New Chat</button>` : ''}
-                    </div>
-                    <div class="chat-list" id="chatList-${viewId}"></div>
-                </aside>
-                <main class="conversation-panel" id="conversationPanel-${viewId}"></main>
-            </div>
-        `;
-        renderChatList(viewId);
-        renderConversation(viewId);
-    }
-    
-    function renderChatList(viewId) {
-        const listEl = document.getElementById(`chatList-${viewId}`);
-        const currentClass = classes.find(c => c.id === currentClassId);
-        if (!currentClass) return;
-        
-        let listHTML = '';
-
-        // Group Chat
-        const groupMessages = messages[currentClassId]?.group || [];
-        const lastGroupMessage = groupMessages[groupMessages.length - 1];
-        const fileIcon = lastGroupMessage?.attachment ? '📎 ' : '';
-        listHTML += `
-            <div class="chat-list-item ${currentChatId === 'group' ? 'active' : ''}" onclick="selectChat('group', '${viewId}')">
-                <div class="chat-avatar">🏫</div>
-                <div class="chat-info">
-                    <div class="chat-info-header">
-                        <span class="chat-name">${currentClass.name} Group</span>
-                        ${lastGroupMessage ? `<span class="chat-timestamp">${new Date(lastGroupMessage.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>` : ''}
-                    </div>
-                    <div class="chat-last-message">
-                        ${lastGroupMessage ? `${lastGroupMessage.senderName || lastGroupMessage.sender}: ${fileIcon}${lastGroupMessage.deleted ? '<i>This message was deleted</i>' : sanitizeHTML(lastGroupMessage.content)}` : 'No messages yet'}
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Direct Messages for Teacher
-        if (currentUser) {
-            const directMessages = messages[currentClassId]?.direct || {};
-            Object.keys(directMessages).forEach(threadId => {
-                if (threadId.includes(currentUser.username)) {
-                    const otherUserId = threadId.replace(currentUser.username, '').replace('_', '');
-                    const otherUser = students[currentClassId]?.[otherUserId]?.name || users[otherUserId]?.username || 'Unknown';
-                    const threadMessages = directMessages[threadId];
-                    const lastMessage = threadMessages[threadMessages.length - 1];
-                    if (lastMessage) {
-                        const fileIcon = lastMessage.attachment ? '📎 ' : '';
-                        listHTML += `
-                          <div class="chat-list-item ${currentChatId === threadId ? 'active' : ''}" onclick="selectChat('${threadId}', '${viewId}')">
-                              <div class="chat-avatar">${otherUser.charAt(0).toUpperCase()}</div>
-                              <div class="chat-info">
-                                  <div class="chat-info-header">
-                                      <span class="chat-name">${otherUser}</span>
-                                      <span class="chat-timestamp">${new Date(lastMessage.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
-                                  </div>
-                                  <div class="chat-last-message">
-                                      ${fileIcon}${lastMessage.deleted ? '<i>This message was deleted</i>' : sanitizeHTML(lastMessage.content)}
-                                  </div>
-                              </div>
-                          </div>
-                        `;
-                    }
-                }
-            });
-        }
-        // Direct Message for Student
-        else if (currentStudent) {
-            const mainTeacher = currentClass.teacherUsername;
-            const threadId = [currentStudent.id, mainTeacher].sort().join('_');
-            const threadMessages = messages[currentClassId]?.direct?.[threadId] || [];
-            const lastMessage = threadMessages[threadMessages.length - 1];
-            if (lastMessage) {
-                const fileIcon = lastMessage.attachment ? '📎 ' : '';
-                 listHTML += `
-                    <div class="chat-list-item ${currentChatId === threadId ? 'active' : ''}" onclick="selectChat('${threadId}', '${viewId}')">
-                        <div class="chat-avatar">${mainTeacher.charAt(0).toUpperCase()}</div>
-                        <div class="chat-info">
-                            <div class="chat-info-header">
-                                <span class="chat-name">${mainTeacher}</span>
-                                <span class="chat-timestamp">${new Date(lastMessage.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
-                            </div>
-                            <div class="chat-last-message">
-                                ${fileIcon}${lastMessage.deleted ? '<i>This message was deleted</i>' : sanitizeHTML(lastMessage.content)}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-        
-        listEl.innerHTML = listHTML;
-    }
-
-    function renderConversation(viewId) {
-        const panelEl = document.getElementById(`conversationPanel-${viewId}`);
-        const currentClass = classes.find(c => c.id === currentClassId);
-        if (!currentClass) return;
-        
-        let conversationTitle = '';
-        let messageList = [];
-        
-        if (!currentChatId && window.innerWidth > 768) {
-             panelEl.innerHTML = `
-                <div class="conversation-placeholder">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
-                    <h3>Select a conversation</h3>
-                    <p>Choose a chat from the left panel to start messaging.</p>
-                </div>`;
-            return;
-        }
-        
-        if (currentChatId === 'group') {
-            conversationTitle = `${currentClass.name} Group Chat`;
-            messageList = messages[currentClassId]?.group || [];
-        } else if (currentChatId) {
-            const loggedInUser = currentUser ? currentUser.username : currentStudent.id;
-            const otherUserId = currentChatId.replace(loggedInUser, '').replace('_', '');
-            conversationTitle = students[currentClassId]?.[otherUserId]?.name || users[otherUserId]?.username || 'Chat';
-            messageList = messages[currentClassId]?.direct?.[currentChatId] || [];
-        } else {
-             panelEl.innerHTML = ``;
-             return;
-        }
-        
-        const loggedInId = currentUser ? currentUser.username : currentStudent.id;
-
-        let messagesHTML = messageList.map(msg => {
-            const isSent = msg.sender === loggedInId;
-            const senderName = students[currentClassId]?.[msg.sender]?.name || users[msg.sender]?.username || msg.sender;
-            
-            // Permission checks
-            const canEdit = isSent && !msg.deleted;
-            const canDelete = isSent || (currentUser && currentUser.username === currentClass.teacherUsername);
-            const canModify = canEdit || canDelete;
-            
-            const menuId = `menu-${msg.id}`;
-            const bubbleId = `bubble-${msg.id}`;
-            const attachmentHTML = msg.attachment ? 
-                `<a href="${msg.attachment.dataUrl}" download="${msg.attachment.name}" class="message-attachment" target="_blank" rel="noopener noreferrer">
-                    📎 <span class="message-attachment-name">${sanitizeHTML(msg.attachment.name)}</span>
-                </a>` : '';
-
-            return `
-                <div class="message-bubble-wrapper ${isSent ? 'sent' : 'received'}" id="${bubbleId}">
-                    ${!isSent && currentChatId === 'group' ? `<div class="chat-avatar" style="width:32px; height:32px;">${senderName.charAt(0).toUpperCase()}</div>` : ''}
-                    
-                    ${canModify && isSent ? `
-                        <div class="relative">
-                            <button class="message-menu-btn" onclick="event.stopPropagation(); toggleMessageMenu('${menuId}')">⋮</button>
-                            <div class="message-menu-dropdown" id="${menuId}">
-                                ${canEdit ? `<button class="message-menu-item" onclick="startEditMessage('${currentChatId}', '${msg.id}', '${viewId}')">Edit</button>` : ''}
-                                ${canDelete ? `<button class="message-menu-item" onclick="deleteMessage('${currentChatId}', '${msg.id}', '${viewId}')">Delete</button>` : ''}
-                            </div>
-                        </div>
-                    ` : ''}
-
-                    <div class="message-bubble ${isSent ? 'sent' : 'received'}">
-                        ${!isSent && currentChatId === 'group' ? `<div class="message-sender">${senderName}</div>` : ''}
-                        <div class="message-content ${msg.deleted ? 'deleted' : ''}">
-                            ${msg.deleted ? 'This message was deleted' : sanitizeHTML(msg.content)}
-                        </div>
-                        ${attachmentHTML}
-                        <div class="message-meta">
-                            ${new Date(msg.timestamp).toLocaleString()}
-                            ${msg.edited ? '<em class="edited-indicator">(edited)</em>' : ''}
-                        </div>
-                    </div>
-                    
-                    ${canModify && !isSent ? `
-                        <div class="relative">
-                            <button class="message-menu-btn" onclick="event.stopPropagation(); toggleMessageMenu('${menuId}')">⋮</button>
-                            <div class="message-menu-dropdown" id="${menuId}">
-                                ${canDelete ? `<button class="message-menu-item" onclick="deleteMessage('${currentChatId}', '${msg.id}', '${viewId}')">Delete</button>` : ''}
-                            </div>
-                        </div>
-                    ` : ''}
-                </div>
-            `;
-        }).join('');
-        
-        const manageMembersBtn = (currentUser && currentUser.username === currentClass.teacherUsername && currentChatId === 'group') ? `<button class="btn btn-secondary" style="padding: 0.5rem;" onclick="openManageChatMembersModal()">Manage Members</button>` : '';
-
-        panelEl.innerHTML = `
-            <header class="conversation-header">
-                <div>
-                    <button class="conversation-back-btn" onclick="goBackToChatList('${viewId}')">←</button>
-                    ${conversationTitle}
-                </div>
-                ${manageMembersBtn}
-            </header>
-            <div class="conversation-messages" id="conversationMessages-${viewId}">${messagesHTML}</div>
-            <form class="conversation-input-form" onsubmit="sendMessage(event, '${viewId}')">
-                <button type="button" class="btn btn-secondary attachment-btn" onclick="document.getElementById('messageAttachmentInput').click()">📎</button>
-                <input class="conversation-input" id="messageInput-${viewId}" placeholder="Type a message..." autocomplete="off">
-                <button type="submit" class="btn btn-primary">Send</button>
-            </form>
-        `;
-        
-        const messagesContainer = document.getElementById(`conversationMessages-${viewId}`);
-        if (messagesContainer) {
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-    }
-    
-    function selectChat(chatId, viewId) {
-        currentChatId = chatId;
-        document.getElementById(`messagingLayout-${viewId}`)?.classList.add('show-conversation');
-        renderChatList(viewId);
-        renderConversation(viewId);
-    }
-    
-    function goBackToChatList(viewId) {
-        document.getElementById(`messagingLayout-${viewId}`)?.classList.remove('show-conversation');
-    }
-
-    function sendMessage(event, viewId) {
-        event.preventDefault();
-        const input = document.getElementById(`messageInput-${viewId}`);
-        const content = input.value.trim();
-        const attachmentInput = document.getElementById('messageAttachmentInput');
-        const attachment = attachmentInput.files[0];
-        
-        if (!content && !attachment) return;
-
-        if (attachment) {
-             const reader = new FileReader();
-             reader.onload = function(e) {
-                 const fileData = {
-                     name: attachment.name,
-                     type: attachment.type,
-                     dataUrl: e.target.result
-                 };
-                 finalizeSendMessage(content, fileData, viewId);
-             };
-             reader.readAsDataURL(attachment);
-        } else {
-            finalizeSendMessage(content, null, viewId);
-        }
-    }
-    
-    function finalizeSendMessage(content, attachmentData, viewId) {
-        const senderId = currentUser ? currentUser.username : currentStudent.id;
-        const senderName = currentUser ? currentUser.username : currentStudent.name;
-        
-        const message = {
-            id: generateId(),
-            sender: senderId,
-            senderName,
-            content,
-            timestamp: new Date().toISOString(),
-            deleted: false,
-            edited: false,
-            attachment: attachmentData
-        };
-        
-        if (currentChatId === 'group') {
-            if (!messages[currentClassId].group) messages[currentClassId].group = [];
-            messages[currentClassId].group.push(message);
-        } else {
-            if (!messages[currentClassId].direct[currentChatId]) messages[currentClassId].direct[currentChatId] = [];
-            messages[currentClassId].direct[currentChatId].push(message);
-        }
-        
-        saveData();
-        document.getElementById(`messageInput-${viewId}`).value = '';
-        document.getElementById('messageAttachmentInput').value = ''; // Clear file input
-        renderConversation(viewId);
-        renderChatList(viewId);
-    }
-    
-    function handleFileAttachment(event) {
-        const file = event.target.files[0];
-        if (file) {
-            // Could show a preview here if needed
-            showNotification(`Attached: ${file.name}`, 'info');
-        }
-    }
-
-    function deleteMessage(chatId, messageId, viewId) {
-        let messageArray = chatId === 'group' ? messages[currentClassId].group : messages[currentClassId].direct[chatId];
-        const message = messageArray.find(m => m.id === messageId);
-        
-        if (message) {
-            message.deleted = true;
-            message.content = '';
-            message.attachment = null;
-            saveData();
-            renderConversation(viewId);
-            renderChatList(viewId);
-        }
-    }
-    
-    function toggleMessageMenu(menuId) {
-        document.querySelectorAll('.message-menu-dropdown.active').forEach(menu => {
-            if (menu.id !== menuId) menu.classList.remove('active');
-        });
-        document.getElementById(menuId)?.classList.toggle('active');
-    }
-    
-    function startEditMessage(chatId, messageId, viewId) {
-        let messageArray = chatId === 'group' ? messages[currentClassId].group : messages[currentClassId].direct[chatId];
-        const message = messageArray.find(m => m.id === messageId);
-        if (!message) return;
-
-        const bubbleWrapper = document.getElementById(`bubble-${messageId}`);
-        const bubbleContent = bubbleWrapper.querySelector('.message-bubble');
-        
-        bubbleContent.innerHTML = `
-            <form class="message-edit-form" onsubmit="saveEditedMessage(event, '${chatId}', '${messageId}', '${viewId}')">
-                <textarea class="message-edit-textarea">${message.content}</textarea>
-                <div class="message-edit-actions">
-                    <button type="submit" class="btn btn-success" style="padding: 0.25rem 0.5rem;">Save</button>
-                    <button type="button" class="btn btn-secondary" style="padding: 0.25rem 0.5rem;" onclick="renderConversation('${viewId}')">Cancel</button>
-                </div>
-            </form>
-        `;
-        bubbleContent.querySelector('textarea').focus();
-    }
-    
-    function saveEditedMessage(event, chatId, messageId, viewId) {
-        event.preventDefault();
-        const textarea = event.target.querySelector('textarea');
-        const newContent = textarea.value.trim();
-        
-        if (!newContent) {
-            showNotification("Message can't be empty.", "error");
-            return;
-        }
-
-        let messageArray = chatId === 'group' ? messages[currentClassId].group : messages[currentClassId].direct[chatId];
-        const message = messageArray.find(m => m.id === messageId);
-
-        if (message) {
-            message.content = newContent;
-            message.edited = true;
-            saveData();
-            renderConversation(viewId);
-        }
-    }
-
-    function openNewMessageModal() {
-        const select = document.getElementById('recipientSelect');
-        const classStudents = Object.values(students[currentClassId] || {});
-        select.innerHTML = classStudents.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
-        openModal('newMessageModal');
-    }
-
-    function startDirectMessage() {
-        const recipientId = document.getElementById('recipientSelect').value;
-        if (!recipientId) return;
-
-        const threadId = [currentUser.username, recipientId].sort().join('_');
-        if (!messages[currentClassId].direct[threadId]) {
-            messages[currentClassId].direct[threadId] = [];
-        }
-        
-        closeModal('newMessageModal');
-        selectChat(threadId, 'messagingView');
-    }
-    
-    function openManageChatMembersModal() {
-        const listEl = document.getElementById('chatMemberList');
-        const currentClass = classes.find(c => c.id === currentClassId);
-        const schoolTeachers = Object.values(users).filter(u => u.school === currentUser.school && u.type === 'teacher' && u.username !== currentUser.username);
-        
-        listEl.innerHTML = schoolTeachers.map(teacher => `
-            <div class="multi-select-option">
-                <input type="checkbox" value="${teacher.username}" id="member-${teacher.username}" ${currentClass.chatMembers.includes(teacher.username) ? 'checked' : ''}>
-                <label for="member-${teacher.username}">${teacher.username}</label>
-            </div>
-        `).join('');
-        openModal('manageChatMembersModal');
-    }
-    
-    function updateChatMembers() {
-        const currentClass = classes.find(c => c.id === currentClassId);
-        const selectedMembers = Array.from(document.querySelectorAll('#chatMemberList input:checked')).map(cb => cb.value);
-        currentClass.chatMembers = [currentClass.teacherUsername, ...selectedMembers];
-        saveData();
-        closeModal('manageChatMembersModal');
-        showNotification("Group chat members updated.", "success");
+        }, () => { showNotification('Failed to copy PINs.', 'error'); });
     }
   </script>
 </body>
