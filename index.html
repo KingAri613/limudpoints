@@ -390,6 +390,13 @@
       align-items: center;
       justify-content: center;
       font-weight: 600;
+      overflow: hidden;
+    }
+    
+    .user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
    
     .user-details h4 {
@@ -1204,8 +1211,8 @@
       color: white;
     }
     .podium-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .podium-name { font-weight: 600; margin-bottom: 0.25rem; color: var(--text-primary); }
-    .podium-points { font-weight: bold; color: var(--primary-dark); font-size: 1.1rem; }
+    .podium-name { font-weight: 600; margin-bottom: 0.25rem; color: var(--text-primary); word-break: break-word; }
+    .podium-points { font-weight: bold; color: var(--primary-dark); font-size: 1.1rem; word-break: break-word; }
     
     .leaderboard-list { margin-top: 1rem; }
     .leaderboard-item {
@@ -2071,6 +2078,14 @@
         <label class="form-label" for="signupEmail">Email Address</label>
         <input type="email" class="form-input" id="signupEmail" placeholder="Enter your email for account recovery" required/>
       </div>
+      
+       <div class="form-group">
+          <label class="form-label" for="signupPhoto">Profile Photo (optional)</label>
+          <input type="file" class="file-upload" id="signupPhoto" accept="image/*"/>
+          <div class="upload-area" onclick="document.getElementById('signupPhoto').click()">
+            <p>Click to upload photo</p>
+          </div>
+        </div>
      
       <button class="btn btn-primary btn-full" id="signupBtn">Create Account</button>
      
@@ -2273,64 +2288,7 @@
 
         <!-- Settings View -->
         <div id="settingsView" class="page-view" style="display:none;">
-          <div class="content-header">
-            <h2 style="margin: 0; font-size: 1.25rem; font-weight: 600;">Settings</h2>
-          </div>
-         
-          <div style="display: grid; gap: 2rem;">
-            <div style="background: var(--surface); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
-              <h3 style="margin-bottom: 1rem; color: var(--text-primary);">User Information</h3>
-              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                <span>Username:</span>
-                <span id="settingsUsername" style="font-weight: 600;"></span>
-              </div>
-              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                <span>School:</span>
-                <span id="settingsSchool" style="font-weight: 600;"></span>
-              </div>
-              <button class="btn btn-secondary mt-4" onclick="openChangePasswordModal()">Change Password</button>
-            </div>
-           
-            <div style="background: var(--surface); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
-              <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Class Settings</h3>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                <span>Current Class:</span>
-                <span id="currentClassName" style="font-weight: 600;"></span>
-              </div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                <span>Total Students:</span>
-                <span id="totalStudents" style="font-weight: 600;">0</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                <span>Total Points Awarded:</span>
-                <span id="totalPoints" style="font-weight: 600;">0</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;" id="offlineModeSetting">
-                <label for="offlineModeToggle">Enable Offline Access</label>
-                <label class="switch">
-                  <input type="checkbox" id="offlineModeToggle" onchange="setupOfflineMode(this.checked)">
-                  <span class="slider"></span>
-                </label>
-              </div>
-              <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                <button class="btn btn-warning" onclick="resetAllPoints()">Reset All Points</button>
-                <button class="btn btn-info" onclick="backupClassData()">Backup Data</button>
-              </div>
-            </div>
-           
-            <div style="background: var(--surface); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
-              <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Saved Reasons</h3>
-              <div id="savedReasonsList" style="display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
-            </div>
-           
-            <div style="background: rgb(220 38 38 / 0.1); padding: 2rem; border-radius: 12px; border: 1px solid rgb(220 38 38 / 0.2);">
-              <h3 style="margin-bottom: 1rem; color: var(--danger-color);">Danger Zone</h3>
-              <p style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.875rem;">
-                This action cannot be undone. This will permanently delete the current class and all student data.
-              </p>
-              <button class="btn btn-danger" onclick="deleteCurrentClass()">Delete Current Class</button>
-            </div>
-          </div>
+          <!-- Content will be rendered by renderSettingsView() -->
         </div>
         
         <!-- Extras View -->
@@ -2578,6 +2536,13 @@
           <div>
             <label><input type="checkbox" id="editAllowParentPins"> Allow Parent PIN Generation</label>
           </div>
+        </div>
+        <div class="form-group" id="editUserPhotoSection">
+          <label class="form-label">Profile Photo</label>
+           <div id="editUserPhotoPreview" style="margin-bottom: 1rem;">
+                <img src="" alt="Preview" style="max-width: 128px; border-radius: 50%;"/>
+           </div>
+           <button class="btn btn-danger" onclick="removeTeacherPhoto()">Remove Photo</button>
         </div>
       </div>
       <div class="modal-footer">
@@ -3268,6 +3233,7 @@
       const confirmPassword = document.getElementById('signupConfirmPassword').value.trim();
       const school = document.getElementById('signupSchool').value.trim();
       const email = document.getElementById('signupEmail').value.trim().toLowerCase();
+      const photoFile = document.getElementById('signupPhoto').files[0];
       const error = document.getElementById('signupError');
       const success = document.getElementById('signupSuccess');
       error.style.display = 'none';
@@ -3294,21 +3260,34 @@
         return;
       }
 
-      users[username] = {username, password, type, school, email, createdAt: new Date().toISOString(), settings: { allowStudentPins: true, allowParentPins: true }};
+      const newUser = {username, password, type, school, email, createdAt: new Date().toISOString(), settings: { allowStudentPins: true, allowParentPins: true }};
+
+      const finalizeSignup = () => {
+          users[username] = newUser;
+          if (!embeds[school]) {
+            embeds[school] = [
+              { id: generateId(), name: 'Wheel of Names', url: 'https://wheelofnames.com/' },
+              { id: generateId(), name: 'Online Notepad', url: 'https://www.onlinenotepad.io/' },
+              { id: generateId(), name: 'Gynzy Teacher Tools', url: 'https://teacher.gynzy.com/' },
+              { id: generateId(), name: 'Classroom Seating Plan', url: 'https://thinklit.co.uk/classroom-seating-plan-generator/' }
+            ];
+          }
+          saveData();
+          success.textContent = 'Account created! Please sign in.';
+          success.style.display = 'block';
+          setTimeout(showLogin, 2000);
+      };
       
-      if (!embeds[school]) {
-        embeds[school] = [
-          { id: generateId(), name: 'Wheel of Names', url: 'https://wheelofnames.com/' },
-          { id: generateId(), name: 'Online Notepad', url: 'https://www.onlinenotepad.io/' },
-          { id: generateId(), name: 'Gynzy Teacher Tools', url: 'https://teacher.gynzy.com/' },
-          { id: generateId(), name: 'Classroom Seating Plan', url: 'https://thinklit.co.uk/classroom-seating-plan-generator/' }
-        ];
+      if (photoFile) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            newUser.photo = e.target.result;
+            finalizeSignup();
+        };
+        reader.readAsDataURL(photoFile);
+      } else {
+        finalizeSignup();
       }
-      
-      saveData();
-      success.textContent = 'Account created! Please sign in.';
-      success.style.display = 'block';
-      setTimeout(showLogin, 2000);
     }
 
     function login() {
@@ -3425,7 +3404,14 @@
       document.getElementById('appLayout').classList.add('active');
       document.getElementById('sidebarUsername').textContent = currentUser.username;
       document.getElementById('sidebarSchool').textContent = currentUser.school;
-      document.getElementById('sidebarUserAvatar').textContent = currentUser.username.charAt(0).toUpperCase();
+
+      const avatarDiv = document.getElementById('sidebarUserAvatar');
+      if (currentUser.photo) {
+          avatarDiv.innerHTML = `<img src="${currentUser.photo}" alt="Profile Picture"/>`;
+      } else {
+          avatarDiv.innerHTML = currentUser.username.charAt(0).toUpperCase();
+      }
+      
       if(currentUser.settings?.offlineMode) {
           setupOfflineMode(true);
       }
@@ -3515,6 +3501,10 @@
             <a href="#/admin-users" class="nav-item" data-view="admin-users" onclick="closeMobileSidebar()">👩‍🏫 Users</a>
             <a href="#/admin-embeds" class="nav-item" data-view="admin-embeds" onclick="closeMobileSidebar()">🖥️ Embeds</a>
           </div>
+          <div class="nav-section">
+            <div class="nav-section-title">General</div>
+            <a href="#/settings" class="nav-item" data-view="settings" onclick="closeMobileSidebar()">⚙️ Settings</a>
+          </div>
         `;
       } else {
         nav.innerHTML = `
@@ -3555,6 +3545,7 @@
         if (title === 'admin-classes') renderAdminClassesView();
         else if (title === 'admin-users') renderAdminUsersView();
         else if (title === 'admin-embeds') renderAdminEmbedsView();
+        else if (title === 'settings') renderSettingsView();
       } else {
         if (currentClassId) {
             if(title === 'students') renderStudentsView();
@@ -4635,25 +4626,108 @@
 
     // Settings Logic
     function renderSettingsView() {
-      document.getElementById('settingsUsername').textContent = currentUser.username;
-      document.getElementById('settingsSchool').textContent = currentUser.school;
+        const view = document.getElementById('settingsView');
+        view.innerHTML = `
+            <div class="content-header">
+                <h2 style="margin: 0; font-size: 1.25rem; font-weight: 600;">Settings</h2>
+            </div>
+            <div style="display: grid; gap: 2rem;" id="settingsContent"></div>
+        `;
+        const content = document.getElementById('settingsContent');
+        
+        if (currentUser.type === 'admin') {
+            content.innerHTML = `
+                <!-- Admin Profile Settings -->
+                <div style="background: var(--surface); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+                    <h3 style="margin-bottom: 1.5rem;">Admin Profile</h3>
+                    <div class="form-group">
+                        <label class="form-label">Profile Photo</label>
+                        <div style="display:flex; align-items:center; gap:1rem;">
+                           <div class="user-avatar" style="width: 80px; height: 80px; font-size: 2rem;" id="settingsAvatar"></div>
+                           <input type="file" class="file-upload" id="profilePhotoUpload" accept="image/*" onchange="updateProfilePicture(event)"/>
+                           <button class="btn btn-secondary" onclick="document.getElementById('profilePhotoUpload').click()">Change Photo</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="adminUsernameInput">Username</label>
+                        <input type="text" class="form-input" id="adminUsernameInput" value="${sanitizeHTML(currentUser.username)}">
+                    </div>
+                    <button class="btn btn-primary" onclick="updateAdminUsername()">Save Username</button>
+                </div>
+                <!-- Admin Password Settings -->
+                <div style="background: var(--surface); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+                    <h3 style="margin-bottom: 1rem;">Change Password</h3>
+                    <button class="btn btn-secondary" onclick="openChangePasswordModal()">Change My Password</button>
+                </div>
+                <!-- Admin Danger Zone -->
+                <div style="background: rgb(220 38 38 / 0.1); padding: 2rem; border-radius: 12px; border: 1px solid rgb(220 38 38 / 0.2);">
+                    <h3 style="margin-bottom: 1rem; color: var(--danger-color);">Danger Zone</h3>
+                    <p style="margin-bottom: 1rem;">Permanently delete your admin account. This action cannot be undone.</p>
+                    <button class="btn btn-danger" onclick="deleteAdminAccount()">Delete My Account</button>
+                </div>
+            `;
+            const avatarDiv = document.getElementById('settingsAvatar');
+            if (currentUser.photo) {
+                avatarDiv.innerHTML = `<img src="${currentUser.photo}" alt="Profile Picture"/>`;
+            } else {
+                avatarDiv.innerHTML = currentUser.username.charAt(0).toUpperCase();
+            }
+        } else { // Teacher Settings
+            content.innerHTML = `
+                <div style="background: var(--surface); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+                    <h3 style="margin-bottom: 1.5rem;">My Profile</h3>
+                    <div class="form-group">
+                         <label class="form-label">Profile Photo</label>
+                         <div style="display:flex; align-items:center; gap:1rem;">
+                            <div class="user-avatar" style="width: 80px; height: 80px; font-size: 2rem;" id="settingsAvatar"></div>
+                            <input type="file" class="file-upload" id="profilePhotoUpload" accept="image/*" onchange="updateProfilePicture(event)"/>
+                            <button class="btn btn-secondary" onclick="document.getElementById('profilePhotoUpload').click()">Change Photo</button>
+                         </div>
+                     </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;"><span>Username:</span><span style="font-weight: 600;">${currentUser.username}</span></div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;"><span>School:</span><span style="font-weight: 600;">${currentUser.school}</span></div>
+                    <button class="btn btn-secondary mt-4" onclick="openChangePasswordModal()">Change Password</button>
+                </div>
+                <div style="background: var(--surface); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+                  <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Class Settings</h3>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;"><span>Current Class:</span><span id="currentClassName" style="font-weight: 600;"></span></div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;"><span>Total Students:</span><span id="totalStudents" style="font-weight: 600;">0</span></div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;"><span>Total Points Awarded:</span><span id="totalPoints" style="font-weight: 600;">0</span></div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;" id="offlineModeSetting">
+                    <label for="offlineModeToggle">Enable Offline Access</label>
+                    <label class="switch"><input type="checkbox" id="offlineModeToggle" onchange="setupOfflineMode(this.checked)"><span class="slider"></span></label>
+                  </div>
+                  <div style="display: flex; gap: 1rem; flex-wrap: wrap;"><button class="btn btn-warning" onclick="resetAllPoints()">Reset All Points</button><button class="btn btn-info" onclick="backupClassData()">Backup Data</button></div>
+                </div>
+                <div style="background: var(--surface); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+                  <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Saved Reasons</h3>
+                  <div id="savedReasonsList" style="display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
+                </div>
+                <div style="background: rgb(220 38 38 / 0.1); padding: 2rem; border-radius: 12px; border: 1px solid rgb(220 38 38 / 0.2);">
+                  <h3 style="margin-bottom: 1rem; color: var(--danger-color);">Danger Zone</h3>
+                  <p style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.875rem;">This action cannot be undone. This will permanently delete the current class and all student data.</p>
+                  <button class="btn btn-danger" onclick="deleteCurrentClass()">Delete Current Class</button>
+                </div>
+            `;
+             const avatarDiv = document.getElementById('settingsAvatar');
+            if (currentUser.photo) {
+                avatarDiv.innerHTML = `<img src="${currentUser.photo}" alt="Profile Picture"/>`;
+            } else {
+                avatarDiv.innerHTML = currentUser.username.charAt(0).toUpperCase();
+            }
 
-      if (currentClassId) {
-        const currentClass = classes.find(c => c.id === currentClassId);
-        if (currentClass) {
-          document.getElementById('currentClassName').textContent = currentClass.name;
-          const classStudents = Object.values(students[currentClassId] || {});
-          document.getElementById('totalStudents').textContent = classStudents.length;
-          document.getElementById('totalPoints').textContent = classStudents.reduce((sum, s) => sum + s.points, 0);
+            if (currentClassId) {
+                const currentClass = classes.find(c => c.id === currentClassId);
+                if (currentClass) {
+                    document.getElementById('currentClassName').textContent = currentClass.name;
+                    const classStudents = Object.values(students[currentClassId] || {});
+                    document.getElementById('totalStudents').textContent = classStudents.length;
+                    document.getElementById('totalPoints').textContent = classStudents.reduce((sum, s) => sum + s.points, 0);
+                }
+            }
+            document.getElementById('offlineModeToggle').checked = currentUser.settings?.offlineMode || false;
+            renderSavedReasonsList();
         }
-      }
-      
-      document.getElementById('offlineModeSetting').style.display = currentUser.type === 'teacher' ? 'flex' : 'none';
-      if (currentUser.type === 'teacher') {
-          document.getElementById('offlineModeToggle').checked = currentUser.settings?.offlineMode || false;
-      }
-      
-      renderSavedReasonsList();
     }
 
     function openChangePasswordModal() {
@@ -5064,12 +5138,22 @@
         document.getElementById('editUserEmail').value = user.email || '';
         
         const permsDiv = document.getElementById('editUserPermissions');
+        const photoDiv = document.getElementById('editUserPhotoSection');
         if (user.type === 'teacher') {
             permsDiv.style.display = 'block';
+            photoDiv.style.display = 'block';
             document.getElementById('editAllowStudentPins').checked = user.settings?.allowStudentPins ?? true;
             document.getElementById('editAllowParentPins').checked = user.settings?.allowParentPins ?? true;
+            const preview = document.getElementById('editUserPhotoPreview');
+            if (user.photo) {
+                preview.innerHTML = `<img src="${user.photo}" alt="Preview" style="max-width: 128px; border-radius: 50%;"/>`;
+                preview.style.display = 'block';
+            } else {
+                 preview.style.display = 'none';
+            }
         } else {
             permsDiv.style.display = 'none';
+            photoDiv.style.display = 'none';
         }
         openModal('editUserModal');
     }
@@ -5294,6 +5378,79 @@
                 showNotification('Offline mode disabled.', 'info');
             });
         }
+    }
+    
+    // NEW FUNCTIONS
+    function updateProfilePicture(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                currentUser.photo = e.target.result;
+                users[currentUser.username].photo = e.target.result;
+                saveData();
+                initializeApp(); // Redraw sidebar
+                renderSettingsView(); // Redraw settings page
+                showNotification('Profile picture updated!', 'success');
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+    
+    function removeTeacherPhoto() {
+        if (confirm(`Are you sure you want to remove the profile photo for ${currentUsernameToEdit}?`)) {
+            delete users[currentUsernameToEdit].photo;
+            saveData();
+            openEditUserModal(currentUsernameToEdit); // Refresh modal view
+            showNotification('Photo removed.', 'success');
+        }
+    }
+    
+    function updateAdminUsername() {
+        const newUsername = document.getElementById('adminUsernameInput').value.trim();
+        const oldUsername = currentUser.username;
+        if (newUsername === oldUsername) return;
+        if (!newUsername) { showNotification('Username cannot be empty.', 'error'); return; }
+        if (users[newUsername]) { showNotification('That username is already taken.', 'error'); return; }
+
+        // Update user object and key
+        const userData = users[oldUsername];
+        userData.username = newUsername;
+        users[newUsername] = userData;
+        delete users[oldUsername];
+
+        currentUser = users[newUsername];
+        saveData();
+        
+        showNotification('Username updated successfully. The page will now reload.', 'success');
+        setTimeout(() => window.location.reload(), 1500);
+    }
+    
+    function deleteAdminAccount() {
+        const otherAdmins = Object.values(users).filter(u => u.school === currentUser.school && u.type === 'admin' && u.username !== currentUser.username);
+        
+        if (otherAdmins.length === 0) {
+            // This is the last admin
+            if (confirm("You are the last admin for this school. Deleting your account will also give you the option to delete all associated teachers and their class data. Do you want to proceed?")) {
+                if (confirm("DANGER: Do you want to permanently delete all teachers and class data for this school? This CANNOT be undone.")) {
+                    const teachersToDelete = Object.values(users).filter(u => u.school === currentUser.school && u.type === 'teacher');
+                    teachersToDelete.forEach(teacher => {
+                        deleteUser(teacher.username); // Reuse existing delete logic for cleanup
+                    });
+                }
+                 // Finally, delete the admin account itself
+                delete users[currentUser.username];
+                showNotification('Account and all associated school data have been deleted.', 'danger');
+                logout();
+            }
+        } else {
+             if (confirm("Are you sure you want to permanently delete your admin account? This cannot be undone.")) {
+                delete users[currentUser.username];
+                showNotification('Admin account deleted.', 'danger');
+                logout();
+            }
+        }
+        saveData();
     }
   </script>
 </body>
