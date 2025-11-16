@@ -1171,10 +1171,12 @@
       background: var(--surface);
       border-radius: 12px 12px 0 0;
       padding: 1rem;
+      padding-top: 3rem;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       border: 1px solid var(--border-color);
       border-bottom: none;
       transition: transform 0.2s ease;
+      position: relative;
     }
     .podium-step:hover {
       transform: translateY(-5px);
@@ -1185,14 +1187,25 @@
     .podium-3 { height: 60%; border-top: 8px solid #CD7F32; }
     
     .podium-rank {
-      font-size: 3rem;
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
       font-weight: 900;
-      line-height: 1;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      color: white;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+      border: 3px solid white;
     }
-    .podium-2 .podium-rank { color: #A9A9A9; }
-    .podium-1 .podium-rank { color: #FDB813; }
-    .podium-3 .podium-rank { color: #B87333; }
+    .podium-2 .podium-rank { background-color: #A9A9A9; }
+    .podium-1 .podium-rank { background-color: #FDB813; }
+    .podium-3 .podium-rank { background-color: #B87333; }
 
     .podium-avatar {
       width: 80px;
@@ -1312,11 +1325,27 @@
     }
     .calendar-day.has-history {
         cursor: pointer;
-        background-color: rgb(26 181 244 / 0.1);
-        border-color: rgb(26 181 244 / 0.2);
     }
-    .calendar-day.has-history:hover {
-        background-color: rgb(26 181 244 / 0.2);
+    .calendar-day.day-positive {
+        background-color: rgba(5, 150, 105, 0.1);
+        border-color: rgba(5, 150, 105, 0.2);
+    }
+    .calendar-day.day-positive:hover {
+        background-color: rgba(5, 150, 105, 0.2);
+    }
+    .calendar-day.day-negative {
+        background-color: rgba(220, 38, 38, 0.1);
+        border-color: rgba(220, 38, 38, 0.2);
+    }
+     .calendar-day.day-negative:hover {
+        background-color: rgba(220, 38, 38, 0.2);
+    }
+    .calendar-day.day-mixed {
+        background-color: rgba(124, 58, 237, 0.1);
+        border-color: rgba(124, 58, 237, 0.2);
+    }
+    .calendar-day.day-mixed:hover {
+        background-color: rgba(124, 58, 237, 0.2);
     }
     .calendar-day-history-popup {
         position: absolute;
@@ -2225,7 +2254,6 @@
               </select>
             </div>
             <div class="action-buttons">
-              <button class="btn btn-info" id="managePinsBtn" onclick="window.manageStudentPins()">Manage PINs</button>
               <button class="btn btn-success" onclick="openAddStudentModal()">Add Student</button>
               <button class="btn btn-success" onclick="openAddMultipleModal()">Add Multiple</button>
               <button class="btn btn-secondary" onclick="enterBulkMode()">Bulk Actions</button>
