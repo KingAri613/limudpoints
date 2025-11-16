@@ -755,9 +755,6 @@ function renderStudentsView() {
   if (classStudents.length === 0) {
        listTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 2rem;">No students in this class yet.</td></tr>';
   }
-  
-  const teacherSettings = users[currentUser.username]?.settings;
-  document.getElementById('managePinsBtn').style.display = (teacherSettings?.allowStudentPins || teacherSettings?.allowParentPins) ? 'inline-flex' : 'none';
 
   window.onSearchChange();
 }
@@ -1135,10 +1132,10 @@ function renderLeaderboard(container) {
           const avatar = student.photo ? `<img src="${student.photo}" alt="${sanitizeHTML(student.name)}"/>` : student.name.charAt(0).toUpperCase();
           podiumContainer.innerHTML += `
               <div class="podium-step podium-${rank}">
+                  <div class="podium-rank">${rank}</div>
                   <div class="podium-avatar">${avatar}</div>
                   <div class="podium-name">${sanitizeHTML(student.name)}</div>
                   <div class="podium-points">${student.points} pts</div>
-                  <div class="podium-rank">${rank}</div>
               </div>
           `;
       } else {
@@ -1281,8 +1278,7 @@ window.openClaimRewardModal = (rewardId) => {
     content.innerHTML = `
       <p>Claiming: <strong>${sanitizeHTML(reward.title)}</strong> (${reward.points} pts)</p>
       <div class="action-buttons mb-4">
-          <button class="btn btn-info" onclick="window.toggleSelectAllStudents(true)">Select All</button>
-          <button class="btn btn-secondary" onclick="window.toggleSelectAllStudents(false)">Deselect All</button>
+          <button id="selectAllBtn" class="btn btn-info" onclick="window.handleSelectAllToggle(this)">Select All</button>
       </div>
       <div class="selectable-student-grid">
         ${classStudents.map(s => {
@@ -1303,12 +1299,19 @@ window.toggleStudentSelectionInModal = (element) => {
     element.classList.toggle('selected');
 }
 
-window.toggleSelectAllStudents = (select) => {
+window.handleSelectAllToggle = (button) => {
+    const isSelectAll = button.textContent === 'Select All';
     document.querySelectorAll('.selectable-student-card').forEach(card => {
-        if(select) card.classList.add('selected');
-        else card.classList.remove('selected');
+        if (isSelectAll) {
+            card.classList.add('selected');
+        } else {
+            card.classList.remove('selected');
+        }
     });
-}
+    button.textContent = isSelectAll ? 'Deselect All' : 'Select All';
+    button.className = isSelectAll ? 'btn btn-secondary' : 'btn btn-info';
+};
+
 
 window.confirmClaimReward = () => {
   if (!currentClassId) return;
@@ -1437,8 +1440,7 @@ window.assignPowerUp = (powerupId) => {
   content.innerHTML = `
     <p>Assigning Power Up: <strong>${sanitizeHTML(powerup.title)}</strong> (${powerup.multiplier}x for ${powerup.duration} days)</p>
     <div class="action-buttons mb-4">
-          <button class="btn btn-info" onclick="window.toggleSelectAllStudents(true)">Select All</button>
-          <button class="btn btn-secondary" onclick="window.toggleSelectAllStudents(false)">Deselect All</button>
+          <button id="selectAllBtn" class="btn btn-info" onclick="window.handleSelectAllToggle(this)">Select All</button>
     </div>
     <div class="selectable-student-grid">
         ${classStudents.map(s => {
@@ -1564,12 +1566,27 @@ function renderCalendar(historyData) {
     for (let day = 1; day <= daysInMonth; day++) {
         const fullDate = new Date(year, month, day);
         const dateString = fullDate.toDateString();
-        const hasHistory = historyByDay[dateString];
+        const dayHistory = historyByDay[dateString];
+        
+        let dayClass = 'calendar-day';
+        if (dayHistory) {
+            dayClass += ' has-history';
+            const allPositive = dayHistory.every(item => item.points >= 0);
+            const allNegative = dayHistory.every(item => item.points <= 0);
+            if (allPositive && !allNegative) { // Exclude days with only 0-point transactions
+                dayClass += ' day-positive';
+            } else if (allNegative && !allPositive) {
+                dayClass += ' day-negative';
+            } else {
+                dayClass += ' day-mixed';
+            }
+        }
+
         const dayEl = document.createElement('div');
-        dayEl.className = `calendar-day ${hasHistory ? 'has-history' : ''}`;
+        dayEl.className = dayClass;
         dayEl.textContent = String(day);
-        if (hasHistory) {
-            dayEl.onclick = (e) => showDayHistoryPopup(e, historyByDay[dateString]);
+        if (dayHistory) {
+            dayEl.onclick = (e) => showDayHistoryPopup(e, dayHistory);
         }
         grid.appendChild(dayEl);
     }
@@ -1681,6 +1698,9 @@ function renderSettingsView() {
             avatarDiv.innerHTML = currentUser.username.charAt(0).toUpperCase();
         }
     } else { // Teacher Settings
+        const teacherSettings = users[currentUser.username]?.settings;
+        const pinManagementAllowed = teacherSettings?.allowStudentPins || teacherSettings?.allowParentPins;
+
         content.innerHTML = `
             <div style="background: var(--surface); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
                 <h3 style="margin-bottom: 1.5rem;">My Profile</h3>
@@ -1705,7 +1725,11 @@ function renderSettingsView() {
                 <label for="offlineModeToggle">Enable Offline Access</label>
                 <label class="switch"><input type="checkbox" id="offlineModeToggle" onchange="window.setupOfflineMode(this.checked)"><span class="slider"></span></label>
               </div>
-              <div style="display: flex; gap: 1rem; flex-wrap: wrap;"><button class="btn btn-warning" onclick="window.resetAllPoints()">Reset All Points</button><button class="btn btn-info" onclick="window.backupClassData()">Backup Data</button></div>
+              <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                ${pinManagementAllowed ? `<button class="btn btn-info" onclick="window.manageStudentPins()">Manage Student PINs</button>` : ''}
+                <button class="btn btn-warning" onclick="window.resetAllPoints()">Reset All Points</button>
+                <button class="btn btn-info" onclick="window.backupClassData()">Backup Data</button>
+              </div>
             </div>
             <div style="background: var(--surface); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
               <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Saved Reasons</h3>
@@ -1802,718 +1826,4 @@ window.backupClassData = () => {
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
     showNotification('Backup created!', 'success');
-}
-
-// Reasons Logic
-function saveReason(reason) {
-  if (!currentClassId) return;
-  if (!reasons[currentClassId]) reasons[currentClassId] = [];
-  if (reason && !reasons[currentClassId].includes(reason)) {
-    reasons[currentClassId].push(reason);
-    saveData();
-    updateReasonsList();
-  }
-}
-
-function updateReasonsList() {
-  const datalist = document.getElementById('reasonsList');
-  datalist.innerHTML = '';
-  (reasons[currentClassId] || []).forEach(reason => {
-    datalist.innerHTML += `<option value="${sanitizeHTML(reason)}">`;
-  });
-}
-
-function renderSavedReasons(containerId, inputId) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = '';
-    (reasons[currentClassId] || []).forEach(reason => {
-        const chip = document.createElement('button');
-        chip.className = 'reason-select-chip';
-        chip.textContent = reason;
-        chip.onclick = () => { document.getElementById(inputId).value = reason; };
-        container.appendChild(chip);
-    });
-}
-
-function renderSavedReasonsList() {
-  const list = document.getElementById('savedReasonsList');
-  list.innerHTML = '';
-  (reasons[currentClassId] || []).forEach((reason, index) => {
-    list.innerHTML += `<div class="reason-chip"><span>${sanitizeHTML(reason)}</span><button onclick="window.openEditReasonModal(${index})">✏️</button></div>`;
-  });
-}
-
-window.openEditReasonModal = (index) => {
-  currentReasonIndex = index;
-  if (!currentClassId) return;
-  document.getElementById('editReasonText').value = reasons[currentClassId][index];
-  window.openModal('editReasonModal');
-}
-
-window.updateReason = () => {
-  const newText = document.getElementById('editReasonText').value.trim();
-  if (newText && currentClassId && currentReasonIndex !== '') {
-    reasons[currentClassId][currentReasonIndex] = newText;
-    saveData();
-    renderSavedReasonsList();
-    updateReasonsList();
-    window.closeModal('editReasonModal');
-  }
-}
-
-window.deleteReason = () => {
-  if (currentClassId && currentReasonIndex !== '') {
-    reasons[currentClassId].splice(currentReasonIndex, 1);
-    saveData();
-    renderSavedReasonsList();
-    updateReasonsList();
-    window.closeModal('editReasonModal');
-  }
-}
-
-// Extras Logic
-function renderExtrasView() {
-  if (!currentUser) return;
-  const gridView = document.getElementById('extrasGridView');
-  const embedView = document.getElementById('extrasEmbedView');
-  const schoolEmbeds = embeds[currentUser.school] || [];
-
-  gridView.innerHTML = '';
-  embedView.innerHTML = '';
-  gridView.style.display = 'grid';
-  embedView.style.display = 'none';
-
-  if (schoolEmbeds.length === 0) {
-    gridView.innerHTML = '<p>No extra tools have been added for your school.</p>';
-    return;
-  }
-
-  schoolEmbeds.forEach(embed => {
-    try {
-      const domain = new URL(embed.url).hostname;
-      const logoUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
-      gridView.innerHTML += `
-        <a href="#" class="tool-card" onclick="event.preventDefault(); window.showExtraTool('${embed.id}')">
-            <img src="${logoUrl}" alt="${sanitizeHTML(embed.name)} logo" class="tool-card-logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%2364748b%22%3E%3Cpath d=%22M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z%22/%3E%3C/svg%3E'; this.onerror=null;">
-            <div class="tool-card-title">${sanitizeHTML(embed.name)}</div>
-        </a>
-      `;
-    } catch (e) {
-      console.error(`Invalid URL for embed "${embed.name}": ${embed.url}`);
-    }
-  });
-}
-
-window.showExtraTool = (embedId) => {
-    if (!currentUser) return;
-    const gridView = document.getElementById('extrasGridView');
-    const embedView = document.getElementById('extrasEmbedView');
-    const schoolEmbeds = embeds[currentUser.school] || [];
-    const embed = schoolEmbeds.find(e => e.id === embedId);
-
-    if (!embed) return;
-
-    gridView.style.display = 'none';
-    embedView.style.display = 'block';
-
-    embedView.innerHTML = `
-        <div class="embed-container" style="height: calc(100vh - var(--topbar-height) - 4rem); margin: 0;">
-            <div class="embed-header" style="display: flex; justify-content: space-between; align-items: center;">
-                <div class="embed-header-content"><h3 class="embed-title">${sanitizeHTML(embed.name)}</h3></div>
-                <div><button class="btn btn-secondary" onclick="switchView('extras')">Back to Tools</button><button class="btn btn-info" onclick="window.open('${embed.url}', '_blank')">Open in New Tab</button></div>
-            </div>
-            <iframe src="${embed.url}" title="${sanitizeHTML(embed.name)}" style="height: calc(100% - 60px);"></iframe>
-        </div>
-    `;
-}
-
-// Emoji Picker Logic
-window.openEmojiPicker = (targetId) => {
-  emojiPickerTarget = document.getElementById(targetId);
-  document.getElementById('emojiSearch').value = '';
-  renderEmojiPicker();
-  window.openModal('emojiPickerModal');
-}
-
-function renderEmojiPicker() {
-  const grid = document.getElementById('emojiGrid');
-  const query = document.getElementById('emojiSearch')?.value.toLowerCase().trim() || '';
-  
-  const filteredEmojis = EMOJI_LIST.filter(emoji => {
-      if (!query) return true;
-      const keywords = EMOJI_MAP[emoji];
-      return keywords.some(keyword => keyword.includes(query));
-  });
-
-  grid.innerHTML = filteredEmojis.map(emoji => `<div class="emoji-item" onclick="window.selectEmoji('${emoji}')">${emoji}</div>`).join('');
-}
-
-window.selectEmoji = (emoji) => {
-  if (emojiPickerTarget) emojiPickerTarget.value = emoji;
-  window.closeModal('emojiPickerModal');
-}
-
-// Recovery Modals
-window.openForgotPasswordModal = () => { window.openModal('forgotPasswordModal'); }
-window.openForgotUsernameModal = () => { window.openModal('forgotUsernameModal'); }
-
-window.resetPassword = () => {
-    const username = document.getElementById('forgotPasswordUsername').value.trim();
-    const user = users[username];
-    if (!user) { showNotification('Username not found.', 'error'); return; }
-    const newPassword = Math.random().toString(36).slice(-8);
-    user.password = newPassword;
-    saveData();
-    window.closeModal('forgotPasswordModal');
-    showNotification(`Password for ${username} reset to: ${newPassword}. Please change it immediately.`, 'success');
-}
-
-window.recoverUsername = () => {
-    const email = document.getElementById('forgotUsernameEmail').value.trim().toLowerCase();
-    const foundUser = Object.values(users).find(u => u.email === email);
-    if (!foundUser) { showNotification('Email address not found.', 'error'); return; }
-    window.closeModal('forgotUsernameModal');
-    showNotification(`Username for this email is: ${foundUser.username}`, 'success');
-}
-
-// Initialize
-window.onload = () => {
-  loadData();
-  document.getElementById('loginBtn').onclick = login;
-  document.getElementById('signupBtn').onclick = signup;
-  document.getElementById('studentLoginBtn').onclick = loginWithPIN;
-  document.getElementById('parentLoginBtn').onclick = loginWithParentPIN;
-  document.getElementById('increaseListSizeBtn').onclick = increaseListViewSize;
-  document.getElementById('decreaseListSizeBtn').onclick = decreaseListViewSize;
-  
-  const loggedInUser = currentUser || currentStudent || currentParent;
-  if (loggedInUser) {
-    if (currentUser) initializeApp();
-    else if (currentStudent) initializeAppStudent();
-    else if (currentParent) initializeAppParent();
-  } else {
-    window.showLogin();
-  }
-  
-  document.body.classList.remove('loading');
-  window.addEventListener('hashchange', router);
-  updateListViewSize();
-};
-
-// Admin Views
-function renderAdminClassesView() {
-  if (!currentUser) return;
-  const view = document.getElementById('admin-classesView');
-  const schoolClasses = classes.filter(c => c.teacherUsername in users && users[c.teacherUsername].school === currentUser.school);
-
-  view.innerHTML = `
-    <div class="admin-header"><h2 class="admin-title">📚 Manage Classes</h2><p>View all classes in ${sanitizeHTML(currentUser.school)}.</p><div class="admin-controls"><button class="btn btn-primary" onclick="window.openCreateClassModal()">Create New Class</button></div></div>
-    <div class="admin-content"><table class="students-table responsive-table"><thead><tr><th>Class Name</th><th>Teacher</th><th>Students</th><th>Total Points</th><th>Actions</th></tr></thead>
-        <tbody>
-            ${schoolClasses.map(c => {
-                const classStudents = Object.values(students[c.id] || {});
-                const totalPoints = classStudents.reduce((sum, s) => sum + s.points, 0);
-                return `<tr><td data-label="Class">${sanitizeHTML(c.name)}</td><td data-label="Teacher">${sanitizeHTML(c.teacherUsername)}</td><td data-label="Students">${classStudents.length}</td><td data-label="Points">${totalPoints}</td><td data-label="Actions"><button class="btn btn-info" onclick="window.openClassDetailModal('${c.id}')">View Dashboard</button></td></tr>`;
-            }).join('')}
-        </tbody></table></div>`;
-}
-
-window.openCreateClassModal = () => {
-    ['adminClassName', 'teacherUsername', 'teacherPassword', 'teacherEmail', 'presetStudents'].forEach(id => (document.getElementById(id)).value = '');
-    window.openModal('createClassModal');
-}
-
-window.createClass = () => {
-    if (!currentUser) return;
-    const className = document.getElementById('adminClassName').value.trim();
-    const teacherUsername = document.getElementById('teacherUsername').value.trim();
-    const teacherPassword = document.getElementById('teacherPassword').value.trim();
-    const teacherEmail = document.getElementById('teacherEmail').value.trim().toLowerCase();
-    const studentNames = document.getElementById('presetStudents').value.trim().split('\n').map(n => n.trim()).filter(n => n);
-
-    if (!className || !teacherUsername || !teacherPassword || !teacherEmail) { showNotification('All fields are required.', 'error'); return; }
-    if (users[teacherUsername]) { showNotification('Teacher username already exists.', 'error'); return; }
-
-    users[teacherUsername] = { username: teacherUsername, password: teacherPassword, type: 'teacher', school: currentUser.school, email: teacherEmail, createdAt: new Date().toISOString(), settings: { allowStudentPins: true, allowParentPins: true } };
-
-    const newClass = { id: generateId(), name: className, teacherUsername: teacherUsername };
-    classes.push(newClass);
-
-    if (studentNames.length > 0) {
-        students[newClass.id] = {};
-        studentNames.forEach(name => {
-            const student = { id: generateId(), name, points: 0 };
-            students[newClass.id][student.id] = student;
-        });
-    }
-    
-    saveData();
-    renderAdminClassesView();
-    window.closeModal('createClassModal');
-    showNotification('Class and Teacher account created!', 'success');
-}
-
-window.openClassDetailModal = (classId) => {
-    const classInfo = classes.find(c => c.id === classId);
-    document.getElementById('classDetailTitle').textContent = `Dashboard for ${sanitizeHTML(classInfo.name)}`;
-    const content = document.getElementById('classDetailContent');
-    
-    content.innerHTML = `
-        <div class="modal-tabs">
-            <div class="modal-tab active" onclick="window.switchAdminClassDetailTab(event, '${classId}', 'roster')">Roster</div>
-            <div class="modal-tab" onclick="window.switchAdminClassDetailTab(event, '${classId}', 'leaderboard')">Leaderboard</div>
-            <div class="modal-tab" onclick="window.switchAdminClassDetailTab(event, '${classId}', 'rewards')">Rewards</div>
-            <div class="modal-tab" onclick="window.switchAdminClassDetailTab(event, '${classId}', 'powerups')">Power Ups</div>
-            <div class="modal-tab" onclick="window.switchAdminClassDetailTab(event, '${classId}', 'history')">History</div>
-        </div>
-        <div id="adminClassDetailTabContent"></div>
-    `;
-    
-    renderAdminClassRoster(classId);
-    window.openModal('classDetailModal');
-}
-
-window.switchAdminClassDetailTab = (event, classId, tab) => {
-    document.querySelectorAll('#classDetailContent .modal-tab').forEach(t => t.classList.remove('active'));
-    event.currentTarget.classList.add('active');
-    const container = document.getElementById('adminClassDetailTabContent');
-    container.innerHTML = '';
-
-    const tempOldClassId = currentClassId; // Temporarily switch context
-    currentClassId = classId;
-
-    if (tab === 'roster') renderAdminClassRoster(classId);
-    else if (tab === 'leaderboard') container.appendChild(renderLeaderboard());
-    else if (tab === 'rewards') renderRewardsView(container);
-    else if (tab === 'powerups') renderPowerUpsView(container);
-    else if (tab === 'history') renderHistoryView(pointsHistory[classId] || [], container);
-    
-    currentClassId = tempOldClassId; // Switch back
-}
-
-function renderAdminClassRoster(classId) {
-    const container = document.getElementById('adminClassDetailTabContent');
-    const classStudents = Object.values(students[classId] || {});
-    container.innerHTML = `
-         <table class="students-table responsive-table"><thead><tr><th>Name</th><th>Points</th><th>Rewards Claimed</th></tr></thead>
-            <tbody>${classStudents.map(s => `<tr><td data-label="Name">${sanitizeHTML(s.name)}</td><td data-label="Points">${s.points}</td><td data-label="Rewards">${(s.pointsRewards || 0) + (s.instantRewards || 0)}</td></tr>`).join('')}</tbody>
-        </table>
-    `;
-}
-
-function renderAdminUsersView() {
-  if (!currentUser) return;
-  const view = document.getElementById('admin-usersView');
-  const schoolUsers = Object.values(users).filter(u => u.school === currentUser.school);
-
-  view.innerHTML = `
-    <div class="admin-header"><h2 class="admin-title">👩‍🏫 Manage Users</h2><p>Manage all accounts for ${sanitizeHTML(currentUser.school)}.</p><div class="admin-controls"><button class="btn btn-success" onclick="window.openModal('createTeacherModal')">Create Teacher</button><button class="btn btn-primary" onclick="window.openModal('createAdminModal')">Create Admin</button></div></div>
-    <div class="admin-content"><table class="students-table responsive-table"><thead><tr><th>Username</th><th>Type</th><th>Email</th><th>Created On</th><th>Actions</th></tr></thead>
-        <tbody>${schoolUsers.map(u => `<tr><td data-label="Username">${sanitizeHTML(u.username)}</td><td data-label="Type">${u.type}</td><td data-label="Email">${u.email || 'N/A'}</td><td data-label="Created">${new Date(u.createdAt).toLocaleDateString()}</td><td data-label="Actions">${u.username !== currentUser.username ? `<button class="btn btn-info" onclick="window.openEditUserModal('${u.username}')">Edit</button><button class="btn btn-warning" onclick="window.openChangeTeacherPasswordModal('${u.username}')">Password</button><button class="btn btn-danger" onclick="window.deleteUser('${u.username}')">Delete</button>` : 'Your Account'}</td></tr>`).join('')}</tbody>
-    </table></div>`;
-}
-
-window.createTeacher = () => {
-    if (!currentUser) return;
-    const username = document.getElementById('newTeacherUsername').value.trim();
-    const password = document.getElementById('newTeacherPassword').value.trim();
-    const email = document.getElementById('newTeacherEmail').value.trim().toLowerCase();
-    const allowStudentPins = document.getElementById('allowStudentPins').checked;
-    const allowParentPins = document.getElementById('allowParentPins').checked;
-
-    if (!username || !password || !email) { showNotification('All fields are required.', 'error'); return; }
-    if (users[username]) { showNotification('Username already exists.', 'error'); return; }
-
-    users[username] = { username, password, email, type: 'teacher', school: currentUser.school, createdAt: new Date().toISOString(), settings: { allowStudentPins, allowParentPins } };
-    saveData();
-    renderAdminUsersView();
-    window.closeModal('createTeacherModal');
-    showNotification('Teacher account created!', 'success');
-}
-
-window.createAdmin = () => {
-    if (!currentUser) return;
-    const username = document.getElementById('newAdminUsername').value.trim();
-    const password = document.getElementById('newAdminPassword').value.trim();
-    const email = document.getElementById('newAdminEmail').value.trim().toLowerCase();
-    if (!username || !password || !email) { showNotification('All fields are required.', 'error'); return; }
-    if (users[username]) { showNotification('Username already exists.', 'error'); return; }
-    users[username] = { username, password, email, type: 'admin', school: currentUser.school, createdAt: new Date().toISOString(), settings: {} };
-    saveData();
-    renderAdminUsersView();
-    window.closeModal('createAdminModal');
-    showNotification('Admin account created!', 'success');
-}
-
-window.openChangeTeacherPasswordModal = (username) => {
-    currentUsernameToEdit = username;
-    document.getElementById('changeTeacherPasswordTitle').textContent = `Change password for ${username}`;
-    document.getElementById('newTeacherPass').value = '';
-    window.openModal('changeTeacherPasswordModal');
-}
-
-window.changeTeacherPassword = () => {
-    const newPassword = document.getElementById('newTeacherPass').value.trim();
-    if (!newPassword) { showNotification('Password cannot be empty.', 'error'); return; }
-    users[currentUsernameToEdit].password = newPassword;
-    saveData();
-    window.closeModal('changeTeacherPasswordModal');
-    showNotification(`Password for ${currentUsernameToEdit} has been changed.`, 'success');
-}
-
-window.openEditUserModal = (username) => {
-    currentUsernameToEdit = username;
-    const user = users[username];
-    document.getElementById('editUserModalTitle').textContent = `Edit ${username}`;
-    document.getElementById('editUserEmail').value = user.email || '';
-    
-    const permsDiv = document.getElementById('editUserPermissions');
-    const photoDiv = document.getElementById('editUserPhotoSection');
-    if (user.type === 'teacher') {
-        permsDiv.style.display = 'block';
-        photoDiv.style.display = 'block';
-        document.getElementById('editAllowStudentPins').checked = user.settings?.allowStudentPins ?? true;
-        document.getElementById('editAllowParentPins').checked = user.settings?.allowParentPins ?? true;
-        const preview = document.getElementById('editUserPhotoPreview');
-        if (user.photo) {
-            preview.innerHTML = `<img src="${user.photo}" alt="Preview" style="max-width: 128px; border-radius: 50%;"/>`;
-            preview.style.display = 'block';
-        } else {
-             preview.style.display = 'none';
-        }
-    } else {
-        permsDiv.style.display = 'none';
-        photoDiv.style.display = 'none';
-    }
-    window.openModal('editUserModal');
-}
-
-window.updateUser = () => {
-    const user = users[currentUsernameToEdit];
-    user.email = document.getElementById('editUserEmail').value.trim().toLowerCase();
-    if (user.type === 'teacher') {
-        user.settings.allowStudentPins = document.getElementById('editAllowStudentPins').checked;
-        user.settings.allowParentPins = document.getElementById('editAllowParentPins').checked;
-    }
-    saveData();
-    renderAdminUsersView();
-    window.closeModal('editUserModal');
-    showNotification('User updated successfully!', 'success');
-}
-
-window.removeTeacherPhoto = () => {
-    if (!currentUsernameToEdit) return;
-    const user = users[currentUsernameToEdit];
-    if (user && user.photo) {
-        delete user.photo;
-        saveData();
-        const preview = document.getElementById('editUserPhotoPreview');
-        if (preview) {
-            preview.innerHTML = '';
-            preview.style.display = 'none';
-        }
-        showNotification('Teacher photo removed.', 'success');
-    } else {
-        showNotification('No photo to remove.', 'info');
-    }
-};
-
-window.deleteUser = (username) => {
-    if (confirm(`Are you sure you want to delete user "${username}" and all their classes/data? THIS CANNOT BE UNDONE.`)) {
-        const userClasses = classes.filter(c => c.teacherUsername === username);
-        userClasses.forEach(c => {
-            delete students[c.id]; delete rewards[c.id]; delete pointsHistory[c.id]; delete reasons[c.id];
-        });
-        classes = classes.filter(c => c.teacherUsername !== username);
-        delete users[username];
-        saveData();
-        renderAdminUsersView();
-        showNotification(`User ${username} and all their data have been deleted.`, 'danger');
-    }
-}
-
-function renderAdminEmbedsView() {
-  if (!currentUser) return;
-  const view = document.getElementById('admin-embedsView');
-  const schoolEmbeds = embeds[currentUser.school] || [];
-  view.innerHTML = `
-    <div class="admin-header"><h2 class="admin-title">🖥️ Manage Embeds</h2><p>Add/remove tools from the "Extras" page for all teachers in ${sanitizeHTML(currentUser.school)}.</p><div class="admin-controls"><button class="btn btn-primary" onclick="window.openModal('addEmbedModal')">Add New Embed</button></div></div>
-    <div class="admin-content"><table class="students-table responsive-table"><thead><tr><th>Name</th><th>URL</th><th>Actions</th></tr></thead>
-        <tbody>${schoolEmbeds.map(e => `<tr><td data-label="Name">${sanitizeHTML(e.name)}</td><td data-label="URL">${sanitizeHTML(e.url)}</td><td data-label="Actions"><button class="btn btn-danger" onclick="window.removeEmbed('${e.id}')">Remove</button></td></tr>`).join('')}</tbody>
-    </table></div>`;
-}
-
-window.addEmbed = () => {
-    if (!currentUser) return;
-    const name = document.getElementById('embedName').value.trim();
-    const url = document.getElementById('embedUrl').value.trim();
-    if (!name || !url) { showNotification('Name and URL are required.', 'error'); return; }
-    try { new URL(url); } catch (_) { showNotification('Please enter a valid URL.', 'error'); return; }
-    if (!embeds[currentUser.school]) embeds[currentUser.school] = [];
-    embeds[currentUser.school].push({ id: generateId(), name, url });
-    saveData();
-    renderAdminEmbedsView();
-    window.closeModal('addEmbedModal');
-    showNotification('Embed added!', 'success');
-}
-
-window.removeEmbed = (embedId) => {
-    if (confirm('Are you sure you want to remove this embed?')) {
-        if (!currentUser) return;
-        embeds[currentUser.school] = embeds[currentUser.school].filter(e => e.id !== embedId);
-        saveData();
-        renderAdminEmbedsView();
-        showNotification('Embed removed.', 'warning');
-    }
-}
-
-// DEMO MODE
-window.startDemoMode = (type) => {
-    demoMode = true;
-    // Temporarily clear in-memory data for the demo session. Does NOT affect localStorage.
-    const tempUsers = {}; const tempClasses = []; const tempStudents = {}; const tempRewards = {}; const tempPowerups = {}; const tempPointsHistory = {}; const tempReasons = {}; const tempEmbeds = {};
-    const demoSchool = "Demo Academy";
-    tempEmbeds[demoSchool] = [{ id: 'd1', name: 'Wheel of Names', url: 'https://wheelofnames.com/' }, { id: 'd2', name: 'Gynzy Tools', url: 'https://teacher.gynzy.com/' }];
-    tempUsers['demoAdmin'] = { username: 'demoAdmin', password: '123', type: 'admin', school: demoSchool, email: 'a@d.com', createdAt: new Date().toISOString(), settings: {} };
-    tempUsers['demoTeacher'] = { username: 'demoTeacher', password: '123', type: 'teacher', school: demoSchool, email: 't@d.com', createdAt: new Date().toISOString(), settings: { allowStudentPins: true, allowParentPins: true } };
-    const demoClassId = 'demoClass1';
-    tempClasses.push({ id: demoClassId, name: 'Grade 5 Heroes', teacherUsername: 'demoTeacher' });
-    tempStudents[demoClassId] = {};
-    const demoStudentsData = ['Chaim', 'Dob', 'Moshe', 'Doniel', 'Avi', 'Mendy', 'Yossi', 'Shlomo'];
-    demoStudentsData.forEach((name, i) => {
-        const id = `s${i}`;
-        tempStudents[demoClassId][id] = { id, name, pin: `ABC-D${i+1}${i+1}`, parentPin: `P-XYZ-A${i+1}${i+1}`, points: Math.floor(Math.random() * 50) + 20 };
-    });
-    tempRewards[demoClassId] = [{ id: 'r1', title: 'Homework Pass', points: 25, type: 'deduct', icon: '🎟️', description: 'A pass for one homework assignment.' }];
-    tempPowerups[demoClassId] = [{ id: 'p1', title: 'Weekend Warrior', multiplier: 2, duration: 2, description: 'Double points over the weekend.' }];
-    tempPointsHistory[demoClassId] = [{ studentId: 's5', studentName: 'Mendy', points: 5, reason: 'Great answer', timestamp: new Date().toISOString() }];
-    tempReasons[demoClassId] = ['Helping others', 'Good listening', 'On task'];
-    
-    // Overwrite global variables with demo data for this session
-    users = tempUsers; classes = tempClasses; students = tempStudents; rewards = tempRewards; powerups = tempPowerups; pointsHistory = tempPointsHistory; reasons = tempReasons; embeds = tempEmbeds;
-    
-    window.closeModal('demoModal');
-    document.getElementById('demoViewSwitcher').style.display = 'flex';
-    
-    switchDemoView(type);
-}
-
-function switchDemoView(type) {
-    if (!demoMode) return;
-    const switcher = document.getElementById('demoViewSwitcher');
-    switcher.innerHTML = `
-        <span style="font-weight: bold; color: var(--text-secondary);">Demo:</span>
-        ${['admin','teacher','student','parent'].map(t => `<button class="btn btn-secondary ${ (currentUser?.username?.includes(t) || currentStudent && t==='student' || currentParent && t==='parent') ? 'active' : ''}" style="padding: 0.25rem 0.5rem;" onclick="switchDemoView('${t}')">${t.charAt(0).toUpperCase() + t.slice(1)}</button>`).join('')}
-    `;
-
-    document.getElementById('appLayout')?.classList.remove('active');
-    document.getElementById('studentPortalLayout')?.classList.remove('active');
-    document.getElementById('parentPortalLayout')?.classList.remove('active');
-    ['loginScreen', 'signupScreen', 'studentLoginScreen', 'parentLoginScreen'].forEach(s => document.getElementById(s).style.display = 'none');
-
-    currentUser = null; currentStudent = null; currentParent = null;
-
-    if (type === 'admin') {
-        currentUser = users['demoAdmin'];
-        initializeApp();
-    } else if (type === 'teacher') {
-        currentUser = users['demoTeacher'];
-        initializeApp();
-    } else if (type === 'student') {
-        currentStudent = Object.values(students['demoClass1'])[0];
-        initializeAppStudent();
-    } else if (type === 'parent') {
-        currentParent = Object.values(students['demoClass1'])[1];
-        initializeAppParent();
-    }
-}
-
-// Service Worker for Offline Mode
-window.setupOfflineMode = async (enable) => {
-    if ('serviceWorker' in navigator) {
-        if (enable) {
-            try {
-                const registration = await navigator.serviceWorker.register('/sw.js');
-                console.log('Service Worker registered with scope:', registration.scope);
-                if (currentUser) {
-                    currentUser.settings.offlineMode = true;
-                    saveData();
-                }
-                showNotification('Offline mode enabled! App is now available offline.', 'success');
-            } catch (error) {
-                console.error('Service Worker registration failed:', error);
-                showNotification('Could not enable offline mode.', 'error');
-            }
-        } else {
-            try {
-                const registration = await navigator.serviceWorker.getRegistration();
-                if (registration) {
-                    await registration.unregister();
-                    console.log('Service Worker unregistered.');
-                    if (currentUser) {
-                        currentUser.settings.offlineMode = false;
-                        saveData();
-                    }
-                    showNotification('Offline mode disabled. Reloading to take full effect.', 'info');
-                    setTimeout(() => window.location.reload(), 2000);
-                }
-            } catch (error) {
-                console.error('Service Worker unregistration failed:', error);
-                showNotification('Could not disable offline mode.', 'error');
-            }
-        }
-    } else {
-        showNotification('Offline mode is not supported in this browser.', 'warning');
-        const offlineToggle = document.getElementById('offlineModeToggle');
-        if (offlineToggle) offlineToggle.disabled = true;
-        const offlineSetting = document.getElementById('offlineModeSetting');
-        if (offlineSetting) offlineSetting.style.display = 'none';
-    }
-};
-
-window.updateProfilePicture = (event) => {
-    const file = event.target.files?.[0];
-    if (file && currentUser) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const photoData = e.target?.result;
-            currentUser.photo = photoData;
-            users[currentUser.username].photo = photoData;
-            saveData();
-            // Re-render relevant parts of the UI
-            document.getElementById('sidebarUserAvatar').innerHTML = `<img src="${photoData}" alt="Profile Picture"/>`;
-            if (document.getElementById('settingsView')?.style.display === 'block') {
-                 renderSettingsView();
-            }
-            showNotification('Profile picture updated!', 'success');
-        };
-        reader.readAsDataURL(file);
-    }
-}
-
-window.updateAdminUsername = () => {
-    if (!currentUser || currentUser.type !== 'admin') return;
-    const newUsername = document.getElementById('adminUsernameInput').value.trim();
-    if (!newUsername) {
-        showNotification('Username cannot be empty', 'error');
-        return;
-    }
-    if (newUsername !== currentUser.username && users[newUsername]) {
-        showNotification('Username already exists', 'error');
-        return;
-    }
-
-    if (newUsername !== currentUser.username) {
-        // Update user object
-        const oldUsername = currentUser.username;
-        users[newUsername] = { ...users[oldUsername], username: newUsername };
-        delete users[oldUsername];
-        
-        // Update currentUser session
-        currentUser = users[newUsername];
-        saveData();
-        
-        // Update UI
-        document.getElementById('sidebarUsername').textContent = newUsername;
-        renderSettingsView();
-        showNotification('Username updated successfully!', 'success');
-    }
-}
-
-window.deleteAdminAccount = () => {
-    if (!currentUser || currentUser.type !== 'admin') return;
-    if (confirm('Are you sure you want to permanently delete your admin account? This action is irreversible.')) {
-        delete users[currentUser.username];
-        saveData();
-        window.logout();
-    }
-}
-
-window.manageStudentPins = () => {
-    if (!currentClassId) return;
-    const content = document.getElementById('managePinsContent');
-    const teacherSettings = users[currentUser.username]?.settings;
-    
-    let tableHTML = `<table class="students-table responsive-table"><thead><tr><th>Student</th>`;
-    if (teacherSettings?.allowStudentPins) tableHTML += `<th>Student PIN</th>`;
-    if (teacherSettings?.allowParentPins) tableHTML += `<th>Parent PIN</th>`;
-    tableHTML += `</tr></thead><tbody>`;
-
-    const classStudents = Object.values(students[currentClassId] || {});
-    classStudents.forEach(s => {
-        tableHTML += `<tr><td data-label="Student">${sanitizeHTML(s.name)}</td>`;
-        if (teacherSettings?.allowStudentPins) tableHTML += `<td data-label="Student PIN">${s.pin || 'Not Set'}</td>`;
-        if (teacherSettings?.allowParentPins) tableHTML += `<td data-label="Parent PIN">${s.parentPin || 'Not Set'}</td>`;
-        tableHTML += `</tr>`;
-    });
-    tableHTML += `</tbody></table>`;
-    
-    content.innerHTML = `
-        <div class="action-buttons mb-4">
-            <button class="btn btn-primary" onclick="window.generateAllPins()">Generate Missing PINs</button>
-            <button class="btn btn-secondary" onclick="window.printPins()">Print PINs</button>
-            <button class="btn btn-danger" onclick="window.clearAllPins()">Clear All PINs</button>
-        </div>
-        ${tableHTML}
-    `;
-
-    window.openModal('managePinsModal');
-}
-
-window.generateAllPins = () => {
-    if (!currentClassId) return;
-    const teacherSettings = users[currentUser.username]?.settings;
-    Object.values(students[currentClassId] || {}).forEach(s => {
-        if (teacherSettings?.allowStudentPins && !s.pin) s.pin = generatePin();
-        if (teacherSettings?.allowParentPins && !s.parentPin) s.parentPin = generatePin(true);
-    });
-    saveData();
-    window.manageStudentPins(); // Refresh the modal content
-    showNotification('Missing PINs generated!', 'success');
-}
-
-function generatePin(isParent = false) {
-    const chars = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789'; // O and 0 excluded
-    let pin = isParent ? 'P-' : '';
-    for(let i=0; i<3; i++) pin += chars.charAt(Math.floor(Math.random() * chars.length));
-    pin += '-';
-    for(let i=0; i<3; i++) pin += chars.charAt(Math.floor(Math.random() * chars.length));
-    return pin;
-}
-
-window.clearAllPins = () => {
-    if(confirm('Are you sure you want to clear all PINs for this class?')) {
-        if (!currentClassId) return;
-        Object.values(students[currentClassId] || {}).forEach(s => {
-            s.pin = undefined;
-            s.parentPin = undefined;
-        });
-        saveData();
-        window.manageStudentPins();
-        showNotification('All PINs cleared.', 'warning');
-    }
-}
-
-window.printPins = () => {
-    const content = document.getElementById('managePinsContent').cloneNode(true);
-    content.querySelector('.action-buttons')?.remove();
-    const newWindow = window.open('', '_blank');
-    newWindow?.document.write(`
-        <html>
-            <head><title>Student PINs</title>
-                <style>
-                    body { font-family: sans-serif; }
-                    table { width: 100%; border-collapse: collapse; }
-                    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-                    th { background-color: #f2f2f2; }
-                </style>
-            </head>
-            <body>
-                <h2>Student & Parent PINs</h2>
-                ${content.innerHTML}
-            </body>
-        </html>
-    `);
-    newWindow?.document.close();
-    newWindow?.print();
 }
