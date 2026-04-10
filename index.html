@@ -3992,31 +3992,44 @@
     function filterStudentsList(filterText) {
         const filterValue = filterText.toLowerCase();
         const grid = document.getElementById('studentsGrid');
-        const listTableBody = document.getElementById('studentListTable').querySelector('tbody');
+        const studentListTable = document.getElementById('studentListTable');
         const compact = document.getElementById('studentsCompact');
         
-        // Filter all student cards/rows
-        const allCards = grid.querySelectorAll('.student-card:not(.add-student-card)');
-        const allRows = listTableBody.querySelectorAll('tr');
-        const allCompactItems = compact.querySelectorAll('.compact-student-item');
+        // Safety check - if elements don't exist, just return
+        if (!grid && !studentListTable && !compact) return;
         
-        allCards.forEach(card => {
-            const nameEl = card.querySelector('.student-name');
-            const name = nameEl ? nameEl.textContent.toLowerCase() : '';
-            card.style.display = name.includes(filterValue) || filterValue === '' ? '' : 'none';
-        });
+        // Filter grid cards
+        if (grid) {
+            const allCards = grid.querySelectorAll('.student-card:not(.add-student-card)');
+            allCards.forEach(card => {
+                const nameEl = card.querySelector('.student-name');
+                const name = nameEl ? nameEl.textContent.toLowerCase() : '';
+                card.style.display = name.includes(filterValue) || filterValue === '' ? '' : 'none';
+            });
+        }
         
-        allRows.forEach(row => {
-            const nameEl = row.querySelector('.student-list-name');
-            const name = nameEl ? nameEl.textContent.toLowerCase() : '';
-            row.style.display = name.includes(filterValue) || filterValue === '' ? '' : 'none';
-        });
+        // Filter table rows
+        if (studentListTable) {
+            const listTableBody = studentListTable.querySelector('tbody');
+            if (listTableBody) {
+                const allRows = listTableBody.querySelectorAll('tr');
+                allRows.forEach(row => {
+                    const nameEl = row.querySelector('.student-list-name');
+                    const name = nameEl ? nameEl.textContent.toLowerCase() : '';
+                    row.style.display = name.includes(filterValue) || filterValue === '' ? '' : 'none';
+                });
+            }
+        }
         
-        allCompactItems.forEach(item => {
-            const nameEl = item.querySelector('.compact-name');
-            const name = nameEl ? nameEl.textContent.toLowerCase() : '';
-            item.style.display = name.includes(filterValue) || filterValue === '' ? '' : 'none';
-        });
+        // Filter compact items  
+        if (compact) {
+            const allCompactItems = compact.querySelectorAll('.compact-student-item');
+            allCompactItems.forEach(item => {
+                const nameEl = item.querySelector('.compact-name');
+                const name = nameEl ? nameEl.textContent.toLowerCase() : '';
+                item.style.display = name.includes(filterValue) || filterValue === '' ? '' : 'none';
+            });
+        }
     }
 
     function switchStudentView(event, view) {
@@ -4468,6 +4481,7 @@
       document.getElementById('rewardImage').value = '';
       document.getElementById('rewardImagePreview').style.display = 'none';
       document.querySelector('input[name="rewardType"][value="deduct"]').checked = true;
+      attachRewardImageListener();
       openModal('createRewardModal');
     }
 
@@ -4512,17 +4526,29 @@
       }
     }
     
-    document.getElementById('rewardImage')?.addEventListener('change', (e) => {
+    function attachRewardImageListener() {
+        const rewardImageEl = document.getElementById('rewardImage');
+        if (rewardImageEl) {
+            rewardImageEl.removeEventListener('change', rewardImageChangeHandler);
+            rewardImageEl.addEventListener('change', rewardImageChangeHandler);
+        }
+    }
+    
+    function rewardImageChangeHandler(e) {
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = (event) => {
-                document.getElementById('rewardImagePreviewImg').src = event.target.result;
-                document.getElementById('rewardImagePreview').style.display = 'block';
+                const previewImg = document.getElementById('rewardImagePreviewImg');
+                const previewDiv = document.getElementById('rewardImagePreview');
+                if (previewImg && previewDiv) {
+                    previewImg.src = event.target.result;
+                    previewDiv.style.display = 'block';
+                }
             };
             reader.readAsDataURL(file);
         }
-    });
+    }
     }
 
     function openEditRewardModal(rewardId) {
@@ -5836,6 +5862,29 @@
         }
     }
     
+    let profilePictureDragState = { isDragging: false, startX: 0, startY: 0 };
+    
+    function onProfileImageMouseDown(e) {
+        profilePictureDragState.isDragging = true;
+        profilePictureDragState.startX = e.clientX;
+        profilePictureDragState.startY = e.clientY;
+    }
+    
+    function onProfileImageMouseMove(e) {
+        if (!profilePictureDragState.isDragging) return;
+        const diffX = e.clientX - profilePictureDragState.startX;
+        const diffY = e.clientY - profilePictureDragState.startY;
+        profilePictureData.x += diffX;
+        profilePictureData.y += diffY;
+        profilePictureDragState.startX = e.clientX;
+        profilePictureDragState.startY = e.clientY;
+        updateProfilePicturePreview();
+    }
+    
+    function onProfileImageMouseUp() {
+        profilePictureDragState.isDragging = false;
+    }
+    
     function openProfilePicturePositionModal() {
         const modal = document.getElementById('profilePicturePositionModal');
         if (!modal) {
@@ -5850,8 +5899,8 @@
                         <button class="modal-close" onclick="closeModal('profilePicturePositionModal')">&times;</button>
                     </div>
                     <div class="modal-body" style="text-align: center;">
-                        <div style="position: relative; width: 200px; height: 200px; margin: 0 auto 1rem; border-radius: 50%; overflow: hidden; background: #f0f0f0; border: 3px solid var(--border-color);">
-                            <img id="positionedImage" src="" alt="Preview" style="position: absolute; width: 100%; height: 100%; object-fit: cover; cursor: move;">
+                        <div style="position: relative; width: 200px; height: 200px; margin: 0 auto 1rem; border-radius: 50%; overflow: hidden; background: #f0f0f0; border: 3px solid var(--border-color)," onmousemove="onProfileImageMouseMove(event)" onmouseup="onProfileImageMouseUp()" onmouseleave="onProfileImageMouseUp()">
+                            <img id="positionedImage" src="" alt="Preview" onmousedown="onProfileImageMouseDown(event)" style="position: absolute; width: 100%; height: 100%; object-fit: cover; cursor: move; user-select: none;">
                         </div>
                         <div style="margin: 1rem 0;">
                             <label style="display: block; margin-bottom: 0.5rem;">Zoom</label>
@@ -5870,31 +5919,16 @@
         }
         
         const img = document.getElementById('positionedImage');
-        img.src = profilePictureData.src;
+        if (img) {
+            img.src = profilePictureData.src;
+        }
         
-        // Make image draggable
-        let isDragging = false;
-        let startX = 0, startY = 0;
+        // Setup zoom slider
+        const zoomSlider = document.getElementById('zoomSlider');
+        if (zoomSlider) {
+            zoomSlider.value = profilePictureData.scale || 1;
+        }
         
-        img.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            startX = e.clientX - img.offsetLeft;
-            startY = e.clientY - img.offsetTop;
-        });
-        
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging && img) {
-                profilePictureData.x = e.clientX - startX;
-                profilePictureData.y = e.clientY - startY;
-                updateProfilePicturePreview();
-            }
-        });
-        
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-        });
-        
-        document.getElementById('zoomSlider').value = profilePictureData.scale || 1;
         updateProfilePicturePreview();
         openModal('profilePicturePositionModal');
     }
