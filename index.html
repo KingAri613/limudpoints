@@ -278,6 +278,26 @@
       overflow-y: auto;
       z-index: 100;
       transition: transform 0.3s ease;
+      resize: horizontal;
+      overflow: hidden;
+      user-select: none;
+    }
+    
+    .sidebar::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      cursor: col-resize;
+      background: linear-gradient(90deg, transparent, var(--border-color));
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    
+    .sidebar:hover::after {
+      opacity: 1;
     }
    
     .sidebar.collapsed {
@@ -1171,10 +1191,12 @@
       background: var(--surface);
       border-radius: 12px 12px 0 0;
       padding: 1rem;
+      padding-top: 3rem;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       border: 1px solid var(--border-color);
       border-bottom: none;
       transition: transform 0.2s ease;
+      position: relative;
     }
     .podium-step:hover {
       transform: translateY(-5px);
@@ -1189,10 +1211,22 @@
       font-weight: 900;
       line-height: 1;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid var(--border-color);
     }
-    .podium-2 .podium-rank { color: #A9A9A9; }
-    .podium-1 .podium-rank { color: #FDB813; }
-    .podium-3 .podium-rank { color: #B87333; }
+    .podium-2 .podium-rank { color: #A9A9A9; border-color: #C0C0C0; background: rgba(192,192,192,0.1); }
+    .podium-1 .podium-rank { color: #FDB813; border-color: #FFD700; background: rgba(255,215,0,0.1); }
+    .podium-3 .podium-rank { color: #B87333; border-color: #CD7F32; background: rgba(205,127,50,0.1); }
 
     .podium-avatar {
       width: 80px;
@@ -1317,6 +1351,31 @@
     }
     .calendar-day.has-history:hover {
         background-color: rgb(26 181 244 / 0.2);
+    }
+    .calendar-day.has-positive {
+        background: linear-gradient(135deg, rgb(5 150 105 / 0.15) 0%, rgb(5 150 105 / 0.1) 100%);
+        border-color: rgb(5 150 105 / 0.3);
+        color: var(--success-color);
+        font-weight: 600;
+    }
+    .calendar-day.has-positive:hover {
+        background: linear-gradient(135deg, rgb(5 150 105 / 0.25) 0%, rgb(5 150 105 / 0.2) 100%);
+    }
+    .calendar-day.has-negative {
+        background: linear-gradient(135deg, rgb(220 38 38 / 0.15) 0%, rgb(220 38 38 / 0.1) 100%);
+        border-color: rgb(220 38 38 / 0.3);
+        color: var(--danger-color);
+        font-weight: 600;
+    }
+    .calendar-day.has-negative:hover {
+        background: linear-gradient(135deg, rgb(220 38 38 / 0.25) 0%, rgb(220 38 38 / 0.2) 100%);
+    }
+    .calendar-day.has-mixed {
+        background: linear-gradient(135deg, rgb(5 150 105 / 0.15) 0%, rgb(220 38 38 / 0.15) 100%);
+        border-color: rgb(220 38 38 / 0.3);
+    }
+    .calendar-day.has-mixed:hover {
+        background: linear-gradient(135deg, rgb(5 150 105 / 0.25) 0%, rgb(220 38 38 / 0.25) 100%);
     }
     .calendar-day-history-popup {
         position: absolute;
@@ -1986,6 +2045,94 @@
       }
     }
 
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      :root {
+        --sidebar-width: 70px;
+      }
+
+      .sidebar-collapsed { --sidebar-width: 70px; }
+      
+      .sidebar-logo { width: 35px; height: 35px; }
+      .sidebar-title { display: none; }
+      .nav-item { justify-content: center; padding: 0.75rem 0.5rem; }
+      .nav-item span:not(.nav-icon) { display: none; }
+      .sidebar-footer { padding: 0.5rem; }
+      .user-details { display: none; }
+      .user-avatar { width: 35px; height: 35px; }
+      
+      .topbar { padding: 0 1rem; gap: 0.5rem; }
+      .page-title { font-size: 1.125rem; }
+      .search-input { min-width: auto; width: 100%; }
+      
+      .content-area { padding: 1rem; }
+      
+      .podium-container { height: 180px; gap: 0.5rem; }
+      .podium-step { max-width: 120px; padding: 0.75rem; padding-top: 2.5rem; }
+      .podium-avatar { width: 60px; height: 60px; font-size: 1.5rem; }
+      .podium-rank { width: 50px; height: 50px; font-size: 2.5rem; top: -40px; }
+      .podium-name, .podium-points { font-size: 0.75rem; }
+      
+      .bulk-actions { flex-wrap: wrap; gap: 0.5rem; padding: 0.5rem; }
+      .bulk-actions > * { font-size: 0.75rem; padding: 0.25rem 0.5rem; }
+      
+      .student-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+      .student-card { padding: 0.75rem 0.5rem; }
+      
+      .modal-content { margin: auto; margin-top: 2rem; }
+      .form-input, .btn { font-size: 16px; min-height: 44px; }
+      
+      .account-type-selection { grid-template-columns: 1fr; }
+      .account-type-btn small { font-size: 0.6rem; }
+      
+      .view-toggle { flex-wrap: wrap; gap: 0.25rem; }
+      .view-option { padding: 0.5rem 0.75rem; font-size: 0.75rem; }
+      
+      .leaderboard-list { margin-top: 0.5rem; }
+      .leaderboard-item { padding: 0.75rem 0.5rem; }
+      
+      .rewards-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.75rem; }
+      .reward-card { padding: 0.75rem; }
+      
+      .calendar-grid { grid-template-columns: repeat(7, 1fr); gap: 0.25rem; }
+      .calendar-day { min-height: 60px; padding: 0.25rem; font-size: 0.75rem; }
+    }
+
+    @media (max-width: 480px) {
+      :root { --sidebar-width: 60px; }
+      
+      .sidebar-header { padding: 0.75rem 0.25rem; }
+      .nav-item { padding: 0.5rem 0.25rem; }
+      .topbar { padding: 0 0.5rem; }
+      
+      .podium-container { height: 160px; padding: 0 0.25rem; }
+      .podium-step { max-width: 100px; padding: 0.5rem 0.25rem; padding-top: 2rem; }
+      .podium-avatar { width: 50px; height: 50px; }
+      .podium-rank { width: 45px; height: 45px; top: -35px; font-size: 2rem; }
+      
+      .student-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 0.5rem; }
+      .student-card { padding: 0.5rem 0.25rem; }
+      
+      .content-header { flex-direction: column; gap: 0.5rem; }
+      .bulk-actions { padding: 0.25rem; flex-wrap: wrap; }
+      
+      .rewards-grid, .calendar-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+      .calendar-day { min-height: 50px; font-size: 0.65rem; }
+      
+      .form-input { font-size: 16px; padding: 0.75rem; }
+      
+      .account-type-btn { padding: 0.75rem 0.5rem; }
+      .account-type-btn small { display: none; }
+      
+      .auth-card { padding: 1.5rem; }
+    }
+
+    @media (max-width: 320px) {
+      .podium-step { max-width: 80px; }
+      .podium-avatar { width: 45px; height: 45px; font-size: 1.2rem; }
+      .calendar-day { min-height: 40px; }
+    }
+
     /* Utility Classes */
     .text-center { text-align: center; }
     .mb-1 { margin-bottom: 0.25rem; }
@@ -2187,8 +2334,7 @@
         <!-- Bulk Actions -->
         <div class="bulk-actions" id="bulkActions">
           <span class="selected-count" id="selectedCount">0 selected</span>
-          <button class="btn btn-info" style="padding: 0.5rem 1rem;" onclick="selectAllStudentsForBulk()">Select All</button>
-          <button class="btn btn-info" style="padding: 0.5rem 1rem;" onclick="deselectAllStudentsForBulk()">Deselect All</button>
+          <button class="btn btn-info" style="padding: 0.5rem 1rem;" id="bulkSelectToggle" onclick="toggleSelectAllStudents()">Select All</button>
           <label>Points: <input type="number" class="bulk-point-input" id="bulkPointAmount" value="1" min="1"/></label>
           <button class="btn btn-success" onclick="openBulkPointsModal('add')">Add Points</button>
           <button class="btn btn-warning" onclick="openBulkPointsModal('subtract')">Subtract Points</button>
@@ -2198,12 +2344,14 @@
         <!-- Students View -->
         <div id="studentsView" class="page-view" style="display:none;">
           <div class="content-header">
-            <div style="display: flex; gap: 1rem; align-items: center;">
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
               <div class="view-toggle">
                 <button class="view-option active" data-view="grid" onclick="switchStudentView(event, 'grid')">Grid</button>
                 <button class="view-option" data-view="list" onclick="switchStudentView(event, 'list')">List</button>
                 <button class="view-option" data-view="compact" onclick="switchStudentView(event, 'compact')">Compact</button>
               </div>
+              <input type="text" id="studentFilterInput" class="form-input" placeholder="🔍 Filter students..." 
+                     onkeyup="filterStudentsList(this.value)" style="max-width: 250px; padding: 0.5rem 1rem; height: auto;"/>
               <div class="list-view-controls" style="display: none;">
                 <button class="btn btn-secondary" id="decreaseListSizeBtn">-</button>
                 <span id="listSizeDisplay"></span>
@@ -2809,10 +2957,26 @@
               <label><input type="radio" name="rewardType" value="require"> Require points only</label>
             </div>
         </div>
-        <div class="form-group inline-input">
-          <label class="form-label" for="rewardIcon">Icon (emoji, optional)</label>
-          <input type="text" class="form-input" id="rewardIcon" placeholder="e.g., 🏆"/>
-          <button class="btn btn-secondary" onclick="openEmojiPicker('rewardIcon')">😀</button>
+        <div class="form-group">
+          <label class="form-label">Reward Icon or Image</label>
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+            <div style="flex: 1;">
+              <label class="form-label" for="rewardIcon">Emoji</label>
+              <input type="text" class="form-input" id="rewardIcon" placeholder="e.g., 🏆" style="margin-bottom: 0;"/>
+              <button class="btn btn-secondary" onclick="openEmojiPicker('rewardIcon')" style="width: 100%; margin-top: 0.5rem;">😀 Emoji Picker</button>
+            </div>
+            <div style="flex: 1;">
+              <label class="form-label" for="rewardImage">Or Upload Image</label>
+              <input type="file" class="file-upload" id="rewardImage" accept="image/*"/>
+              <div class="upload-area" onclick="document.getElementById('rewardImage').click()" style="margin-top: 0.5rem; padding: 1rem; text-align: center; background: var(--surface-secondary); border-radius: 8px; cursor: pointer; border: 2px dashed var(--border-color);">
+                <p style="margin: 0; font-size: 0.875rem;">Click to upload image</p>
+              </div>
+            </div>
+          </div>
+          <div id="rewardImagePreview" style="text-align: center; margin-top: 1rem; display: none;">
+            <p style="font-size: 0.875rem; color: var(--text-secondary);">Preview:</p>
+            <img id="rewardImagePreviewImg" src="" alt="Preview" style="max-width: 100px; max-height: 100px; border-radius: 8px;"/>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -3083,6 +3247,7 @@
     let emojiPickerTarget = null;
     let demoMode = false;
     let historyCalendarDate = new Date();
+    let profilePictureData = { src: '', x: 0, y: 0, scale: 1 };
 
     let listViewSizeLevel = 0;
     const LIST_VIEW_SIZE_MIN = -2;
@@ -3416,7 +3581,52 @@
           setupOfflineMode(true);
       }
       updateNavItems();
-      router(); 
+      router();
+      setupSidebarResize();
+    }
+    
+    // Draggable Sidebar Width
+    function setupSidebarResize() {
+        const sidebar = document.querySelector('.sidebar');
+        if (!sidebar) return;
+        
+        let isResizing = false;
+        let startX = 0;
+        let startWidth = 0;
+        
+        const startResize = (e) => {
+            if (e.clientX > sidebar.offsetWidth - 10) {
+                isResizing = true;
+                startX = e.clientX;
+                startWidth = sidebar.offsetWidth;
+                document.addEventListener('mousemove', handleResize);
+                document.addEventListener('mouseup', stopResize);
+                e.preventDefault();
+            }
+        };
+        
+        const handleResize = (e) => {
+            if (!isResizing) return;
+            const diff = e.clientX - startX;
+            const newWidth = Math.max(160, Math.min(500, startWidth + diff));
+            const root = document.documentElement;
+            root.style.setProperty('--sidebar-width', newWidth + 'px');
+            localStorage.setItem('sidebarWidth', newWidth);
+        };
+        
+        const stopResize = () => {
+            isResizing = false;
+            document.removeEventListener('mousemove', handleResize);
+            document.removeEventListener('mouseup', stopResize);
+        };
+        
+        // Restore saved sidebar width
+        const savedWidth = localStorage.getItem('sidebarWidth');
+        if (savedWidth) {
+            document.documentElement.style.setProperty('--sidebar-width', savedWidth + 'px');
+        }
+        
+        sidebar.addEventListener('mousedown', startResize);
     }
     
     function initializeAppStudent() {
@@ -3712,6 +3922,7 @@
       if (!history[currentClassId]) history[currentClassId] = [];
       updateReasonsList();
       const classStudents = Object.values(students[currentClassId]);
+      filterStudentsList(''); // Reset filter
       
       const grid = document.getElementById('studentsGrid');
       const listTableBody = document.getElementById('studentListTable').querySelector('tbody');
@@ -3776,6 +3987,36 @@
       document.getElementById('managePinsBtn').style.display = (teacherSettings?.allowStudentPins || teacherSettings?.allowParentPins) ? 'inline-flex' : 'none';
 
       onSearchChange();
+    }
+
+    function filterStudentsList(filterText) {
+        const filterValue = filterText.toLowerCase();
+        const grid = document.getElementById('studentsGrid');
+        const listTableBody = document.getElementById('studentListTable').querySelector('tbody');
+        const compact = document.getElementById('studentsCompact');
+        
+        // Filter all student cards/rows
+        const allCards = grid.querySelectorAll('.student-card:not(.add-student-card)');
+        const allRows = listTableBody.querySelectorAll('tr');
+        const allCompactItems = compact.querySelectorAll('.compact-student-item');
+        
+        allCards.forEach(card => {
+            const nameEl = card.querySelector('.student-name');
+            const name = nameEl ? nameEl.textContent.toLowerCase() : '';
+            card.style.display = name.includes(filterValue) || filterValue === '' ? '' : 'none';
+        });
+        
+        allRows.forEach(row => {
+            const nameEl = row.querySelector('.student-list-name');
+            const name = nameEl ? nameEl.textContent.toLowerCase() : '';
+            row.style.display = name.includes(filterValue) || filterValue === '' ? '' : 'none';
+        });
+        
+        allCompactItems.forEach(item => {
+            const nameEl = item.querySelector('.compact-name');
+            const name = nameEl ? nameEl.textContent.toLowerCase() : '';
+            item.style.display = name.includes(filterValue) || filterValue === '' ? '' : 'none';
+        });
     }
 
     function switchStudentView(event, view) {
@@ -3972,13 +4213,27 @@
         const classStudents = Object.values(students[currentClassId] || {});
         classStudents.forEach(s => selectedStudents.add(s.id));
         document.getElementById('selectedCount').textContent = `${selectedStudents.size} selected`;
+        const btn = document.getElementById('bulkSelectToggle');
+        if (btn) btn.textContent = 'Deselect All';
         renderStudentsView();
     }
 
     function deselectAllStudentsForBulk() {
         selectedStudents.clear();
         document.getElementById('selectedCount').textContent = `0 selected`;
+        const btn = document.getElementById('bulkSelectToggle');
+        if (btn) btn.textContent = 'Select All';
         renderStudentsView();
+    }
+    
+    function toggleSelectAllStudents() {
+        const classStudents = Object.values(students[currentClassId] || {});
+        const allSelected = selectedStudents.size === classStudents.length;
+        if (allSelected) {
+            deselectAllStudentsForBulk();
+        } else {
+            selectAllStudentsForBulk();
+        }
     }
 
     function openBulkPointsModal(action) {
@@ -4184,12 +4439,16 @@
         const typeClass = reward.type === 'deduct' ? 'deduct-reward' : 'require-reward';
         const badgeClass = reward.type === 'deduct' ? 'deduct-badge' : 'require-badge';
         const icon = reward.icon || '🎁';
+        const iconDisplay = reward.image ? `<img src="${reward.image}" alt="${sanitizeHTML(reward.title)}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;"/>` : icon;
 
         grid.innerHTML += `
           <div class="reward-card ${typeClass}">
             <span class="reward-type-badge ${badgeClass}">${reward.type}</span>
             <div class="reward-header">
-                <div><h3 class="reward-title">${icon} ${sanitizeHTML(reward.title)}</h3><p class="reward-points">${reward.points} pts</p></div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="font-size: 2.5rem; display: flex; align-items: center;">${iconDisplay}</div>
+                    <div><h3 class="reward-title">${sanitizeHTML(reward.title)}</h3><p class="reward-points">${reward.points} pts</p></div>
+                </div>
             </div>
             <p class="reward-description">${sanitizeHTML(reward.description)}</p>
             <div class="reward-actions">
@@ -4206,6 +4465,8 @@
       document.getElementById('rewardDescription').value = '';
       document.getElementById('rewardPoints').value = '';
       document.getElementById('rewardIcon').value = '';
+      document.getElementById('rewardImage').value = '';
+      document.getElementById('rewardImagePreview').style.display = 'none';
       document.querySelector('input[name="rewardType"][value="deduct"]').checked = true;
       openModal('createRewardModal');
     }
@@ -4216,18 +4477,52 @@
       const points = parseInt(document.getElementById('rewardPoints').value);
       const type = document.querySelector('input[name="rewardType"]:checked').value;
       const icon = document.getElementById('rewardIcon').value.trim();
+      const imageFile = document.getElementById('rewardImage').files[0];
 
       if (!title || !points) {
         showNotification('Title and points are required', 'error');
         return;
       }
-      const reward = { id: generateId(), title, description, points, type, icon };
-      if (!rewards[currentClassId]) rewards[currentClassId] = [];
-      rewards[currentClassId].push(reward);
-      saveData();
-      renderRewardsView();
-      closeModal('createRewardModal');
-      showNotification('Reward created!', 'success');
+      
+      if (!icon && !imageFile) {
+        showNotification('Please provide either an emoji or an image', 'error');
+        return;
+      }
+      
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const reward = { id: generateId(), title, description, points, type, icon, image: e.target.result };
+          if (!rewards[currentClassId]) rewards[currentClassId] = [];
+          rewards[currentClassId].push(reward);
+          saveData();
+          renderRewardsView();
+          closeModal('createRewardModal');
+          showNotification('Reward created!', 'success');
+        };
+        reader.readAsDataURL(imageFile);
+      } else {
+        const reward = { id: generateId(), title, description, points, type, icon };
+        if (!rewards[currentClassId]) rewards[currentClassId] = [];
+        rewards[currentClassId].push(reward);
+        saveData();
+        renderRewardsView();
+        closeModal('createRewardModal');
+        showNotification('Reward created!', 'success');
+      }
+    }
+    
+    document.getElementById('rewardImage')?.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                document.getElementById('rewardImagePreviewImg').src = event.target.result;
+                document.getElementById('rewardImagePreview').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
     }
 
     function openEditRewardModal(rewardId) {
@@ -4282,8 +4577,7 @@
         content.innerHTML = `
           <p>Claiming: <strong>${sanitizeHTML(reward.title)}</strong> (${reward.points} pts)</p>
           <div class="action-buttons mb-4">
-              <button class="btn btn-info" onclick="toggleSelectAllStudents(true)">Select All</button>
-              <button class="btn btn-secondary" onclick="toggleSelectAllStudents(false)">Deselect All</button>
+              <button class="btn btn-info" id="claimSelectToggle" onclick="toggleClaimSelectAll()">Select All</button>
           </div>
           <div class="selectable-student-grid">
             ${classStudents.map(s => {
@@ -4304,6 +4598,22 @@
         element.classList.toggle('selected');
     }
 
+    function toggleClaimSelectAll() {
+        const cards = document.querySelectorAll('#claimRewardContent .selectable-student-card');
+        const allSelected = Array.from(cards).every(c => c.classList.contains('selected'));
+        const button = document.getElementById('claimSelectToggle');
+        
+        cards.forEach(card => {
+            if (allSelected) {
+                card.classList.remove('selected');
+            } else {
+                card.classList.add('selected');
+            }
+        });
+        
+        if (button) button.textContent = allSelected ? 'Select All' : 'Deselect All';
+    }
+    
     function toggleSelectAllStudents(select) {
         document.querySelectorAll('.selectable-student-card').forEach(card => {
             if(select) card.classList.add('selected');
@@ -4560,11 +4870,28 @@
             const dateString = fullDate.toDateString();
             const hasHistory = historyByDay[dateString];
             const dayEl = document.createElement('div');
-            dayEl.className = `calendar-day ${hasHistory ? 'has-history' : ''}`;
-            dayEl.textContent = day;
+            
+            let dayClass = `calendar-day ${hasHistory ? 'has-history' : ''}`;
+            
+            // Add color coding based on positive/negative actions
             if (hasHistory) {
+                const totalPoints = hasHistory.reduce((sum, item) => sum + item.points, 0);
+                const positiveCount = hasHistory.filter(item => item.points > 0).length;
+                const negativeCount = hasHistory.filter(item => item.points < 0).length;
+                
+                if (positiveCount > 0 && negativeCount === 0) {
+                    dayClass += ' has-positive';
+                } else if (negativeCount > 0 && positiveCount === 0) {
+                    dayClass += ' has-negative';
+                } else if (positiveCount > 0 && negativeCount > 0) {
+                    dayClass += ' has-mixed';
+                }
+                
                 dayEl.onclick = (e) => showDayHistoryPopup(e, historyByDay[dateString]);
             }
+            
+            dayEl.className = dayClass;
+            dayEl.textContent = day;
             grid.appendChild(dayEl);
         }
 
@@ -4703,6 +5030,13 @@
                   <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Saved Reasons</h3>
                   <div id="savedReasonsList" style="display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
                 </div>
+                <div style="background: var(--surface); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+                  <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Actions</h3>
+                  <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn btn-info" onclick="printClassList()">📄 Print Class List</button>
+                    <button class="btn btn-warning" onclick="undoLastTransaction()" id="undoLastBtn" style="display: none;">↶ Undo Last Transaction</button>
+                  </div>
+                </div>
                 <div style="background: rgb(220 38 38 / 0.1); padding: 2rem; border-radius: 12px; border: 1px solid rgb(220 38 38 / 0.2);">
                   <h3 style="margin-bottom: 1rem; color: var(--danger-color);">Danger Zone</h3>
                   <p style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.875rem;">This action cannot be undone. This will permanently delete the current class and all student data.</p>
@@ -4727,6 +5061,7 @@
             }
             document.getElementById('offlineModeToggle').checked = currentUser.settings?.offlineMode || false;
             renderSavedReasonsList();
+            updateUndoButtonVisibility();
         }
     }
 
@@ -4791,6 +5126,98 @@
         downloadAnchorNode.click();
         downloadAnchorNode.remove();
         showNotification('Backup created!', 'success');
+    }
+
+    function printClassList() {
+        if (!currentClassId) {
+            showNotification('No class selected', 'error');
+            return;
+        }
+        const currentClass = classes.find(c => c.id === currentClassId);
+        const classStudents = Object.values(students[currentClassId] || {}).sort((a, b) => b.points - a.points);
+        
+        let printContent = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>${sanitizeHTML(currentClass.name)} - Class List</title>
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 2cm; }
+                    h1 { text-align: center; color: #1ab5f4; }
+                    h2 { margin-top: 2cm; border-bottom: 2px solid #1ab5f4; padding-bottom: 0.5cm; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 1cm; }
+                    th, td { padding: 0.5cm; text-align: left; border-bottom: 1px solid #e2e8f0; }
+                    th { background-color: #f1f5f9; font-weight: bold; }
+                    .timestamp { color: #64748b; font-size: 0.9em; }
+                    @media print { body { margin: 0; } }
+                </style>
+            </head>
+            <body>
+                <h1>${sanitizeHTML(currentClass.name)}</h1>
+                <p style="text-align: center; color: #64748b;">Class List - Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+                <h2>Students (${classStudents.length} total)</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Name</th>
+                            <th>Points</th>
+                            <th>Rewards Claimed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${classStudents.map((s, idx) => `
+                            <tr>
+                                <td>${idx + 1}</td>
+                                <td>${sanitizeHTML(s.name)}</td>
+                                <td>${s.points}</td>
+                                <td>${s.pointsRewards || 0}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </body>
+            </html>
+        `;
+        
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(printContent);
+        printWindow.print();
+        showNotification('Class list sent to printer', 'success');
+    }
+
+    function undoLastTransaction() {
+        if (!currentClassId || !history[currentClassId] || history[currentClassId].length === 0) {
+            showNotification('No transactions to undo', 'warning');
+            return;
+        }
+        
+        if (!confirm('Are you sure you want to undo the last points transaction? This cannot be undone.')) {
+            return;
+        }
+        
+        const lastTransaction = history[currentClassId].pop();
+        const student = students[currentClassId][lastTransaction.studentId];
+        
+        if (student) {
+            student.points -= lastTransaction.points;
+            saveData();
+            renderStudentsView();
+            showNotification(`Undone: ${sanitizeHTML(lastTransaction.studentName)} - ${lastTransaction.points > 0 ? '-' : '+'}${Math.abs(lastTransaction.points)} pts`, 'success');
+            
+            // Hide button if no more history
+            setTimeout(updateUndoButtonVisibility, 100);
+        }
+    }
+    
+    function updateUndoButtonVisibility() {
+        const btn = document.getElementById('undoLastBtn');
+        if (!btn) return;
+        if (currentClassId && history[currentClassId] && history[currentClassId].length > 0) {
+            btn.style.display = 'inline-flex';
+        } else {
+            btn.style.display = 'none';
+        }
     }
 
     // Reasons Logic
@@ -5253,7 +5680,13 @@
         const switcher = document.getElementById('demoViewSwitcher');
         switcher.innerHTML = `
             <span style="font-weight: bold; color: var(--text-secondary);">Demo:</span>
-            ${['admin','teacher','student','parent'].map(t => `<button class="btn btn-secondary ${ (currentUser?.username?.includes(t) || currentStudent && t==='student' || currentParent && t==='parent') ? 'active' : ''}" style="padding: 0.25rem 0.5rem;" onclick="switchDemoView('${t}')">${t.charAt(0).toUpperCase() + t.slice(1)}</button>`).join('')}
+            ${['admin','teacher','student','parent'].map(t => {
+         const isActive = (t === 'admin' && currentUser?.username === 'demoAdmin') || 
+                          (t === 'teacher' && currentUser?.username === 'demoTeacher') ||
+                          (t === 'student' && currentStudent) ||
+                          (t === 'parent' && currentParent);
+         return `<button class="btn btn-secondary ${isActive ? 'active' : ''}" style="padding: 0.25rem 0.5rem;" onclick="switchDemoView('${t}')">${t.charAt(0).toUpperCase() + t.slice(1)}</button>`;
+       }).join('')}
         `;
 
         document.getElementById('appLayout').classList.remove('active');
@@ -5263,15 +5696,19 @@
         if (type === 'admin' || type === 'teacher') {
             currentUser = users[type === 'admin' ? 'demoAdmin' : 'demoTeacher'];
             currentClassId = type === 'teacher' ? 'demoClass1' : null;
-            currentStudent = null; currentParent = null;
+            currentStudent = null; 
+            currentParent = null;
             initializeApp();
+            setupSidebarResize();
         } else if (type === 'student') {
             currentStudent = { ...students['demoClass1']['s0'], classId: 'demoClass1'};
-            currentUser = null; currentParent = null;
+            currentUser = null; 
+            currentParent = null;
             initializeAppStudent();
         } else if (type === 'parent') {
             currentParent = { ...students['demoClass1']['s0'], classId: 'demoClass1'};
-            currentUser = null; currentStudent = null;
+            currentUser = null; 
+            currentStudent = null;
             initializeAppParent();
         }
     }
@@ -5386,15 +5823,116 @@
         if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
-                currentUser.photo = e.target.result;
-                users[currentUser.username].photo = e.target.result;
-                saveData();
-                initializeApp(); // Redraw sidebar
-                renderSettingsView(); // Redraw settings page
-                showNotification('Profile picture updated!', 'success');
+                // Store the image and open positioning modal
+                profilePictureData = {
+                    src: e.target.result,
+                    x: 0,
+                    y: 0,
+                    scale: 1
+                };
+                openProfilePicturePositionModal();
             };
             reader.readAsDataURL(file);
         }
+    }
+    
+    function openProfilePicturePositionModal() {
+        const modal = document.getElementById('profilePicturePositionModal');
+        if (!modal) {
+            // Create modal if it doesn't exist
+            const newModal = document.createElement('div');
+            newModal.id = 'profilePicturePositionModal';
+            newModal.className = 'modal';
+            newModal.innerHTML = `
+                <div class="modal-content" style="max-width: 500px;">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Position Your Profile Picture</h2>
+                        <button class="modal-close" onclick="closeModal('profilePicturePositionModal')">&times;</button>
+                    </div>
+                    <div class="modal-body" style="text-align: center;">
+                        <div style="position: relative; width: 200px; height: 200px; margin: 0 auto 1rem; border-radius: 50%; overflow: hidden; background: #f0f0f0; border: 3px solid var(--border-color);">
+                            <img id="positionedImage" src="" alt="Preview" style="position: absolute; width: 100%; height: 100%; object-fit: cover; cursor: move;">
+                        </div>
+                        <div style="margin: 1rem 0;">
+                            <label style="display: block; margin-bottom: 0.5rem;">Zoom</label>
+                            <input type="range" id="zoomSlider" min="0.5" max="3" step="0.1" value="1" 
+                                   oninput="updateProfilePicturePreview()" style="width: 100%;"/>
+                        </div>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary);">Drag the image to position it</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeModal('profilePicturePositionModal')">Cancel</button>
+                        <button class="btn btn-primary" onclick="confirmProfilePicture()">Save Profile Picture</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(newModal);
+        }
+        
+        const img = document.getElementById('positionedImage');
+        img.src = profilePictureData.src;
+        
+        // Make image draggable
+        let isDragging = false;
+        let startX = 0, startY = 0;
+        
+        img.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX - img.offsetLeft;
+            startY = e.clientY - img.offsetTop;
+        });
+        
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging && img) {
+                profilePictureData.x = e.clientX - startX;
+                profilePictureData.y = e.clientY - startY;
+                updateProfilePicturePreview();
+            }
+        });
+        
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+        
+        document.getElementById('zoomSlider').value = profilePictureData.scale || 1;
+        updateProfilePicturePreview();
+        openModal('profilePicturePositionModal');
+    }
+    
+    function updateProfilePicturePreview() {
+        const img = document.getElementById('positionedImage');
+        if (!img) return;
+        const scale = parseFloat(document.getElementById('zoomSlider')?.value || 1);
+        profilePictureData.scale = scale;
+        img.style.transform = `scale(${scale}) translate(${profilePictureData.x}px, ${profilePictureData.y}px)`;
+    }
+    
+    function confirmProfilePicture() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 200;
+        canvas.height = 200;
+        const ctx = canvas.getContext('2d');
+        
+        const img = new Image();
+        img.onload = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const scale = profilePictureData.scale || 1;
+            ctx.drawImage(img, 
+                (canvas.width / 2) - (img.width * scale / 2) + profilePictureData.x,
+                (canvas.height / 2) - (img.height * scale / 2) + profilePictureData.y,
+                img.width * scale,
+                img.height * scale
+            );
+            
+            currentUser.photo = canvas.toDataURL();
+            users[currentUser.username].photo = canvas.toDataURL();
+            saveData();
+            initializeApp();
+            renderSettingsView();
+            closeModal('profilePicturePositionModal');
+            showNotification('Profile picture updated!', 'success');
+        };
+        img.src = profilePictureData.src;
     }
     
     function removeTeacherPhoto() {
