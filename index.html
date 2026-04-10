@@ -3770,8 +3770,13 @@
                     <div class="add-student-icon">➕</div>
                     <div>Create Your First Class</div>
                 </div>`;
-            document.getElementById('studentsCompact').innerHTML = '';
-            document.getElementById('studentListTable').querySelector('tbody').innerHTML = '';
+            const studentsCompact = document.getElementById('studentsCompact');
+            const studentListTable = document.getElementById('studentListTable');
+            if (studentsCompact) studentsCompact.innerHTML = '';
+            if (studentListTable) {
+              const tbody = studentListTable.querySelector('tbody');
+              if (tbody) tbody.innerHTML = '';
+            }
         }
         
         if (title === 'extras') renderExtrasView();
@@ -3922,11 +3927,16 @@
       if (!history[currentClassId]) history[currentClassId] = [];
       updateReasonsList();
       const classStudents = Object.values(students[currentClassId]);
-      filterStudentsList(''); // Reset filter
       
       const grid = document.getElementById('studentsGrid');
-      const listTableBody = document.getElementById('studentListTable').querySelector('tbody');
+      const studentListTable = document.getElementById('studentListTable');
+      const listTableBody = studentListTable ? studentListTable.querySelector('tbody') : null;
       const compact = document.getElementById('studentsCompact');
+      
+      // Early return if critical elements don't exist
+      if (!grid && !listTableBody && !compact) return;
+      
+      filterStudentsList(''); // Reset filter
       
       const addCardHTML = `
         <div class="student-card add-student-card" onclick="openAddStudentModal()">
@@ -3934,9 +3944,9 @@
           <div>Add New Student</div>
         </div>
       `;
-      grid.innerHTML = addCardHTML;
-      listTableBody.innerHTML = '';
-      compact.innerHTML = '';
+      if (grid) grid.innerHTML = addCardHTML;
+      if (listTableBody) listTableBody.innerHTML = '';
+      if (compact) compact.innerHTML = '';
 
       // Grid & Compact & List Rendering
       classStudents.forEach(student => {
@@ -3957,7 +3967,7 @@
             <div class="student-rewards">${totalRewards} rewards claimed</div>
           </div>
         `;
-        grid.insertAdjacentHTML('afterbegin', gridItem);
+        if (grid) grid.insertAdjacentHTML('afterbegin', gridItem);
 
         const compactItem = `
           <div class="compact-student-item ${selectedClass}" onclick="${bulkMode ? `toggleStudentSelection('${student.id}')` : `openStudentPointsModal('${student.id}')`}">
@@ -3966,7 +3976,7 @@
             <div class="compact-points">${student.points} pts ${powerUpBadge}</div>
           </div>
         `;
-        compact.insertAdjacentHTML('beforeend', compactItem);
+        if (compact) compact.insertAdjacentHTML('beforeend', compactItem);
 
         const listItem = `
           <tr class="${selectedClass}" onclick="${bulkMode ? `toggleStudentSelection('${student.id}')` : `openStudentPointsModal('${student.id}')`}">
@@ -3976,15 +3986,18 @@
               <td data-label="Actions"><div class="student-list-actions"><button class="btn btn-secondary" style="padding: 0.5rem;" onclick="event.stopPropagation(); openEditStudentModal('${student.id}')">Edit</button><button class="btn btn-success" style="padding: 0.5rem;" onclick="event.stopPropagation(); openStudentPointsModal('${student.id}')">+/-</button></div></td>
           </tr>
         `;
-        listTableBody.innerHTML += listItem;
+        if (listTableBody) listTableBody.innerHTML += listItem;
       });
 
-      if (classStudents.length === 0) {
+      if (classStudents.length === 0 && listTableBody) {
            listTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 2rem;">No students in this class yet.</td></tr>';
       }
       
       const teacherSettings = users[currentUser.username]?.settings;
-      document.getElementById('managePinsBtn').style.display = (teacherSettings?.allowStudentPins || teacherSettings?.allowParentPins) ? 'inline-flex' : 'none';
+      const managePinsBtn = document.getElementById('managePinsBtn');
+      if (managePinsBtn) {
+        managePinsBtn.style.display = (teacherSettings?.allowStudentPins || teacherSettings?.allowParentPins) ? 'inline-flex' : 'none';
+      }
 
       onSearchChange();
     }
@@ -4089,8 +4102,12 @@
       document.getElementById('studentName').value = '';
       document.getElementById('initialPoints').value = '0';
       document.getElementById('studentPhoto').value = '';
-      document.getElementById('photoPreview').style.display = 'none';
-      document.getElementById('photoPreview').querySelector('img').src = '';
+      const photoPreview = document.getElementById('photoPreview');
+      if (photoPreview) {
+        photoPreview.style.display = 'none';
+        const img = photoPreview.querySelector('img');
+        if (img) img.src = '';
+      }
       openModal('addStudentModal');
     }
 
@@ -4099,8 +4116,14 @@
       if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
-          document.getElementById(previewId).querySelector('img').src = e.target.result;
-          document.getElementById(previewId).style.display = 'block';
+          const previewElement = document.getElementById(previewId);
+          if (previewElement) {
+            const img = previewElement.querySelector('img');
+            if (img) {
+              img.src = e.target.result;
+              previewElement.style.display = 'block';
+            }
+          }
         };
         reader.readAsDataURL(file);
       }
@@ -5406,12 +5429,25 @@
     // Initialize
     window.onload = () => {
       loadData();
-      document.getElementById('loginBtn').onclick = login;
-      document.getElementById('signupBtn').onclick = signup;
-      document.getElementById('studentLoginBtn').onclick = loginWithPIN;
-      document.getElementById('parentLoginBtn').onclick = loginWithParentPIN;
-      document.getElementById('increaseListSizeBtn').onclick = increaseListViewSize;
-      document.getElementById('decreaseListSizeBtn').onclick = decreaseListViewSize;
+      
+      // Safely attach event listeners only if elements exist
+      const loginBtn = document.getElementById('loginBtn');
+      if (loginBtn) loginBtn.onclick = login;
+      
+      const signupBtn = document.getElementById('signupBtn');
+      if (signupBtn) signupBtn.onclick = signup;
+      
+      const studentLoginBtn = document.getElementById('studentLoginBtn');
+      if (studentLoginBtn) studentLoginBtn.onclick = loginWithPIN;
+      
+      const parentLoginBtn = document.getElementById('parentLoginBtn');
+      if (parentLoginBtn) parentLoginBtn.onclick = loginWithParentPIN;
+      
+      const increaseListSizeBtn = document.getElementById('increaseListSizeBtn');
+      if (increaseListSizeBtn) increaseListSizeBtn.onclick = increaseListViewSize;
+      
+      const decreaseListSizeBtn = document.getElementById('decreaseListSizeBtn');
+      if (decreaseListSizeBtn) decreaseListSizeBtn.onclick = decreaseListViewSize;
       
       const loggedInUser = currentUser || currentStudent || currentParent;
       if (loggedInUser) {
