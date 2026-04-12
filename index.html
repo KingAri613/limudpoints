@@ -1175,6 +1175,7 @@
       border: 1px solid var(--border-color);
       border-bottom: none;
       transition: transform 0.2s ease;
+      position: relative;
     }
     .podium-step:hover {
       transform: translateY(-5px);
@@ -1185,10 +1186,14 @@
     .podium-3 { height: 60%; border-top: 8px solid #CD7F32; }
     
     .podium-rank {
-      font-size: 3rem;
+      font-size: 2rem;
       font-weight: 900;
       line-height: 1;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      position: absolute;
+      top: 0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
     }
     .podium-2 .podium-rank { color: #A9A9A9; }
     .podium-1 .podium-rank { color: #FDB813; }
@@ -1312,11 +1317,25 @@
     }
     .calendar-day.has-history {
         cursor: pointer;
-        background-color: rgb(26 181 244 / 0.1);
-        border-color: rgb(26 181 244 / 0.2);
+        background: linear-gradient(90deg, #059669 0%, #059669 50%, #dc2626 50%, #dc2626 100%);
+        border-color: rgba(5, 150, 105, 0.3);
+        color: white;
+        font-weight: bold;
     }
-    .calendar-day.has-history:hover {
-        background-color: rgb(26 181 244 / 0.2);
+    .calendar-day.has-history.positive-only {
+        background-color: rgb(5 150 105 / 0.2);
+        border-color: rgb(5 150 105 / 0.3);
+        color: var(--success-color);
+    }
+    .calendar-day.has-history.negative-only {
+        background-color: rgb(220 38 38 / 0.2);
+        border-color: rgb(220 38 38 / 0.3);
+        color: var(--danger-color);
+    }
+    .calendar-day.has-history.mixed {
+        background: linear-gradient(90deg, #059669 0%, #059669 50%, #dc2626 50%, #dc2626 100%);
+        border-color: rgba(5, 150, 105, 0.3);
+        color: white;
     }
     .calendar-day-history-popup {
         position: absolute;
@@ -1619,6 +1638,37 @@
       color: var(--text-secondary);
       font-size: 0.875rem;
       margin-top: 0.25rem;
+    }
+    
+    /* Notification Bell Badge */
+    .notification-bell {
+      position: relative;
+      cursor: pointer;
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem;
+    }
+    
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      width: 20px;
+      height: 20px;
+      background: var(--danger-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+    
+    .notification-badge.hidden {
+      display: none;
     }
     
     /* Selectable Student Grid for Modals */
@@ -1995,6 +2045,380 @@
     .mt-4 { margin-top: 1rem; }
     .hidden { display: none; }
     .relative { position: relative; }
+
+    /* Resizable Sidebar */
+    .sidebar-resizer {
+      position: absolute;
+      right: -4px;
+      top: 0;
+      width: 8px;
+      height: 100%;
+      cursor: col-resize;
+      background: transparent;
+      transition: background 0.2s;
+      z-index: 102;
+    }
+    .sidebar-resizer:hover {
+      background: var(--primary-color);
+    }
+
+    /* Photo Positioning */
+    .photo-position-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      background: var(--surface-secondary);
+      border: 2px dashed var(--border-color);
+      border-radius: 50%;
+      overflow: hidden;
+      cursor: grab;
+    }
+    .photo-position-container.dragging {
+      cursor: grabbing;
+    }
+    .photo-position-img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: grab;
+    }
+    .photo-position-img.dragging {
+      cursor: grabbing;
+    }
+
+    /* Analytics Charts */
+    .analytics-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    .analytics-card {
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+    .analytics-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+    .chart-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .chart-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .chart-bar-label {
+      min-width: 120px;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .chart-bar-value {
+      background: linear-gradient(90deg, var(--primary-color) 0%, var(--info-color) 100%);
+      height: 24px;
+      border-radius: 4px;
+      min-width: 10%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 0.75rem;
+      padding: 0 0.5rem;
+    }
+
+    /* Reason Breakdown */
+    .reason-breakdown {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+    .reason-stat {
+      background: var(--surface-secondary);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .reason-stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+    .reason-stat-label {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+    }
+
+    /* History Filter */
+    .history-filter {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .history-filter-item {
+      max-width: 250px;
+    }
+
+    /* Student History Tab */
+    .student-history-container {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .history-entry {
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.75rem 0;
+    }
+    .history-entry:last-child {
+      border-bottom: none;
+    }
+
+    /* Notifications */
+    .notification-item {
+      background: var(--surface-secondary);
+      border-left: 4px solid var(--primary-color);
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .notification-item:hover {
+      background: rgb(26 181 244 / 0.1);
+    }
+    .notification-item.unread {
+      background: rgb(26 181 244 / 0.1);
+      border-left-color: var(--warning-color);
+    }
+
+    /* Draggable Students */
+    .student-card.dragging {
+      opacity: 0.5;
+    }
+    .student-card.drag-over {
+      border: 2px dashed var(--primary-color);
+      background: rgb(26 181 244 / 0.05);
+    }
+
+    /* Permissions Tab */
+    .permissions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .permission-item {
+      background: var(--surface-secondary);
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .permission-item input {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    /* Announcements */
+    .announcement-card {
+      background: var(--surface);
+      border-left: 4px solid var(--info-color);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: var(--shadow);
+    }
+    .announcement-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .announcement-title {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .announcement-date {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+    .announcement-content {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    /* Image Upload Preview */
+    .image-upload-preview {
+      width: 100%;
+      max-width: 200px;
+      height: 200px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin: 1rem 0;
+    }
+
+    /* Responsive Sidebar Media Query */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+      }
+      .main-content {
+        width: 100%;
+        margin-left: 0;
+      }
+      .sidebar-resizer {
+        display: none;
+      }
+      
+      /* Responsive Analytics */
+      .analytics-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .analytics-card {
+        padding: 1rem;
+      }
+      
+      /* Responsive History Filter */
+      .history-filter {
+        flex-direction: column;
+      }
+      
+      .history-filter-item {
+        width: 100%;
+        max-width: none;
+      }
+      
+      /* Responsive Photo Position */
+      .photo-position-container {
+        width: 150px;
+        height: 150px;
+      }
+      
+      /* Responsive Notifications */
+      .notification-item {
+        padding: 0.75rem;
+      }
+      
+      /* Responsive Permissions Grid */
+      .permissions-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      /* Responsive Announcement */
+      .announcement-card {
+        padding: 0.75rem;
+      }
+      
+      /* Responsive Chart */
+      .chart-bars {
+        gap: 0.5rem;
+      }
+      
+      .chart-bar-label {
+        min-width: 80px;
+        font-size: 0.75rem;
+      }
+      
+      .chart-bar-value {
+        font-size: 0.65rem;
+      }
+      
+      /* Responsive Bulk Actions */
+      .bulk-actions {
+        flex-direction: column;
+        padding: 0.75rem;
+      }
+      
+      .bulk-point-input {
+        width: 100%;
+      }
+      
+      /* Responsive Topbar */
+      .topbar-left {
+        width: 100%;
+        order: 1;
+      }
+      
+      .topbar-right {
+        width: 100%;
+        order: 2;
+      }
+      
+      .notification-bell {
+        font-size: 1.25rem;
+      }
+    }
+    
+    /* Extra small devices */
+    @media (max-width: 480px) {
+      .auth-card {
+        padding: 1.5rem 1rem;
+      }
+      
+      .page-title {
+        font-size: 1rem;
+      }
+      
+      .btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+      }
+      
+      .modal-content {
+        width: 95vw;
+        margin: auto;
+      }
+      
+      .form-input, .form-label {
+        font-size: 0.875rem;
+      }
+      
+      .content-area {
+        padding: 0.75rem;
+      }
+      
+      .students-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+      
+      .student-card {
+        padding: 0.75rem;
+      }
+      
+      .analytics-title {
+        font-size: 0.875rem;
+      }
+      
+      .chart-bar-label {
+        min-width: 60px;
+        font-size: 0.65rem;
+      }
+      
+      .view-toggle {
+        flex-wrap: wrap;
+      }
+      
+      .view-option {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+      }
+    }
   </style>
 </head>
 <body class="loading">
@@ -2174,10 +2598,15 @@
           <h1 class="page-title" id="pageTitle">Students</h1>
           <select class="class-selector" id="classSelector"></select>
           <button class="btn btn-success" style="padding: 0.5rem 1rem;" onclick="copyAllStudentNames()">Copy All Students</button>
+          <button class="btn btn-warning" id="undoBtn" style="padding: 0.5rem 1rem; display: none;" onclick="undoLastTransaction()" title="Undo last points transaction">↶ Undo</button>
         </div>
         <div class="topbar-right">
           <input type="text" class="search-input" id="searchInput" placeholder="Search students..." oninput="onSearchChange()"/>
           <div id="demoViewSwitcher" style="display: none; gap: 0.5rem;"></div>
+          <div class="notification-bell" id="notificationBell" onclick="openNotificationsModal()" style="display: none;">
+            🔔
+            <div class="notification-badge hidden" id="notificationBadge">0</div>
+          </div>
           <button class="btn btn-primary" onclick="openNewClassModal()">New Class</button>
         </div>
       </header>
@@ -2187,8 +2616,8 @@
         <!-- Bulk Actions -->
         <div class="bulk-actions" id="bulkActions">
           <span class="selected-count" id="selectedCount">0 selected</span>
-          <button class="btn btn-info" style="padding: 0.5rem 1rem;" onclick="selectAllStudentsForBulk()">Select All</button>
-          <button class="btn btn-info" style="padding: 0.5rem 1rem;" onclick="deselectAllStudentsForBulk()">Deselect All</button>
+          <button class="btn btn-info" style="padding: 0.5rem 1rem;" id="selectAllBtn" onclick="selectAllStudentsForBulk()">Select All</button>
+          <button class="btn btn-info" style="padding: 0.5rem 1rem;" id="deselectAllBtn" onclick="deselectAllStudentsForBulk()" style="display: none;">Deselect All</button>
           <label>Points: <input type="number" class="bulk-point-input" id="bulkPointAmount" value="1" min="1"/></label>
           <button class="btn btn-success" onclick="openBulkPointsModal('add')">Add Points</button>
           <button class="btn btn-warning" onclick="openBulkPointsModal('subtract')">Subtract Points</button>
@@ -2222,7 +2651,6 @@
               </select>
             </div>
             <div class="action-buttons">
-              <button class="btn btn-info" id="managePinsBtn" onclick="openManagePinsModal()">Manage PINs</button>
               <button class="btn btn-success" onclick="openAddStudentModal()">Add Student</button>
               <button class="btn btn-success" onclick="openAddMultipleModal()">Add Multiple</button>
               <button class="btn btn-secondary" onclick="enterBulkMode()">Bulk Actions</button>
@@ -2275,6 +2703,7 @@
                 <div class="view-toggle">
                     <button class="view-option active" data-view="list" onclick="switchHistoryView(event, 'list')">List</button>
                     <button class="view-option" data-view="calendar" onclick="switchHistoryView(event, 'calendar')">Calendar</button>
+                    <button class="view-option" data-view="analytics" onclick="switchHistoryView(event, 'analytics')">Analytics</button>
                 </div>
             </div>
             <div class="action-buttons">
@@ -2282,8 +2711,31 @@
               <button class="btn btn-warning" onclick="clearHistory()">Clear History</button>
             </div>
           </div>
+          <div class="history-filter" style="display: none;" id="historyFilterContainer">
+            <div class="history-filter-item">
+              <label class="form-label">Filter by Student:</label>
+              <select class="form-input" id="historyStudentFilter" onchange="filterHistoryData()">
+                <option value="">All Students</option>
+              </select>
+            </div>
+            <div class="history-filter-item">
+              <label class="form-label">Filter by Reason:</label>
+              <select class="form-input" id="historyReasonFilter" onchange="filterHistoryData()">
+                <option value="">All Reasons</option>
+              </select>
+            </div>
+            <div class="history-filter-item">
+              <label class="form-label">Date Range:</label>
+              <input type="date" class="form-input" id="historyDateFrom" onchange="filterHistoryData()"/>
+            </div>
+            <div class="history-filter-item">
+              <label class="form-label" style="visibility: hidden;">To</label>
+              <input type="date" class="form-input" id="historyDateTo" onchange="filterHistoryData()"/>
+            </div>
+          </div>
           <div id="historyListContainer"></div>
           <div id="historyCalendarContainer" style="display: none;"></div>
+          <div id="historyAnalyticsContainer" style="display: none;"></div>
         </div>
 
         <!-- Settings View -->
@@ -2666,8 +3118,17 @@
           <div class="upload-area" onclick="document.getElementById('studentPhoto').click()">
             <p>Click to upload photo</p>
           </div>
-          <div id="photoPreview" style="display: none;">
-            <img src="" alt="Preview" style="max-width: 100%; border-radius: 8px;"/>
+          <div id="photoPreview" style="display: none; position: relative;">
+            <div style="width: 120px; height: 120px; border-radius: 50%; overflow: hidden; margin: 1rem auto; background: #f0f0f0; border: 2px dashed var(--border-color);">
+              <img src="" alt="Preview" style="width: 100%; height: 100%; object-fit: cover; object-position: center; cursor: move;" id="photoImg" />
+            </div>
+            <div style="text-align: center; gap: 0.5rem; display: flex; justify-content: center; margin-top: 0.5rem;">
+              <button type="button" class="btn btn-secondary" onclick="shiftPhotoPosition(-10, 0)">◀ Left</button>
+              <button type="button" class="btn btn-secondary" onclick="shiftPhotoPosition(10, 0)">Right ▶</button>
+              <button type="button" class="btn btn-secondary" onclick="shiftPhotoPosition(0, -10)">▲ Up</button>
+              <button type="button" class="btn btn-secondary" onclick="shiftPhotoPosition(0, 10)">Down ▼</button>
+            </div>
+            <p style="text-align: center; font-size: 0.875rem; color: var(--text-secondary);">Use buttons to reposition the image</p>
           </div>
         </div>
       </div>
@@ -2680,25 +3141,34 @@
 
   <!-- Edit Student Modal -->
   <div class="modal" id="editStudentModal">
-    <div class="modal-content">
+    <div class="modal-content large">
       <div class="modal-header">
         <h2 class="modal-title">Edit Student</h2>
         <button class="modal-close" onclick="closeModal('editStudentModal')">&times;</button>
       </div>
       <div class="modal-body">
-        <div class="form-group">
-          <label class="form-label" for="editStudentName">Student Name</label>
-          <input type="text" class="form-input" id="editStudentName" placeholder="Enter student name"/>
+        <div class="modal-tabs">
+          <div class="modal-tab active" onclick="switchEditStudentTab(event, 'info')">📝 Info</div>
+          <div class="modal-tab" onclick="switchEditStudentTab(event, 'history')">📜 History</div>
         </div>
-        <div class="form-group">
-          <label class="form-label" for="editStudentPhoto">Student Photo</label>
-          <input type="file" class="file-upload" id="editStudentPhoto" accept="image/*" onchange="previewPhoto(event, 'editPhotoPreview')"/>
-          <div class="upload-area" onclick="document.getElementById('editStudentPhoto').click()">
-            <p>Click to upload photo</p>
+        <div id="editStudentInfoTab" class="modal-tab-content">
+          <div class="form-group">
+            <label class="form-label" for="editStudentName">Student Name</label>
+            <input type="text" class="form-input" id="editStudentName" placeholder="Enter student name"/>
           </div>
-          <div id="editPhotoPreview" style="display: none;">
-            <img id="editPreviewImg" src="" alt="Preview" style="max-width: 100%; border-radius: 8px;"/>
+          <div class="form-group">
+            <label class="form-label" for="editStudentPhoto">Student Photo</label>
+            <input type="file" class="file-upload" id="editStudentPhoto" accept="image/*" onchange="previewPhoto(event, 'editPhotoPreview')"/>
+            <div class="upload-area" onclick="document.getElementById('editStudentPhoto').click()">
+              <p>Click to upload photo</p>
+            </div>
+            <div id="editPhotoPreview" style="display: none;">
+              <img id="editPreviewImg" src="" alt="Preview" style="max-width: 100%; border-radius: 8px;"/>
+            </div>
           </div>
+        </div>
+        <div id="editStudentHistoryTab" class="modal-tab-content" style="display: none;">
+          <div class="student-history-container" id="studentHistoryList"></div>
         </div>
       </div>
       <div class="modal-footer">
@@ -2810,9 +3280,19 @@
             </div>
         </div>
         <div class="form-group inline-input">
-          <label class="form-label" for="rewardIcon">Icon (emoji, optional)</label>
-          <input type="text" class="form-input" id="rewardIcon" placeholder="e.g., 🏆"/>
+          <label class="form-label" for="rewardIcon">Icon (emoji or upload image)</label>
+          <input type="text" class="form-input" id="rewardIcon" placeholder="e.g., 🏆" style="flex: 1;"/>
           <button class="btn btn-secondary" onclick="openEmojiPicker('rewardIcon')">😀</button>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="rewardImage">Custom Reward Image (optional)</label>
+          <input type="file" class="file-upload" id="rewardImage" accept="image/*" onchange="previewRewardImage(event, 'rewardImagePreview')"/>
+          <div class="upload-area" onclick="document.getElementById('rewardImage').click()">
+            <p>Click to upload image</p>
+          </div>
+          <div id="rewardImagePreview" style="display: none; margin-top: 1rem;">
+            <img src="" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 8px;"/>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -2850,9 +3330,19 @@
             </div>
         </div>
         <div class="form-group inline-input">
-          <label class="form-label" for="editRewardIcon">Icon (emoji, optional)</label>
-          <input type="text" class="form-input" id="editRewardIcon" placeholder="e.g., 🏆"/>
+          <label class="form-label" for="editRewardIcon">Icon (emoji or upload image)</label>
+          <input type="text" class="form-input" id="editRewardIcon" placeholder="e.g., 🏆" style="flex: 1;"/>
           <button class="btn btn-secondary" onclick="openEmojiPicker('editRewardIcon')">😀</button>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="editRewardImage">Custom Reward Image (optional)</label>
+          <input type="file" class="file-upload" id="editRewardImage" accept="image/*" onchange="previewRewardImage(event, 'editRewardImagePreview')"/>
+          <div class="upload-area" onclick="document.getElementById('editRewardImage').click()">
+            <p>Click to upload image</p>
+          </div>
+          <div id="editRewardImagePreview" style="display: none; margin-top: 1rem;">
+            <img src="" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 8px;"/>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -3056,6 +3546,118 @@
             </div>
         </div>
     </div>
+
+  <!-- Notifications Modal -->
+    <div class="modal" id="notificationsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Notifications</h2>
+                <button class="modal-close" onclick="closeModal('notificationsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="notificationsList" style="max-height: 400px; overflow-y: auto;"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('notificationsModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+  <!-- Create Announcement Modal -->
+    <div class="modal" id="announcementModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Create Announcement</h2>
+                <button class="modal-close" onclick="closeModal('announcementModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Title</label>
+                    <input type="text" class="form-input" id="announcementTitle" placeholder="Enter announcement title"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-input" id="announcementMessage" placeholder="Enter announcement message" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label><input type="checkbox" id="announcementToParents" checked/> Send to Parents Only</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="postAnnouncement()">Create Announcement</button>
+                <button class="btn btn-secondary" onclick="closeModal('announcementModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+  <!-- Teacher Creation Modal -->
+    <div class="modal" id="createTeacherModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Create Teacher Account</h2>
+                <button class="modal-close" onclick="closeModal('createTeacherModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" id="newTeacherUsername" placeholder="Enter username"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="newTeacherPassword" placeholder="Enter password"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Permissions</label>
+                    <div class="permissions-grid">
+                        <label class="permission-item">
+                            <input type="checkbox" class="teacher-permission" value="can_view"/>
+                            <span>View Class</span>
+                        </label>
+                        <label class="permission-item">
+                            <input type="checkbox" class="teacher-permission" value="can_award_points"/>
+                            <span>Award Points</span>
+                        </label>
+                        <label class="permission-item">
+                            <input type="checkbox" class="teacher-permission" value="can_manage_students"/>
+                            <span>Manage Students</span>
+                        </label>
+                        <label class="permission-item">
+                            <input type="checkbox" class="teacher-permission" value="can_create_announcements"/>
+                            <span>Create Announcements</span>
+                        </label>
+                        <label class="permission-item">
+                            <input type="checkbox" class="teacher-permission" value="full_control"/>
+                            <span>Full Control</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="saveNewTeacher()">Create Teacher</button>
+                <button class="btn btn-secondary" onclick="closeModal('createTeacherModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+  <!-- Photo Position Modal -->
+    <div class="modal" id="photoPositionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Position Profile Picture</h2>
+                <button class="modal-close" onclick="closeModal('photoPositionModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Drag the image to position it in the circle</p>
+                <div class="photo-position-container" id="photoContainer">
+                    <img id="photoToPosition" class="photo-position-img" src="" alt="Photo to position"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="savePhotoPosition()">Save Position</button>
+                <button class="btn btn-secondary" onclick="closeModal('photoPositionModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
     
   <script>
     const STORAGE_KEY = 'limudPointsData';
@@ -3083,6 +3685,15 @@
     let emojiPickerTarget = null;
     let demoMode = false;
     let historyCalendarDate = new Date();
+    let lastTransaction = null;
+    let photoPosition = { x: 0, y: 0 };
+    let notifications = {};
+    let announcements = {};
+    let coTeachers = {};
+    let filteredHistory = [];
+    let sidebarResizing = false;
+    let sidebarStartX = 0;
+    let sidebarStartWidth = 0;
 
     let listViewSizeLevel = 0;
     const LIST_VIEW_SIZE_MIN = -2;
@@ -3534,6 +4145,16 @@
       const title = view.split('?')[0]; // handle query params if any
       document.getElementById('pageTitle').textContent = title.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
       document.getElementById('searchInput').style.display = 'none';
+      
+      const undoBtn = document.getElementById('undoBtn');
+      if (undoBtn) undoBtn.style.display = (title === 'students') ? 'inline-flex' : 'none';
+      
+      const notificationBell = document.getElementById('notificationBell');
+      if (notificationBell) {
+        notificationBell.style.display = (title === 'students' && currentUser?.type === 'teacher') ? 'inline-flex' : 'none';
+      }
+      
+      updateUndoButton();
 
       const viewId = `${title}View`;
       const viewElement = document.getElementById(viewId);
@@ -3551,7 +4172,13 @@
             if(title === 'students') renderStudentsView();
             else if(title === 'leaderboard') renderLeaderboardView();
             else if(title === 'rewards') renderRewardsView();
-            else if(title === 'history') renderHistoryView(history[currentClassId] || [], document.getElementById('historyView'));
+            else if(title === 'history') {
+              const container = document.getElementById('historyView');
+              if (container) {
+                container.querySelector('#historyListContainer').innerHTML = '';
+                container.querySelector('#historyListContainer').appendChild(renderHistoryView(history[currentClassId] || []));
+              }
+            }
             else if(title === 'settings') renderSettingsView();
             else if(title === 'powerups') renderPowerUpsView();
         } else if (title === 'students') {
@@ -3771,10 +4398,6 @@
       if (classStudents.length === 0) {
            listTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 2rem;">No students in this class yet.</td></tr>';
       }
-      
-      const teacherSettings = users[currentUser.username]?.settings;
-      document.getElementById('managePinsBtn').style.display = (teacherSettings?.allowStudentPins || teacherSettings?.allowParentPins) ? 'inline-flex' : 'none';
-
       onSearchChange();
     }
 
@@ -3849,6 +4472,27 @@
           document.getElementById(previewId).style.display = 'block';
         };
         reader.readAsDataURL(file);
+      }
+    }
+
+    function previewRewardImage(event, previewId) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById(previewId).querySelector('img').src = e.target.result;
+          document.getElementById(previewId).style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+    
+    function shiftPhotoPosition(dx, dy) {
+      photoPosition.x += dx;
+      photoPosition.y += dy;
+      const img = document.getElementById('photoImg');
+      if (img) {
+        img.style.objectPosition = `${photoPosition.x}% ${photoPosition.y}%`;
       }
     }
 
@@ -3940,14 +4584,52 @@
             showNotification('Failed to copy names.', 'error');
         });
     }
+    
+    function updateUndoButton() {
+        const undoBtn = document.getElementById('undoBtn');
+        if (undoBtn && lastTransaction) {
+            undoBtn.style.display = 'inline-flex';
+        } else if (undoBtn) {
+            undoBtn.style.display = 'none';
+        }
+    }
+    
+    function undoLastTransaction() {
+        if (!lastTransaction || !currentClassId) return;
+        
+        if (lastTransaction.type === 'points') {
+            const student = students[currentClassId][lastTransaction.studentId];
+            if (student) {
+                student.points -= lastTransaction.pointsChange;
+                history[currentClassId] = history[currentClassId].filter(h => h !== lastTransaction.historyEntry);
+                lastTransaction = null;
+                saveData();
+                updateUndoButton();
+                renderStudentsView();
+                showNotification('Points change undone!', 'info');
+            }
+        } else if (lastTransaction.type === 'bulk') {
+            lastTransaction.changes.forEach(change => {
+                const student = students[currentClassId][change.studentId];
+                if (student) {
+                    student.points -= change.pointsChange;
+                    history[currentClassId] = history[currentClassId].filter(h => h !== change.entry);
+                }
+            });
+            lastTransaction = null;
+            saveData();
+            updateUndoButton();
+            renderStudentsView();
+            showNotification('Bulk points change undone!', 'info');
+        }
+    }
 
     // Bulk Actions Logic
     function enterBulkMode() {
       bulkMode = true;
       document.getElementById('bulkActions').classList.add('active');
-      document.getElementById('selectedCount').textContent = '0 selected';
       selectedStudents.clear();
-      renderStudentsView();
+      selectAllStudentsForBulk(); // Automatically select all
     }
 
     function exitBulkMode() {
@@ -3972,12 +4654,16 @@
         const classStudents = Object.values(students[currentClassId] || {});
         classStudents.forEach(s => selectedStudents.add(s.id));
         document.getElementById('selectedCount').textContent = `${selectedStudents.size} selected`;
+        document.getElementById('selectAllBtn').style.display = 'none';
+        document.getElementById('deselectAllBtn').style.display = 'inline-flex';
         renderStudentsView();
     }
 
     function deselectAllStudentsForBulk() {
         selectedStudents.clear();
         document.getElementById('selectedCount').textContent = `0 selected`;
+        document.getElementById('selectAllBtn').style.display = 'inline-flex';
+        document.getElementById('deselectAllBtn').style.display = 'none';
         renderStudentsView();
     }
 
@@ -4000,17 +4686,22 @@
         return;
       }
       const finalAmount = bulkAction === 'add' ? amount : -amount;
+      const bulkChanges = [];
       selectedStudents.forEach(studentId => {
         const student = students[currentClassId][studentId];
         if (student) {
           const powerUpInfo = getPowerUpInfo(student.id);
           const pointsToAdd = powerUpInfo ? Math.round(finalAmount * powerUpInfo.multiplier) : finalAmount;
           student.points += pointsToAdd;
-          history[currentClassId].push({ studentId, studentName: student.name, points: pointsToAdd, reason: reason || 'Bulk action', timestamp: new Date().toISOString() });
+          const historyEntry = { studentId, studentName: student.name, points: pointsToAdd, reason: reason || 'Bulk action', timestamp: new Date().toISOString() };
+          history[currentClassId].push(historyEntry);
+          bulkChanges.push({ studentId, pointsChange: pointsToAdd, entry: historyEntry });
         }
       });
+      lastTransaction = { type: 'bulk', changes: bulkChanges };
       if (reason) saveReason(reason);
       saveData();
+      updateUndoButton();
       exitBulkMode();
       closeModal('bulkPointsModal');
       showNotification('Points updated for selected students!', 'success');
@@ -4038,9 +4729,14 @@
       const powerUpInfo = getPowerUpInfo(currentStudentId);
       const pointsToAdd = powerUpInfo ? Math.round(change * powerUpInfo.multiplier) : change;
       student.points += pointsToAdd;
-      history[currentClassId].push({ studentId: currentStudentId, studentName: student.name, points: pointsToAdd, reason: reason || 'No reason', timestamp: new Date().toISOString() });
+      
+      const historyEntry = { studentId: currentStudentId, studentName: student.name, points: pointsToAdd, reason: reason || 'No reason', timestamp: new Date().toISOString() };
+      history[currentClassId].push(historyEntry);
+      lastTransaction = { type: 'points', studentId: currentStudentId, pointsChange: pointsToAdd, historyEntry: historyEntry };
+      
       if (reason) saveReason(reason);
       saveData();
+      updateUndoButton();
       renderStudentsView();
       closeModal('studentPointsModal');
       showNotification(`Points updated for ${student.name}!`, 'success');
@@ -4060,7 +4756,59 @@
       } else {
           preview.style.display = 'none';
       }
+      
+      // Populate student history
+      renderStudentHistoryTab(studentId);
+      
       openModal('editStudentModal');
+    }
+
+    function switchEditStudentTab(event, tab) {
+      document.querySelectorAll('#editStudentModal .modal-tab').forEach(t => t.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      
+      document.querySelectorAll('#editStudentModal .modal-tab-content').forEach(c => c.style.display = 'none');
+      
+      if (tab === 'info') {
+        document.getElementById('editStudentInfoTab').style.display = 'block';
+      } else if (tab === 'history') {
+        document.getElementById('editStudentHistoryTab').style.display = 'block';
+        renderStudentHistoryTab(currentStudentId);
+      }
+    }
+
+    function renderStudentHistoryTab(studentId) {
+      const student = students[currentClassId][studentId];
+      const studentHistory = (history[currentClassId] || []).filter(h => h.studentName === student.name);
+      const container = document.getElementById('studentHistoryList');
+      
+      if (!studentHistory || studentHistory.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">No history for this student.</p>';
+        return;
+      }
+
+      const sorted = [...studentHistory].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      
+      container.innerHTML = `
+        <table class="students-table" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Date & Time</th>
+                    <th>Points</th>
+                    <th>Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${sorted.map(item => `
+                    <tr>
+                        <td>${new Date(item.timestamp).toLocaleString()}</td>
+                        <td style="color: ${item.points > 0 ? 'var(--success-color)' : 'var(--danger-color)'}; font-weight: bold;">${item.points > 0 ? '+' : ''}${item.points}</td>
+                        <td>${sanitizeHTML(item.reason)}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+      `;
     }
 
     function updateStudent() {
@@ -4183,13 +4931,13 @@
       classRewards.forEach(reward => {
         const typeClass = reward.type === 'deduct' ? 'deduct-reward' : 'require-reward';
         const badgeClass = reward.type === 'deduct' ? 'deduct-badge' : 'require-badge';
-        const icon = reward.icon || '🎁';
+        const icon = reward.image ? `<img src="${reward.image}" style="width: 48px; height: 48px; border-radius: 8px; object-fit: cover;">` : (reward.icon || '🎁');
 
         grid.innerHTML += `
           <div class="reward-card ${typeClass}">
             <span class="reward-type-badge ${badgeClass}">${reward.type}</span>
             <div class="reward-header">
-                <div><h3 class="reward-title">${icon} ${sanitizeHTML(reward.title)}</h3><p class="reward-points">${reward.points} pts</p></div>
+                <div style="display: flex; align-items: center; gap: 1rem;"><div>${icon}</div><div><h3 class="reward-title">${sanitizeHTML(reward.title)}</h3><p class="reward-points">${reward.points} pts</p></div></div>
             </div>
             <p class="reward-description">${sanitizeHTML(reward.description)}</p>
             <div class="reward-actions">
@@ -4216,18 +4964,34 @@
       const points = parseInt(document.getElementById('rewardPoints').value);
       const type = document.querySelector('input[name="rewardType"]:checked').value;
       const icon = document.getElementById('rewardIcon').value.trim();
+      const imageFile = document.getElementById('rewardImage').files[0];
 
       if (!title || !points) {
         showNotification('Title and points are required', 'error');
         return;
       }
+      
+      const finalize = (reward) => {
+        if (!rewards[currentClassId]) rewards[currentClassId] = [];
+        rewards[currentClassId].push(reward);
+        saveData();
+        renderRewardsView();
+        closeModal('createRewardModal');
+        showNotification('Reward created!', 'success');
+      };
+
       const reward = { id: generateId(), title, description, points, type, icon };
-      if (!rewards[currentClassId]) rewards[currentClassId] = [];
-      rewards[currentClassId].push(reward);
-      saveData();
-      renderRewardsView();
-      closeModal('createRewardModal');
-      showNotification('Reward created!', 'success');
+      
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          reward.image = e.target.result;
+          finalize(reward);
+        };
+        reader.readAsDataURL(imageFile);
+      } else {
+        finalize(reward);
+      }
     }
 
     function openEditRewardModal(rewardId) {
@@ -4238,6 +5002,14 @@
       document.getElementById('editRewardPoints').value = reward.points;
       document.getElementById('editRewardIcon').value = reward.icon;
       document.querySelector(`input[name="editRewardType"][value="${reward.type}"]`).checked = true;
+      
+      const preview = document.getElementById('editRewardImagePreview');
+      if (reward.image) {
+        preview.querySelector('img').src = reward.image;
+        preview.style.display = 'block';
+      } else {
+        preview.style.display = 'none';
+      }
       openModal('editRewardModal');
     }
 
@@ -4248,16 +5020,30 @@
       const points = parseInt(document.getElementById('editRewardPoints').value);
       const type = document.querySelector('input[name="editRewardType"]:checked').value;
       const icon = document.getElementById('editRewardIcon').value.trim();
+      const imageFile = document.getElementById('editRewardImage').files[0];
       
       if (!title || !points) {
         showNotification('Title and points are required', 'error');
         return;
       }
-      rewards[currentClassId][rewardIndex] = { ...rewards[currentClassId][rewardIndex], title, description, points, type, icon };
-      saveData();
-      renderRewardsView();
-      closeModal('editRewardModal');
-      showNotification('Reward updated', 'success');
+      
+      const finalize = (image) => {
+        const updated = { ...rewards[currentClassId][rewardIndex], title, description, points, type, icon };
+        if (image !== undefined) updated.image = image;
+        rewards[currentClassId][rewardIndex] = updated;
+        saveData();
+        renderRewardsView();
+        closeModal('editRewardModal');
+        showNotification('Reward updated', 'success');
+      };
+      
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = (e) => finalize(e.target.result);
+        reader.readAsDataURL(imageFile);
+      } else {
+        finalize();
+      }
     }
 
     function deleteReward() {
@@ -4472,36 +5258,99 @@
 
     // History Logic
     function switchHistoryView(event, view) {
-        event.currentTarget.parentElement.querySelector('.active').classList.remove('active');
+        document.querySelectorAll('[data-view]').forEach(btn => btn.classList.remove('active'));
         event.currentTarget.classList.add('active');
         const parent = event.currentTarget.closest('.page-view, .portal-main, .modal-tab-content');
+        
         if (view === 'list') {
             parent.querySelector('#historyListContainer').style.display = 'block';
             parent.querySelector('#historyCalendarContainer').style.display = 'none';
-        } else {
+            parent.querySelector('#historyAnalyticsContainer').style.display = 'none';
+            parent.querySelector('#historyFilterContainer').style.display = 'flex';
+            populateHistoryFilters();
+        } else if (view === 'calendar') {
             parent.querySelector('#historyListContainer').style.display = 'none';
             parent.querySelector('#historyCalendarContainer').style.display = 'block';
+            parent.querySelector('#historyAnalyticsContainer').style.display = 'none';
+            parent.querySelector('#historyFilterContainer').style.display = 'none';
+            const container = parent.querySelector('#historyCalendarContainer');
+            container.innerHTML = '';
+            container.appendChild(renderCalendar(history[currentClassId] || []));
+        } else if (view === 'analytics') {
+            parent.querySelector('#historyListContainer').style.display = 'none';
+            parent.querySelector('#historyCalendarContainer').style.display = 'none';
+            parent.querySelector('#historyAnalyticsContainer').style.display = 'block';
+            parent.querySelector('#historyFilterContainer').style.display = 'none';
+            renderAnalyticsView(history[currentClassId] || []);
+        }
+    }
+
+    function populateHistoryFilters() {
+        const studentFilter = document.getElementById('historyStudentFilter');
+        const reasonFilter = document.getElementById('historyReasonFilter');
+        
+        if (studentFilter) {
+            studentFilter.innerHTML = '<option value="">All Students</option>' +
+                Object.values(students[currentClassId] || {})
+                    .map(s => `<option value="${s.name}">${sanitizeHTML(s.name)}</option>`)
+                    .join('');
+        }
+        
+        if (reasonFilter) {
+            const uniqueReasons = [...new Set(history[currentClassId]?.map(h => h.reason) || [])];
+            reasonFilter.innerHTML = '<option value="">All Reasons</option>' +
+                uniqueReasons.map(r => `<option value="${r}">${sanitizeHTML(r)}</option>`).join('');
         }
     }
     
     function renderHistoryView(historyData, container) {
-      container.innerHTML = `
-        <div class="content-header" style="justify-content: space-between;">
-            <div class="view-toggle">
-                <button class="view-option active" data-view="list" onclick="switchHistoryView(event, 'list')">List</button>
-                <button class="view-option" data-view="calendar" onclick="switchHistoryView(event, 'calendar')">Calendar</button>
-            </div>
-            ${currentUser ? `<div class="action-buttons">
-              <button class="btn btn-info" onclick="exportHistory()">Export History</button>
-              <button class="btn btn-warning" onclick="clearHistory()">Clear History</button>
-            </div>` : ''}
-        </div>
-        <div id="historyListContainer"></div>
-        <div id="historyCalendarContainer" style="display: none;"></div>
-      `;
+      const view = container || document.getElementById('historyView');
+      if (!view) return;
+      
+      const listContainer = view.querySelector('#historyListContainer');
+      if (!listContainer) return;
+      
+      if (!historyData || historyData.length === 0) {
+          listContainer.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">No history recorded yet.</p>';
+          return;
+      }
 
-      // Render List
-      const listContainer = container.querySelector('#historyListContainer');
+      // Sort by timestamp, newest first
+      const sorted = [...historyData].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+      listContainer.innerHTML = `
+        <table class="students-table responsive-table" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Date & Time</th>
+                    <th>Student</th>
+                    <th>Points</th>
+                    <th>Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${sorted.map(item => `
+                    <tr>
+                        <td data-label="Date & Time">${new Date(item.timestamp).toLocaleString()}</td>
+                        <td data-label="Student">${sanitizeHTML(item.studentName)}</td>
+                        <td data-label="Points" style="color: ${item.points > 0 ? 'var(--success-color)' : 'var(--danger-color)'}; font-weight: bold;">${item.points > 0 ? '+' : ''}${item.points}</td>
+                        <td data-label="Reason">${sanitizeHTML(item.reason)}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+      `;
+    }
+    
+    function filterHistoryByStudent() {
+        const studentId = document.getElementById('historyStudentFilter')?.value;
+        if (studentId) {
+            filteredHistory = history[currentClassId]?.filter(h => h.studentName === Object.values(students[currentClassId] || {}).find(s => s.id === studentId)?.name) || [];
+        } else {
+            filteredHistory = history[currentClassId] || [];
+        }
+        renderHistoryView(filteredHistory);
+    }
       listContainer.innerHTML = '';
       if (!historyData || historyData.length === 0) {
         listContainer.innerHTML = '<p>No point history yet.</p>';
@@ -4520,6 +5369,27 @@
       container.querySelector('#historyCalendarContainer').appendChild(renderCalendar(historyData || []));
       
       return container;
+    }
+    
+    function filterHistoryByStudent() {
+        const selectedStudentId = document.getElementById('historyStudentFilter').value;
+        const allHistory = history[currentClassId] || [];
+        const filtered = selectedStudentId ? allHistory.filter(h => h.studentId === selectedStudentId) : allHistory;
+        
+        const listContainer = document.getElementById('historyListContainer');
+        listContainer.innerHTML = '';
+        if (!filtered || filtered.length === 0) {
+            listContainer.innerHTML = '<p>No point history.</p>';
+        } else {
+            [...filtered].reverse().forEach(item => {
+                listContainer.innerHTML += `
+                  <div style="display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid var(--border-color);">
+                    <span><strong>${sanitizeHTML(item.studentName)}:</strong> ${item.points > 0 ? '+' : ''}${item.points} pts for "${sanitizeHTML(item.reason)}"</span>
+                    <span style="color: var(--text-secondary); font-size: 0.875rem;">${new Date(item.timestamp).toLocaleString()}</span>
+                  </div>
+                `;
+            });
+        }
     }
 
     function renderCalendar(historyData) {
@@ -4560,9 +5430,20 @@
             const dateString = fullDate.toDateString();
             const hasHistory = historyByDay[dateString];
             const dayEl = document.createElement('div');
-            dayEl.className = `calendar-day ${hasHistory ? 'has-history' : ''}`;
+            dayEl.className = 'calendar-day';
             dayEl.textContent = day;
             if (hasHistory) {
+                const positiveCount = hasHistory.filter(h => h.points > 0).length;
+                const negativeCount = hasHistory.filter(h => h.points < 0).length;
+                const totalCount = hasHistory.length;
+                
+                if (positiveCount === totalCount) {
+                    dayEl.classList.add('has-history', 'positive-only');
+                } else if (negativeCount === totalCount) {
+                    dayEl.classList.add('has-history', 'negative-only');
+                } else {
+                    dayEl.classList.add('has-history', 'mixed');
+                }
                 dayEl.onclick = (e) => showDayHistoryPopup(e, historyByDay[dateString]);
             }
             grid.appendChild(dayEl);
@@ -4693,11 +5574,11 @@
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;"><span>Current Class:</span><span id="currentClassName" style="font-weight: 600;"></span></div>
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;"><span>Total Students:</span><span id="totalStudents" style="font-weight: 600;">0</span></div>
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;"><span>Total Points Awarded:</span><span id="totalPoints" style="font-weight: 600;">0</span></div>
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;" id="offlineModeSetting">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;" id="offlineModeSetting">
                     <label for="offlineModeToggle">Enable Offline Access</label>
                     <label class="switch"><input type="checkbox" id="offlineModeToggle" onchange="setupOfflineMode(this.checked)"><span class="slider"></span></label>
                   </div>
-                  <div style="display: flex; gap: 1rem; flex-wrap: wrap;"><button class="btn btn-warning" onclick="resetAllPoints()">Reset All Points</button><button class="btn btn-info" onclick="backupClassData()">Backup Data</button></div>
+                  <div style="display: flex; gap: 1rem; flex-wrap: wrap;"><button class="btn btn-info" onclick="openManagePinsModal()">🔐 Manage PINs</button><button class="btn btn-warning" onclick="resetAllPoints()">Reset All Points</button><button class="btn btn-info" onclick="backupClassData()">Backup Data</button><button class="btn btn-warning" onclick="printClassList()">🖨️ Print Class List</button></div>
                 </div>
                 <div style="background: var(--surface); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
                   <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Saved Reasons</h3>
@@ -4791,6 +5672,52 @@
         downloadAnchorNode.click();
         downloadAnchorNode.remove();
         showNotification('Backup created!', 'success');
+    }
+    
+    function printClassList() {
+        if (!currentClassId) return;
+        const currentClass = classes.find(c => c.id === currentClassId);
+        const classStudents = Object.values(students[currentClassId] || {}).sort((a, b) => a.name.localeCompare(b.name));
+        
+        let html = `
+            <html>
+            <head>
+                <title>${sanitizeHTML(currentClass.name)} - Class List</title>
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 2rem; }
+                    h1 { text-align: center; color: #1ab5f4; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+                    th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #ccc; }
+                    th { background-color: #f0f0f0; font-weight: bold; }
+                    tr:hover { background-color: #f9f9f9; }
+                </style>
+            </head>
+            <body>
+                <h1>📋 Class List - ${sanitizeHTML(currentClass.name)}</h1>
+                <p><strong>Printed:</strong> ${new Date().toLocaleString()}</p>
+                <table>
+                    <thead>
+                        <tr><th>#</th><th>Student Name</th><th>Current Points</th><th>Rewards Claimed</th></tr>
+                    </thead>
+                    <tbody>
+                        ${classStudents.map((s, i) => `
+                            <tr>
+                                <td>${i + 1}</td>
+                                <td>${sanitizeHTML(s.name)}</td>
+                                <td>${s.points}</td>
+                                <td>${(s.pointsRewards || 0) + (s.instantRewards || 0)}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </body>
+            </html>
+        `;
+        const printWindow = window.open('', '', 'height=600,width=800');
+        printWindow.document.write(html);
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(() => printWindow.print(), 250);
     }
 
     // Reasons Logic
@@ -5253,7 +6180,14 @@
         const switcher = document.getElementById('demoViewSwitcher');
         switcher.innerHTML = `
             <span style="font-weight: bold; color: var(--text-secondary);">Demo:</span>
-            ${['admin','teacher','student','parent'].map(t => `<button class="btn btn-secondary ${ (currentUser?.username?.includes(t) || currentStudent && t==='student' || currentParent && t==='parent') ? 'active' : ''}" style="padding: 0.25rem 0.5rem;" onclick="switchDemoView('${t}')">${t.charAt(0).toUpperCase() + t.slice(1)}</button>`).join('')}
+            ${['admin','teacher','student','parent'].map(t => {
+                let isActive = false;
+                if (t === 'admin' && currentUser && currentUser.type === 'admin') isActive = true;
+                else if (t === 'teacher' && currentUser && currentUser.type === 'teacher') isActive = true;
+                else if (t === 'student' && currentStudent) isActive = true;
+                else if (t === 'parent' && currentParent) isActive = true;
+                return `<button class="btn btn-secondary ${isActive ? 'active' : ''}" style="padding: 0.25rem 0.5rem;" onclick="switchDemoView('${t}')">${t.charAt(0).toUpperCase() + t.slice(1)}</button>`;
+            }).join('')}
         `;
 
         document.getElementById('appLayout').classList.remove('active');
@@ -5451,6 +6385,371 @@
             }
         }
         saveData();
+    }
+
+    // ===== NEW FEATURES =====
+
+    // Notifications System
+    function openNotificationsModal() {
+        renderNotificationsList();
+        openModal('notificationsModal');
+    }
+
+    function renderNotificationsList() {
+        const container = document.getElementById('notificationsList');
+        if (!notifications[currentClassId]) notifications[currentClassId] = [];
+        const classNotifications = notifications[currentClassId];
+        
+        if (classNotifications.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No notifications</p>';
+            return;
+        }
+
+        container.innerHTML = classNotifications.map((notif, idx) => `
+            <div class="notification-item ${notif.read ? '' : 'unread'}">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong>${sanitizeHTML(notif.title)}</strong>
+                    <small style="color: var(--text-secondary);">${new Date(notif.timestamp).toLocaleDateString()}</small>
+                </div>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.875rem;">${sanitizeHTML(notif.message)}</p>
+                <small style="color: var(--text-secondary);">From: ${sanitizeHTML(notif.studentName)}</small>
+                <button class="btn btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-top: 0.5rem;" onclick="respondToNotification(${idx})">Respond</button>
+            </div>
+        `).join('');
+
+        const unreadCount = classNotifications.filter(n => !n.read).length;
+        updateNotificationBadge(unreadCount);
+    }
+
+    function updateNotificationBadge(count) {
+        const badge = document.getElementById('notificationBadge');
+        if (count > 0) {
+            badge.textContent = count;
+            badge.classList.remove('hidden');
+        } else {
+            badge.classList.add('hidden');
+        }
+    }
+
+    function respondToNotification(index) {
+        const notif = notifications[currentClassId][index];
+        notif.read = true;
+        saveData();
+        renderNotificationsList();
+    }
+
+    function addNotification(title, message, studentName) {
+        if (!notifications[currentClassId]) notifications[currentClassId] = [];
+        notifications[currentClassId].push({
+            title,
+            message,
+            studentName,
+            timestamp: new Date().toISOString(),
+            read: false
+        });
+        saveData();
+        updateNotificationBadge(notifications[currentClassId].filter(n => !n.read).length);
+        document.getElementById('notificationBell').style.display = 'inline-flex';
+    }
+
+    // Announcements
+    function openAnnouncementModal() {
+        document.getElementById('announcementTitle').value = '';
+        document.getElementById('announcementMessage').value = '';
+        document.getElementById('announcementToParents').checked = true;
+        openModal('announcementModal');
+    }
+
+    function postAnnouncement() {
+        const title = document.getElementById('announcementTitle').value.trim();
+        const message = document.getElementById('announcementMessage').value.trim();
+        const toParents = document.getElementById('announcementToParents').checked;
+
+        if (!title || !message) {
+            showNotification('Please fill in all fields.', 'error');
+            return;
+        }
+
+        if (!announcements[currentClassId]) announcements[currentClassId] = [];
+        
+        announcements[currentClassId].push({
+            id: generateId(),
+            title,
+            message,
+            author: currentUser.username,
+            timestamp: new Date().toISOString(),
+            toParents,
+            readBy: []
+        });
+
+        saveData();
+        closeModal('announcementModal');
+        showNotification('Announcement posted!', 'success');
+    }
+
+    // Photo Positioning
+    function openPhotoPositionModal(photoUrl) {
+        const img = document.getElementById('photoToPosition');
+        img.src = photoUrl;
+        photoPosition = { x: 0, y: 0 };
+        setupPhotoPositioning();
+        openModal('photoPositionModal');
+    }
+
+    function setupPhotoPositioning() {
+        const img = document.getElementById('photoToPosition');
+        const container = document.getElementById('photoContainer');
+        
+        img.addEventListener('mousedown', (e) => {
+            sidebarResizing = true;
+            sidebarStartX = e.clientX;
+            sidebarStartWidth = img.offsetLeft;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!sidebarResizing) return;
+            const diff = e.clientX - sidebarStartX;
+            img.style.left = (sidebarStartWidth + diff) + 'px';
+        });
+
+        document.addEventListener('mouseup', () => {
+            sidebarResizing = false;
+        });
+    }
+
+    function savePhotoPosition() {
+        const img = document.getElementById('photoToPosition');
+        photoPosition = {
+            x: img.offsetLeft,
+            y: img.offsetTop
+        };
+        saveData();
+        closeModal('photoPositionModal');
+        showNotification('Photo position saved!', 'success');
+    }
+
+    // Resizable Sidebar
+    function initSidebarResizer() {
+        const sidebar = document.querySelector('.sidebar');
+        const resizer = document.createElement('div');
+        resizer.className = 'sidebar-resizer';
+        sidebar.appendChild(resizer);
+
+        resizer.addEventListener('mousedown', (e) => {
+            sidebarResizing = true;
+            sidebarStartX = e.clientX;
+            sidebarStartWidth = sidebar.offsetWidth;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!sidebarResizing) return;
+            const diff = e.clientX - sidebarStartX;
+            const newWidth = sidebarStartWidth + diff;
+            
+            if (newWidth >= 60 && newWidth <= 400) {
+                document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+                sidebar.style.width = newWidth + 'px';
+                document.querySelector('.main-content').style.marginLeft = newWidth + 'px';
+                document.querySelector('.main-content').style.width = 'calc(100% - ' + newWidth + 'px)';
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            sidebarResizing = false;
+        });
+    }
+
+    // History Filtering
+    function filterHistoryData() {
+        const studentFilter = document.getElementById('historyStudentFilter')?.value || '';
+        const reasonFilter = document.getElementById('historyReasonFilter')?.value || '';
+        const dateFrom = document.getElementById('historyDateFrom')?.value || '';
+        const dateTo = document.getElementById('historyDateTo')?.value || '';
+
+        filteredHistory = (history[currentClassId] || []).filter(item => {
+            if (studentFilter && item.studentName !== studentFilter) return false;
+            if (reasonFilter && item.reason !== reasonFilter) return false;
+            if (dateFrom) {
+                const itemDate = new Date(item.timestamp);
+                if (itemDate < new Date(dateFrom)) return false;
+            }
+            if (dateTo) {
+                const itemDate = new Date(item.timestamp);
+                if (itemDate > new Date(dateTo + 'T23:59:59')) return false;
+            }
+            return true;
+        });
+
+        renderHistoryView(filteredHistory, document.getElementById('historyView'));
+    }
+
+    // Analytics View
+    // Drag and Drop Students
+    function enableStudentDragAndDrop() {
+        const gridView = document.querySelector('.students-grid');
+        if (!gridView) return;
+
+        const cards = gridView.querySelectorAll('.student-card');
+        let draggedCard = null;
+        let draggedIndex = null;
+
+        cards.forEach((card, index) => {
+            card.draggable = true;
+
+            card.addEventListener('dragstart', (e) => {
+                draggedCard = card;
+                draggedIndex = index;
+                card.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+            });
+
+            card.addEventListener('dragend', () => {
+                card.classList.remove('dragging');
+                cards.forEach(c => c.classList.remove('drag-over'));
+            });
+
+            card.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                if (card !== draggedCard) {
+                    card.classList.add('drag-over');
+                }
+            });
+
+            card.addEventListener('dragleave', () => {
+                card.classList.remove('drag-over');
+            });
+
+            card.addEventListener('drop', (e) => {
+                e.preventDefault();
+                if (card !== draggedCard && draggedCard) {
+                    const allCards = Array.from(gridView.children);
+                    const draggedIdx = allCards.indexOf(draggedCard);
+                    const targetIdx = allCards.indexOf(card);
+                    
+                    if (draggedIdx < targetIdx) {
+                        card.parentNode.insertBefore(draggedCard, card.nextSibling);
+                    } else {
+                        card.parentNode.insertBefore(draggedCard, card);
+                    }
+                    saveStudentOrder();
+                }
+                card.classList.remove('drag-over');
+            });
+        });
+    }
+
+    function saveStudentOrder() {
+        const gridView = document.querySelector('.students-grid');
+        if (!gridView) return;
+        
+        const cards = gridView.querySelectorAll('.student-card');
+        const order = Array.from(cards).map(card => card.dataset.studentId);
+        
+        // Save the order (could be persisted to localStorage with preferences)
+        localStorage.setItem(`studentOrder_${currentClassId}`, JSON.stringify(order));
+        showNotification('Student order saved!', 'success');
+    }
+
+    // Create Co-Teacher
+    function openCreateCoTeacherModal() {
+        document.getElementById('newTeacherUsername').value = '';
+        document.getElementById('newTeacherPassword').value = '';
+        document.querySelectorAll('.teacher-permission').forEach(cb => cb.checked = false);
+        openModal('createTeacherModal');
+    }
+
+    function saveNewTeacher() {
+        const username = document.getElementById('newTeacherUsername').value.trim();
+        const password = document.getElementById('newTeacherPassword').value.trim();
+
+        if (!username || !password) {
+            showNotification('Username and password are required.', 'error');
+            return;
+        }
+
+        if (users[username]) {
+            showNotification('Username already exists.', 'error');
+            return;
+        }
+
+        const permissions = {};
+        document.querySelectorAll('.teacher-permission').forEach(cb => {
+            permissions[cb.value] = cb.checked;
+        });
+
+        const newTeacher = {
+            username,
+            password,
+            type: 'teacher',
+            school: currentUser.school,
+            email: `${username}@school.local`,
+            createdAt: new Date().toISOString(),
+            settings: { allowStudentPins: true, allowParentPins: true },
+            permissions,
+            managedClasses: [currentClassId] // Co-teachers manage the current class
+        };
+
+        users[username] = newTeacher;
+        if (!coTeachers[currentClassId]) coTeachers[currentClassId] = [];
+        coTeachers[currentClassId].push({
+            username,
+            permissions,
+            addedBy: currentUser.username,
+            addedAt: new Date().toISOString()
+        });
+
+        saveData();
+        closeModal('createTeacherModal');
+        showNotification(`Co-teacher ${username} created successfully!`, 'success');
+    }
+
+    // Custom Image Upload for Rewards
+    function handleRewardImageUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const preview = document.getElementById('rewardImagePreview');
+                preview.innerHTML = `<img src="${e.target.result}" class="image-upload-preview" />`;
+                preview.dataset.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function addCustomRewardImage() {
+        const title = document.getElementById('rewardTitle').value.trim();
+        const points = parseInt(document.getElementById('rewardPoints').value);
+        const preview = document.getElementById('rewardImagePreview');
+        const customImage = preview.dataset.image;
+
+        if (!title || !points) {
+            showNotification('Please fill in all fields.', 'error');
+            return;
+        }
+
+        if (!rewards[currentClassId]) rewards[currentClassId] = [];
+
+        const reward = {
+            id: generateId(),
+            title,
+            points,
+            type: customImage ? 'custom_image' : 'emoji',
+            icon: customImage || '🎁',
+            customImage: customImage || null,
+            createdAt: new Date().toISOString()
+        };
+
+        rewards[currentClassId].push(reward);
+        saveData();
+        closeModal('editRewardsModal');
+        renderRewardsView();
+        showNotification('Reward created with custom image!', 'success');
+    }
+
+    // Initialize resizable sidebar on app load
+    if (currentUser && currentUser.type === 'teacher') {
+        setTimeout(initSidebarResizer, 500);
     }
   </script>
 </body>
